@@ -47,10 +47,12 @@ public class AboutViewController: UIViewController {
         // MARK: - Setuping a logo image and adding it to the scroll view.
         logoImage.translatesAutoresizingMaskIntoConstraints = false
         logoImage.contentMode = .scaleToFill
+        let logoImageHeight = UIImage.logo.size.height
         scrollView.addSubview(logoImage)
         [
             logoImage.topAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.topAnchor, constant: 10),
-            logoImage.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
+            logoImage.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
+            logoImage.bottomAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.topAnchor, constant: 10 + logoImageHeight),
         ].forEach({$0.isActive = true})
         logoImage.image = .logo
         // MARK: - Setuping a label with the current version number and adding it to the scroll view.
@@ -62,6 +64,6 @@ public class AboutViewController: UIViewController {
         ].forEach({$0.isActive = true})
         versionNumber.textColor = .black
         versionNumber.font = .systemFont(ofSize: 20)
-        versionNumber.text = "The current version is \(model.getTheCurrentVersionNumber())"
+        versionNumber.text = "\(NSLocalizedString("The current version is", comment: "")) \(model.getTheCurrentVersionNumber())"
     }
 }
