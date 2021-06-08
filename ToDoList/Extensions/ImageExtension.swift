@@ -8,5 +8,6 @@
 import UIKit
 
 extension UIImage {
+    /// Logo image.
     static var logo: UIImage = UIImage(named: "logo") ?? UIImage()
 }

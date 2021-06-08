@@ -8,5 +8,6 @@
 import UIKit
 
 extension UIColor {
+    /// Backgrount color.
     static var background: UIColor = UIColor(named: "backgroundColor") ?? .white
 }
