@@ -22,6 +22,7 @@
 		E3DB43A7266FF0A5003A2736 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E3DB43A9266FF0A5003A2736 /* Localizable.strings */; };
 		E3DB43BB266FF84B003A2736 /* ToDoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DB43BA266FF84B003A2736 /* ToDoItem.swift */; };
 		E3DB43C3266FF88C003A2736 /* Importance.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DB43C2266FF88C003A2736 /* Importance.swift */; };
+		E3DB43CB2670F709003A2736 /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DB43CA2670F709003A2736 /* FileCache.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +71,7 @@
 		E3DB43AD266FF0A8003A2736 /* ru-RU */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ru-RU"; path = "ru-RU.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		E3DB43BA266FF84B003A2736 /* ToDoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItem.swift; sourceTree = "<group>"; };
 		E3DB43C2266FF88C003A2736 /* Importance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Importance.swift; sourceTree = "<group>"; };
+		E3DB43CA2670F709003A2736 /* FileCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCache.swift; sourceTree = "<group>"; };
 		E792E91359C5F2677CF83B76 /* Pods-ToDoListTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ToDoListTests.release.xcconfig"; path = "Target Support Files/Pods-ToDoListTests/Pods-ToDoListTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -149,7 +151,7 @@
 		E30540B9266A960F008C2083 /* ToDoList */ = {
 			isa = PBXGroup;
 			children = (
-				E3DB43B9266FF838003A2736 /* Models */,
+				E3DB43B9266FF838003A2736 /* Models and classes */,
 				E3984478266A9B15000D1B31 /* Extensions */,
 				E30540F3266A9691008C2083 /* Modules */,
 				E30540BA266A960F008C2083 /* AppDelegate.swift */,
@@ -205,13 +207,14 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		E3DB43B9266FF838003A2736 /* Models */ = {
+		E3DB43B9266FF838003A2736 /* Models and classes */ = {
 			isa = PBXGroup;
 			children = (
 				E3DB43BA266FF84B003A2736 /* ToDoItem.swift */,
 				E3DB43C2266FF88C003A2736 /* Importance.swift */,
+				E3DB43CA2670F709003A2736 /* FileCache.swift */,
 			);
-			path = Models;
+			path = "Models and classes";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -423,6 +426,7 @@
 				E3DB43BB266FF84B003A2736 /* ToDoItem.swift in Sources */,
 				E30540FB266A96BD008C2083 /* AboutModel.swift in Sources */,
 				E3984488266AA019000D1B31 /* ImageExtension.swift in Sources */,
+				E3DB43CB2670F709003A2736 /* FileCache.swift in Sources */,
 				E398447A266A9B29000D1B31 /* ColorExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
