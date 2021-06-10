@@ -9,12 +9,10 @@ import Foundation
 
 class FileCache {
     private(set) var toDoItems: [ToDoItem] = []
-    
     func add(item toDoItem: ToDoItem) {
         toDoItems.append(toDoItem)
     }
-    
-    func delete(withId id: String) {
+    func delete(with id: String) {
         guard let index = toDoItems.firstIndex(where: {$0.id == id}) else {
             return
         }

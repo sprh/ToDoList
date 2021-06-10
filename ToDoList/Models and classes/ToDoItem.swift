@@ -13,16 +13,10 @@ struct ToDoItem {
     let id: String
     let text: String
     let importance: Importance
-    var deadline: Optional<Date>
-    var deadlineSince1970: Optional<Double> {
-        get {
-            return deadline?.timeIntervalSince1970
-        }
-//        set(date) {
-//            deadline = Date(timeIntervalSince1970: date ?? 0)
-//        }
+    var deadline: Date?
+    var deadlineSince1970: Double? {
+        return deadline?.timeIntervalSince1970
     }
-    
     /// - Parameters:
     ///     - id: An unique user id. Default value is UUID().uuidString
     ///     - text: The current do to item description.
@@ -34,7 +28,6 @@ struct ToDoItem {
         self.importance = importance ?? .unimportant
         self.deadline = deadline
     }
-    
     /// - Parameters:
     ///     - id: An unique user id. Default value is UUID().uuidString
     ///     - text: The current do to item description.
@@ -54,17 +47,14 @@ extension ToDoItem {
     /// - Returns:
     ///         - The current object as a json string.
     var json: Any {
-        get {
-            let data = getAsDictionary()
-            do {
-                let jsonData = try JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
-                return jsonData
-            } catch {
-                print(error.localizedDescription)
-            }
-            return (Any).self
+        let data = getAsDictionary()
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
+            return jsonData
+        } catch {
+            print(error.localizedDescription)
         }
-        
+        return (Any).self
     }
     /// To do item from a  json string parsing.
     ///
@@ -75,37 +65,36 @@ extension ToDoItem {
     ///
     static func parce(json: Any) -> ToDoItem? {
         do {
-            let jsonData = (json as! String).data(using: String.Encoding.utf8, allowLossyConversion: false)!
-            guard let data = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: AnyObject] else {
+            guard let json = json as? String else {
+                print("Failed to load a to do item from json.")
+                return nil
+            }
+            let jsonData = json.data(using: String.Encoding.utf8, allowLossyConversion: false)!
+            guard let data = try
+                    JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: AnyObject] else {
                 print("Can't get the data from the json string.")
                 return nil
             }
-            
             let id = data.keys.contains("id") ? data["id"] as? String? : nil
             let text = data["text"] as? String
             let importanceString = data.keys.contains("importance") ? data["importance"] as? String: "unimportant"
             let importance = Importance(rawValue: importanceString ?? "unimportant")
             let deadline = data.keys.contains("deadline") ? data["deadline"] as? Double : nil
             return ToDoItem(id: id ?? nil, text: text!, importance: importance ?? nil, deadline: deadline ?? nil)
-        }catch {
-            print("Failed to load a to do item from json.")
-        }
-        
+                            } catch {
+                                print("Failed to load a to do item from json.")
+                            }
         return nil
     }
-    
     /// The function creates a dictionary from the object.
-    fileprivate func getAsDictionary() -> [String: Any]{
+    fileprivate func getAsDictionary() -> [String: Any] {
         var data: [String: Any] = ["id": id, "text": text]
-        if(importance != .unimportant) {
+        if importance != .unimportant {
             data["importance"] = importance.rawValue
         }
-        
         if deadline != nil {
             data["deadline"] = deadlineSince1970
         }
         return data
     }
-    
-    
 }
