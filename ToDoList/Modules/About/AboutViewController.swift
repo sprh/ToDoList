@@ -60,7 +60,7 @@ public class AboutViewController: UIViewController {
         ].forEach({$0.isActive = true})
         versionNumber.textColor = .black
         versionNumber.font = .systemFont(ofSize: 20)
-        versionNumber.text = "\(NSLocalizedString("The current version is", comment: ""))" +
+        versionNumber.text = "\(NSLocalizedString("The current version is ", comment: ""))" +
             "\(model.getTheCurrentVersionNumber())"
     }
 }
