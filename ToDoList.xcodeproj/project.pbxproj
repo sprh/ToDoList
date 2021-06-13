@@ -165,7 +165,8 @@
 		E30540B9266A960F008C2083 /* ToDoList */ = {
 			isa = PBXGroup;
 			children = (
-				E3DB43B9266FF838003A2736 /* Models and classes */,
+				E3925EA52676893C00BF26BA /* Classes */,
+				E3DB43B9266FF838003A2736 /* Models */,
 				E3984478266A9B15000D1B31 /* Extensions */,
 				E30540F3266A9691008C2083 /* Modules */,
 				E30540BA266A960F008C2083 /* AppDelegate.swift */,
@@ -214,9 +215,19 @@
 			path = About;
 			sourceTree = "<group>";
 		};
+		E3925EA52676893C00BF26BA /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				E3DB43CA2670F709003A2736 /* FileCache.swift */,
+				E30E6DFE2676701B008A55BF /* ColorView.swift */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
 		E3984478266A9B15000D1B31 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				E30E6DF426766891008A55BF /* ViewController.swift */,
 				E3984479266A9B29000D1B31 /* ColorExtension.swift */,
 				E3984487266AA019000D1B31 /* ImageExtension.swift */,
 				E3DB44292672B932003A2736 /* FontExtension.swift */,
@@ -224,16 +235,13 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		E3DB43B9266FF838003A2736 /* Models and classes */ = {
+		E3DB43B9266FF838003A2736 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				E3DB43BA266FF84B003A2736 /* ToDoItem.swift */,
 				E3DB43C2266FF88C003A2736 /* Importance.swift */,
-				E3DB43CA2670F709003A2736 /* FileCache.swift */,
-				E30E6DF426766891008A55BF /* ViewController.swift */,
-				E30E6DFE2676701B008A55BF /* ColorView.swift */,
 			);
-			path = "Models and classes";
+			path = Models;
 			sourceTree = "<group>";
 		};
 		E3DB441E2672B77A003A2736 /* ToDoScreen */ = {

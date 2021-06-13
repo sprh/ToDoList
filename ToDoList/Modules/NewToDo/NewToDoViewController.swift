@@ -245,8 +245,9 @@ extension NewToDoViewController {
         dismiss(animated: true, completion: nil)
     }
     @objc func save() {
+        let color = colorSlider.thumbTintColor?.hex() ?? "#%06x"
         model.save(text: textView.text, importance: segmentedControl.titleForSegment(at:
-        segmentedControl.selectedSegmentIndex) ?? "common", deadline: deadlinePicker.date)
+        segmentedControl.selectedSegmentIndex) ?? "common", deadline: deadlinePicker.date, color: color)
     }
     @objc func deleteItem() {
         // TODO
