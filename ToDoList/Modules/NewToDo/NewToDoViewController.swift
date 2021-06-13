@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import UITextView_Placeholder
 
 class NewToDoViewController: UIViewController {
     var model: NewToDoModel!
@@ -35,6 +36,8 @@ class NewToDoViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         addSubviews()
+        self.hideKeyboardWhenTappedAround()
+
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -61,14 +64,17 @@ class NewToDoViewController: UIViewController {
     }
     private func addSubviews() {
         setupTextField()
-        setupStack()
-        setupDeleteButton()
+        // setupStack()
+        // setupDeleteButton()
     }
+//    private func addColor
     private func setupTextField() {
         textBottomAnchorConstraint = textView.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 192)
         textView.backgroundColor = .subviewsBackgtound
         textView.layer.cornerRadius = 16
+        textView.placeholder = NSLocalizedString("What do you have to do?", comment: "")
         textView.font = .body
+        textView.placeholderColor = .textGray
         textView.isScrollEnabled = false
         textView.delegate = self
         textView.translatesAutoresizingMaskIntoConstraints = false

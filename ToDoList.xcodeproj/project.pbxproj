@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -17,6 +17,7 @@
 		E30540DD266A9612008C2083 /* ToDoListUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30540DC266A9612008C2083 /* ToDoListUITests.swift */; };
 		E30540F6266A96B4008C2083 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30540F5266A96B4008C2083 /* AboutViewController.swift */; };
 		E30540FB266A96BD008C2083 /* AboutModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30540FA266A96BD008C2083 /* AboutModel.swift */; };
+		E30E6DF526766891008A55BF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30E6DF426766891008A55BF /* ViewController.swift */; };
 		E398447A266A9B29000D1B31 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3984479266A9B29000D1B31 /* ColorExtension.swift */; };
 		E3984488266AA019000D1B31 /* ImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3984487266AA019000D1B31 /* ImageExtension.swift */; };
 		E3DB43A7266FF0A5003A2736 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E3DB43A9266FF0A5003A2736 /* Localizable.strings */; };
@@ -69,6 +70,7 @@
 		E30540DE266A9612008C2083 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E30540F5266A96B4008C2083 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		E30540FA266A96BD008C2083 /* AboutModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutModel.swift; sourceTree = "<group>"; };
+		E30E6DF426766891008A55BF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		E3984479266A9B29000D1B31 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		E3984487266AA019000D1B31 /* ImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExtension.swift; sourceTree = "<group>"; };
 		E3DB439E266FF014003A2736 /* ru-RU */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ru-RU"; path = "ru-RU.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
@@ -226,6 +228,7 @@
 				E3DB43BA266FF84B003A2736 /* ToDoItem.swift */,
 				E3DB43C2266FF88C003A2736 /* Importance.swift */,
 				E3DB43CA2670F709003A2736 /* FileCache.swift */,
+				E30E6DF426766891008A55BF /* ViewController.swift */,
 			);
 			path = "Models and classes";
 			sourceTree = "<group>";
@@ -255,12 +258,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E30540E1266A9612008C2083 /* Build configuration list for PBXNativeTarget "ToDoList" */;
 			buildPhases = (
+				A7D401B6F62512B8121DF4FC /* [CP] Check Pods Manifest.lock */,
 				E3DB43F52672557A003A2736 /* ShellScript */,
 				E3ECFF492674C93A008034D6 /* ShellScript */,
-				A7D401B6F62512B8121DF4FC /* [CP] Check Pods Manifest.lock */,
 				E30540B3266A960F008C2083 /* Sources */,
 				E30540B4266A960F008C2083 /* Frameworks */,
 				E30540B5266A960F008C2083 /* Resources */,
+				EBAF836600F3AEE071C3AEF6 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -298,6 +302,7 @@
 				E30540D4266A9612008C2083 /* Sources */,
 				E30540D5266A9612008C2083 /* Frameworks */,
 				E30540D6266A9612008C2083 /* Resources */,
+				CAC0530F857B76E97E9DE03A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -424,6 +429,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		CAC0530F857B76E97E9DE03A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ToDoList-ToDoListUITests/Pods-ToDoList-ToDoListUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ToDoList-ToDoListUITests/Pods-ToDoList-ToDoListUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ToDoList-ToDoListUITests/Pods-ToDoList-ToDoListUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		CF08BBC69E12CB37B2D4DDDF /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -480,6 +502,23 @@
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nTAGS=\"TODO:|FIXME:\"\nERRORTAG=\"ERROR:\"\nfind \"${SRCROOT}\" \\( -name \"*.h\" -or -name \"*.m\" -or -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$|($ERRORTAG).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\" | perl -p -e \"s/($ERRORTAG)/ error: \\$1/\"\n";
 		};
+		EBAF836600F3AEE071C3AEF6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ToDoList/Pods-ToDoList-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ToDoList/Pods-ToDoList-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ToDoList/Pods-ToDoList-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -491,6 +530,7 @@
 				E3DB44302674B6DE003A2736 /* NewToDoViewController.swift in Sources */,
 				E30540F6266A96B4008C2083 /* AboutViewController.swift in Sources */,
 				E30540BB266A960F008C2083 /* AppDelegate.swift in Sources */,
+				E30E6DF526766891008A55BF /* ViewController.swift in Sources */,
 				E3DB43C3266FF88C003A2736 /* Importance.swift in Sources */,
 				E3DB43BB266FF84B003A2736 /* ToDoItem.swift in Sources */,
 				E30540FB266A96BD008C2083 /* AboutModel.swift in Sources */,
