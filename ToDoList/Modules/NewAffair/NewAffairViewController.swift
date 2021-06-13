@@ -18,6 +18,11 @@ class NewToDoViewController: UIViewController {
     var cancelButton: UIBarButtonItem?
     var saveButton: UIBarButtonItem?
     var deadlinePicker = UIDatePicker()
+    var importanceAndDeadlineTableView = UITableView()
+    var deadlineLabelConstraint = NSLayoutConstraint()
+    let dateLabel = UIButton()
+    var datePickerCellIndexPath: IndexPath?
+    var datePickerShown = false
     init(model: NewToDoModel) {
         self.model = model
         super.init(nibName: nil, bundle: nil)
@@ -55,15 +60,14 @@ class NewToDoViewController: UIViewController {
     }
     private func addSubviews() {
         setupTextField()
-        setupStack()
-        //setupDeleteButton()
+        addTableView()
     }
     private func setupTextField() {
         textBottomAnchorConstraint = textView.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 192)
         textView.backgroundColor = .subviewsBackgtoundColor
         textView.layer.cornerRadius = 16
         textView.font = .body
-        textView.isScrollEnabled = false
+        textView.isScrollEnabled = true
         textView.delegate = self
         textView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(textView)
@@ -74,83 +78,20 @@ class NewToDoViewController: UIViewController {
             textBottomAnchorConstraint
         ].forEach({$0.isActive = true})
     }
-    private func setupStack() {
-        importanceAndDateStack.translatesAutoresizingMaskIntoConstraints = false
-        importanceAndDateStack.backgroundColor = .subviewsBackgtoundColor
-        importanceAndDateStack.layer.cornerRadius = 16
-        view.addSubview(importanceAndDateStack)
+    private func addTableView() {
+        importanceAndDeadlineTableView.translatesAutoresizingMaskIntoConstraints = false
+        importanceAndDeadlineTableView.dataSource = self
+        importanceAndDeadlineTableView.delegate = self
+        importanceAndDeadlineTableView.allowsSelection = false
+        importanceAndDeadlineTableView.delaysContentTouches = false
+        importanceAndDeadlineTableView.rowHeight = UITableView.automaticDimension
+        importanceAndDeadlineTableView.estimatedRowHeight = 80
+        view.addSubview(importanceAndDeadlineTableView)
         [
-            importanceAndDateStack.topAnchor.constraint(equalTo: textView.bottomAnchor, constant: 16),
-            importanceAndDateStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            importanceAndDateStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            importanceAndDateStack.bottomAnchor.constraint(equalTo: textView.bottomAnchor, constant: 128.5)
-        ].forEach({$0.isActive = true})
-        setupImportanceStack()
-        setupDeadlineStack()
-    }
-    private func setupImportanceStack() {
-        let labelImportance = UILabel()
-        labelImportance.text = NSLocalizedString("Importance", comment: "")
-        labelImportance.font = .body
-        labelImportance.textColor = .textColor
-        labelImportance.translatesAutoresizingMaskIntoConstraints = false
-        importanceAndDateStack.addSubview(labelImportance)
-        [
-            labelImportance.leadingAnchor.constraint(equalTo: importanceAndDateStack.leadingAnchor, constant: 16),
-            labelImportance.topAnchor.constraint(equalTo: importanceAndDateStack.topAnchor, constant: 17)
-        ].forEach({$0.isActive = true})
-        let separator = UIView()
-        importanceAndDateStack.addSubview(separator)
-        separator.layer.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2).cgColor
-        separator.translatesAutoresizingMaskIntoConstraints = false
-        [
-            separator.leadingAnchor.constraint(equalTo: importanceAndDateStack.leadingAnchor, constant: 16),
-            separator.trailingAnchor.constraint(equalTo: importanceAndDateStack.trailingAnchor, constant: -16),
-            separator.topAnchor.constraint(equalTo: importanceAndDateStack.topAnchor, constant: 55.5),
-            separator.bottomAnchor.constraint(equalTo: importanceAndDateStack.topAnchor, constant: 56)
-        ].forEach({$0.isActive = true})
-        segmentedControl.setImage(.lowImportance, forSegmentAt: 0)
-        segmentedControl.setTitle(NSLocalizedString("non", comment: ""), forSegmentAt: 1)
-        segmentedControl.setImage(.highImportance, forSegmentAt: 2)
-        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
-        segmentedControl.selectedSegmentIndex = 1
-        importanceAndDateStack.addSubview(segmentedControl)
-        [
-            segmentedControl.leadingAnchor.constraint(equalTo: importanceAndDateStack.trailingAnchor, constant: -162),
-            segmentedControl.trailingAnchor.constraint(equalTo: importanceAndDateStack.trailingAnchor, constant: -12),
-            segmentedControl.topAnchor.constraint(equalTo: importanceAndDateStack.topAnchor, constant: 10),
-            segmentedControl.bottomAnchor.constraint(equalTo: importanceAndDateStack.bottomAnchor, constant: -66.5)
-        ].forEach({$0.isActive = true})
-    }
-    private func setupDeadlineStack() {
-        // MARK: - Labels for the stack.
-        let deadlineLabel = UILabel()
-        deadlineLabel.text = NSLocalizedString("Deadline", comment: "")
-        deadlineLabel.font = .body
-        deadlineLabel.textColor = .textColor
-        deadlineLabel.translatesAutoresizingMaskIntoConstraints = false
-        importanceAndDateStack.addSubview(deadlineLabel)
-        [
-            deadlineLabel.leadingAnchor.constraint(equalTo: importanceAndDateStack.leadingAnchor, constant: 16),
-            deadlineLabel.topAnchor.constraint(equalTo: importanceAndDateStack.topAnchor, constant: 73.5)
-        ].forEach({$0.isActive = true})
-        // MARK: - Separator for the stack.
-        deadlineSwitch.translatesAutoresizingMaskIntoConstraints = false
-        importanceAndDateStack.addSubview(deadlineSwitch)
-        [
-            deadlineSwitch.trailingAnchor.constraint(equalTo: importanceAndDateStack.trailingAnchor, constant: -12),
-            deadlineSwitch.topAnchor.constraint(equalTo: importanceAndDateStack.topAnchor, constant: 69),
-            deadlineSwitch.bottomAnchor.constraint(equalTo: importanceAndDateStack.bottomAnchor, constant: -12.5)
-        ].forEach({$0.isActive = true})
-        deadlineSwitch.addTarget(self, action: #selector(deadlineSwitched), for: .valueChanged)
-        deadlinePicker.translatesAutoresizingMaskIntoConstraints = false
-//        deadlinePicker.datePickerMode = .date
-        deadlinePicker.preferredDatePickerStyle = .inline
-        view.addSubview(deadlinePicker)
-        [
-            deadlinePicker.leadingAnchor.constraint(equalTo: importanceAndDateStack.leadingAnchor, constant: 16),
-            deadlinePicker.trailingAnchor.constraint(equalTo: importanceAndDateStack.trailingAnchor, constant: -16),
-            deadlinePicker.topAnchor.constraint(equalTo: importanceAndDateStack.topAnchor, constant: 88.5)
+            importanceAndDeadlineTableView.topAnchor.constraint(equalTo: textView.bottomAnchor, constant: 16),
+            importanceAndDeadlineTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            importanceAndDeadlineTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            importanceAndDeadlineTableView.bottomAnchor.constraint(equalTo: textView.bottomAnchor, constant: 208)
         ].forEach({$0.isActive = true})
     }
     private func setupDeleteButton() {
@@ -178,7 +119,22 @@ extension NewToDoViewController {
         // TODO: add it
     }
     @objc func deadlineSwitched() {
-        // deadlinePicker.isEnabled = deadlineSwitch.isOn
+        switch deadlineSwitch.isOn {
+        case true:
+            dateLabel.isHidden = false
+            deadlineLabelConstraint.constant = 9
+            hideShowDatePicker()
+        case false:
+            dateLabel.isHidden = true
+            deadlineLabelConstraint.constant = 17
+            datePickerShown = false
+            hideShowDatePicker()
+        }
+        view.layoutIfNeeded()
+    }
+    @objc func hideShowDatePicker() {
+        datePickerShown = !datePickerShown
+        hideShowDatePickerCell()
     }
 }
 
@@ -201,5 +157,112 @@ extension NewToDoViewController: UITextViewDelegate {
             deleteButton.isEnabled = true
             saveButton?.isEnabled = true
         }
+    }
+}
+
+extension NewToDoViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return datePickerShown ? 2 : 3
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        switch indexPath.row {
+        case 0:
+            return getImportanceCell()
+        case 1:
+            return getDeadlineCell()
+        case 2:
+            datePickerCellIndexPath = indexPath
+            return getDatePickerCell()
+        default:
+            return UITableViewCell()
+        }
+    }
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    private func hideShowDatePickerCell() {
+        guard let index = datePickerCellIndexPath,
+              let cell = importanceAndDeadlineTableView.cellForRow(at: index) else {
+            return
+        }
+        cell.isHidden = datePickerShown
+    }
+    private func getImportanceCell() -> UITableViewCell {
+        let cell = UITableViewCell()
+        cell.contentView.isUserInteractionEnabled = true
+        let labelImportance = UILabel()
+        labelImportance.text = NSLocalizedString("Importance", comment: "")
+        labelImportance.font = .body
+        labelImportance.textColor = .textColor
+        labelImportance.translatesAutoresizingMaskIntoConstraints = false
+        cell.contentView.addSubview(labelImportance)
+        [
+            labelImportance.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 16),
+            labelImportance.topAnchor.constraint(equalTo: cell.contentView.topAnchor, constant: 17)
+        ].forEach({$0.isActive = true})
+        segmentedControl.setImage(.lowImportance, forSegmentAt: 0)
+        segmentedControl.setTitle(NSLocalizedString("non", comment: ""), forSegmentAt: 1)
+        segmentedControl.setImage(.highImportance, forSegmentAt: 2)
+        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        segmentedControl.selectedSegmentIndex = 1
+        cell.contentView.addSubview(segmentedControl)
+        [
+            segmentedControl.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: -12),
+            segmentedControl.topAnchor.constraint(equalTo: cell.contentView.topAnchor, constant: 10),
+            segmentedControl.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor, constant: -10)
+        ].forEach({$0.isActive = true})
+        return cell
+    }
+    private func getDeadlineCell() -> UITableViewCell {
+        let cell = UITableViewCell()
+        cell.contentView.isUserInteractionEnabled = true
+        let deadlineLabel = UILabel()
+        deadlineLabelConstraint = deadlineLabel.topAnchor.constraint(equalTo: cell.contentView.topAnchor, constant: 17)
+        deadlineLabel.text = NSLocalizedString("Deadline", comment: "")
+        deadlineLabel.font = .body
+        deadlineLabel.textColor = .textColor
+        deadlineLabel.translatesAutoresizingMaskIntoConstraints = false
+        cell.contentView.addSubview(deadlineLabel)
+        [
+            deadlineLabel.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 16),
+            deadlineLabelConstraint
+        ].forEach({$0.isActive = true})
+        // MARK: - Separator for the stack.
+        deadlineSwitch.translatesAutoresizingMaskIntoConstraints = false
+        cell.contentView.addSubview(deadlineSwitch)
+        [
+            deadlineSwitch.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: -12),
+            deadlineSwitch.topAnchor.constraint(equalTo: cell.contentView.topAnchor, constant: 12.5),
+            deadlineSwitch.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor, constant: -12.5)
+        ].forEach({$0.isActive = true})
+        deadlineSwitch.addTarget(self, action: #selector(deadlineSwitched), for: .valueChanged)
+        dateLabel.setTitle("Deadline 1", for: .normal)
+        dateLabel.setTitleColor(#colorLiteral(red: 0.01058180071, green: 0.4768913388, blue: 0.9985166192, alpha: 1), for: .normal)
+        dateLabel.translatesAutoresizingMaskIntoConstraints = false
+        dateLabel.isHidden = true
+        cell.contentView.addSubview(dateLabel)
+        [
+            dateLabel.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 16),
+            dateLabel.topAnchor.constraint(equalTo: cell.contentView.topAnchor, constant: 31)
+        ].forEach({$0.isActive = true})
+        dateLabel.titleLabel?.font = .footnote
+        dateLabel.addTarget(self, action: #selector(hideShowDatePicker), for: .touchDown)
+        return cell
+    }
+    private func getDatePickerCell() -> UITableViewCell {
+        let cell = UITableViewCell()
+        cell.contentView.isUserInteractionEnabled = true
+        deadlinePicker.translatesAutoresizingMaskIntoConstraints = false
+        deadlinePicker.datePickerMode = .date
+        deadlinePicker.preferredDatePickerStyle = .inline
+        cell.contentView.addSubview(deadlinePicker)
+        [
+            deadlinePicker.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: -12),
+            deadlinePicker.topAnchor.constraint(equalTo: cell.contentView.topAnchor, constant: 12.5),
+            deadlinePicker.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 12)
+        ].forEach({$0.isActive = true})
+        cell.contentView.bounds.size.height = deadlinePicker.bounds.height
+        cell.isHidden = true
+        return cell
     }
 }
