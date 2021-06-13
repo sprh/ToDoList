@@ -7,6 +7,5 @@
 
 import Foundation
 
-class NewToDoModel {
-    
+class NewToDoModel {    
 }

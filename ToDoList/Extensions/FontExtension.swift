@@ -13,5 +13,5 @@ extension UIFont {
     static var headkune: UIFont = .boldSystemFont(ofSize: 17)
     static var body: UIFont = .systemFont(ofSize: 17)
     static var subhead: UIFont = .systemFont(ofSize: 15)
-    static var footnote: UIFont = .systemFont(ofSize: 13)
+    static var footnote: UIFont = .systemFont(ofSize: 14)
 }

@@ -18,6 +18,12 @@ class NewToDoViewController: UIViewController {
     var cancelButton: UIBarButtonItem?
     var saveButton: UIBarButtonItem?
     var deadlinePicker = UIDatePicker()
+    var stackBottomConstraint = NSLayoutConstraint()
+    var dateButton = UIButton()
+    var deadlineTopAnchorConstraint = NSLayoutConstraint()
+    var datePickerShown = false
+    let deadlineLabel = UILabel()
+    let labelImportance = UILabel()
     init(model: NewToDoModel) {
         self.model = model
         super.init(nibName: nil, bundle: nil)
@@ -46,8 +52,8 @@ class NewToDoViewController: UIViewController {
                         comment: ""), style: .plain, target: self, action: #selector(save))
         navigationController?.navigationBar.topItem?.rightBarButtonItem = saveButton
         saveButton?.setTitleTextAttributes([NSAttributedString.Key.foregroundColor:
-                                                UIColor.textGrayColor], for: .normal)
-        navigationItem.rightBarButtonItem?.isEnabled = false
+                                                UIColor.textGray], for: .normal)
+        saveButton?.isEnabled = false
     }
     private func setupView() {
         view = UIView()
@@ -56,11 +62,11 @@ class NewToDoViewController: UIViewController {
     private func addSubviews() {
         setupTextField()
         setupStack()
-        //setupDeleteButton()
+        setupDeleteButton()
     }
     private func setupTextField() {
         textBottomAnchorConstraint = textView.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 192)
-        textView.backgroundColor = .subviewsBackgtoundColor
+        textView.backgroundColor = .subviewsBackgtound
         textView.layer.cornerRadius = 16
         textView.font = .body
         textView.isScrollEnabled = false
@@ -73,26 +79,28 @@ class NewToDoViewController: UIViewController {
             textView.topAnchor.constraint(equalTo: view.topAnchor, constant: 72),
             textBottomAnchorConstraint
         ].forEach({$0.isActive = true})
+        textView.tintColor = .text
     }
     private func setupStack() {
         importanceAndDateStack.translatesAutoresizingMaskIntoConstraints = false
-        importanceAndDateStack.backgroundColor = .subviewsBackgtoundColor
+        importanceAndDateStack.backgroundColor = .subviewsBackgtound
         importanceAndDateStack.layer.cornerRadius = 16
+        stackBottomConstraint = importanceAndDateStack.bottomAnchor.constraint(equalTo:
+                                                 textView.bottomAnchor, constant: 128.5)
         view.addSubview(importanceAndDateStack)
         [
             importanceAndDateStack.topAnchor.constraint(equalTo: textView.bottomAnchor, constant: 16),
             importanceAndDateStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             importanceAndDateStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            importanceAndDateStack.bottomAnchor.constraint(equalTo: textView.bottomAnchor, constant: 128.5)
+            stackBottomConstraint
         ].forEach({$0.isActive = true})
         setupImportanceStack()
         setupDeadlineStack()
     }
     private func setupImportanceStack() {
-        let labelImportance = UILabel()
         labelImportance.text = NSLocalizedString("Importance", comment: "")
         labelImportance.font = .body
-        labelImportance.textColor = .textColor
+        labelImportance.textColor = .text
         labelImportance.translatesAutoresizingMaskIntoConstraints = false
         importanceAndDateStack.addSubview(labelImportance)
         [
@@ -119,20 +127,21 @@ class NewToDoViewController: UIViewController {
             segmentedControl.leadingAnchor.constraint(equalTo: importanceAndDateStack.trailingAnchor, constant: -162),
             segmentedControl.trailingAnchor.constraint(equalTo: importanceAndDateStack.trailingAnchor, constant: -12),
             segmentedControl.topAnchor.constraint(equalTo: importanceAndDateStack.topAnchor, constant: 10),
-            segmentedControl.bottomAnchor.constraint(equalTo: importanceAndDateStack.bottomAnchor, constant: -66.5)
+            segmentedControl.bottomAnchor.constraint(equalTo: importanceAndDateStack.topAnchor, constant: 46)
         ].forEach({$0.isActive = true})
     }
     private func setupDeadlineStack() {
         // MARK: - Labels for the stack.
-        let deadlineLabel = UILabel()
         deadlineLabel.text = NSLocalizedString("Deadline", comment: "")
         deadlineLabel.font = .body
-        deadlineLabel.textColor = .textColor
+        deadlineLabel.textColor = .text
         deadlineLabel.translatesAutoresizingMaskIntoConstraints = false
+        deadlineTopAnchorConstraint = deadlineLabel.topAnchor.constraint(equalTo: importanceAndDateStack.topAnchor,
+                                                                         constant: 73.5)
         importanceAndDateStack.addSubview(deadlineLabel)
         [
             deadlineLabel.leadingAnchor.constraint(equalTo: importanceAndDateStack.leadingAnchor, constant: 16),
-            deadlineLabel.topAnchor.constraint(equalTo: importanceAndDateStack.topAnchor, constant: 73.5)
+            deadlineTopAnchorConstraint
         ].forEach({$0.isActive = true})
         // MARK: - Separator for the stack.
         deadlineSwitch.translatesAutoresizingMaskIntoConstraints = false
@@ -144,19 +153,36 @@ class NewToDoViewController: UIViewController {
         ].forEach({$0.isActive = true})
         deadlineSwitch.addTarget(self, action: #selector(deadlineSwitched), for: .valueChanged)
         deadlinePicker.translatesAutoresizingMaskIntoConstraints = false
-//        deadlinePicker.datePickerMode = .date
+        deadlinePicker.datePickerMode = .date
         deadlinePicker.preferredDatePickerStyle = .inline
-        view.addSubview(deadlinePicker)
+        deadlinePicker.backgroundColor = .subviewsBackgtound
+        deadlinePicker.tintColor = .azure
+        // It's like DateTime.Now.
+        deadlinePicker.minimumDate = Date()
+        importanceAndDateStack.addSubview(deadlinePicker)
         [
             deadlinePicker.leadingAnchor.constraint(equalTo: importanceAndDateStack.leadingAnchor, constant: 16),
             deadlinePicker.trailingAnchor.constraint(equalTo: importanceAndDateStack.trailingAnchor, constant: -16),
-            deadlinePicker.topAnchor.constraint(equalTo: importanceAndDateStack.topAnchor, constant: 88.5)
+            deadlinePicker.topAnchor.constraint(equalTo: importanceAndDateStack.topAnchor, constant: 117)
         ].forEach({$0.isActive = true})
+        deadlinePicker.isHidden = true
+        deadlinePicker.addTarget(self, action: #selector(dateWasChanged), for: .valueChanged)
+        dateButton.setTitle(getDatePickerDate(), for: .normal)
+        dateButton.setTitleColor(.azure, for: .normal)
+        dateButton.titleLabel?.font = .footnote
+        dateButton.translatesAutoresizingMaskIntoConstraints = false
+        importanceAndDateStack.addSubview(dateButton)
+        [
+            dateButton.leadingAnchor.constraint(equalTo: importanceAndDateStack.leadingAnchor, constant: 16),
+            dateButton.topAnchor.constraint(equalTo: deadlineLabel.bottomAnchor)
+        ].forEach({$0.isActive = true})
+        dateButton.isHidden = true
+        dateButton.addTarget(self, action: #selector(dateButtonClick), for: .touchDown)
     }
     private func setupDeleteButton() {
         deleteButton.setTitle(NSLocalizedString("Delete", comment: ""), for: .normal)
-        deleteButton.backgroundColor = .subviewsBackgtoundColor
-        deleteButton.setTitleColor(.textGrayColor, for: .normal)
+        deleteButton.backgroundColor = .subviewsBackgtound
+        deleteButton.setTitleColor(.textGray, for: .normal)
         deleteButton.translatesAutoresizingMaskIntoConstraints = false
         deleteButton.layer.cornerRadius = 16
         view.addSubview(deleteButton)
@@ -178,28 +204,62 @@ extension NewToDoViewController {
         // TODO: add it
     }
     @objc func deadlineSwitched() {
-        // deadlinePicker.isEnabled = deadlineSwitch.isOn
+        dateButton.isHidden = !deadlineSwitch.isOn
+        if deadlineSwitch.isOn {
+            deadlineTopAnchorConstraint.constant = 66.5
+        } else {
+            datePickerShown = false
+            hideShowDatePicker()
+            deadlineTopAnchorConstraint.constant = 73.5
+        }
+    }
+    @objc func hideShowDatePicker() {
+        switch datePickerShown {
+        case true:
+            stackBottomConstraint.constant = 128.5 + deadlinePicker.bounds.height
+            deadlinePicker.isHidden = false
+        case false:
+            stackBottomConstraint.constant = 128.5
+            deadlinePicker.isHidden = true
+        }
+    }
+    @objc func dateButtonClick() {
+        datePickerShown = !datePickerShown
+        hideShowDatePicker()
+    }
+    @objc func dateWasChanged() {
+        dateButton.setTitle(getDatePickerDate(), for: .normal)
     }
 }
 
 extension NewToDoViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        let textHeight = self.textView.sizeThatFits(self.textView.bounds.size).height
+        let textHeight = self.textView.sizeThatFits(self.textView.bounds.size).height + 80
         textBottomAnchorConstraint.constant = max(192, textHeight)
         setupVisability()
     }
     func setupVisability() {
         if textView.text.isEmpty || textView.text == "" {
             deleteButton.isEnabled = false
+            // It hides this bar batton and I don't understand why. Is it a bug?
             saveButton?.isEnabled = false
             saveButton?.setTitleTextAttributes([NSAttributedString.Key.foregroundColor:
-                                                    UIColor.textGrayColor], for: .normal)
-            deleteButton.setTitleColor(.textGrayColor, for: .normal)
+                                                    UIColor.textGray], for: .normal)
+            deleteButton.setTitleColor(.textGray, for: .normal)
         } else {
             saveButton?.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.blue], for: .normal)
             deleteButton.setTitleColor(#colorLiteral(red: 0.8694987297, green: 0, blue: 0.2487540245, alpha: 1), for: .normal)
             deleteButton.isEnabled = true
             saveButton?.isEnabled = true
         }
+    }
+}
+
+extension NewToDoViewController {
+    func getDatePickerDate() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd MMMM yyyy"
+        let selectedDate = dateFormatter.string(from: deadlinePicker.date)
+        return selectedDate
     }
 }
