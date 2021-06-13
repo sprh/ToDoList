@@ -22,6 +22,7 @@ class NewToDoViewController: UIViewController {
     var deadlineLabelConstraint = NSLayoutConstraint()
     let dateLabel = UIButton()
     var datePickerCellIndexPath: IndexPath?
+    var tableViewBottomConstraint = NSLayoutConstraint()
     var datePickerShown = false
     init(model: NewToDoModel) {
         self.model = model
@@ -84,14 +85,15 @@ class NewToDoViewController: UIViewController {
         importanceAndDeadlineTableView.delegate = self
         importanceAndDeadlineTableView.allowsSelection = false
         importanceAndDeadlineTableView.delaysContentTouches = false
-        importanceAndDeadlineTableView.rowHeight = UITableView.automaticDimension
-        importanceAndDeadlineTableView.estimatedRowHeight = 80
+        importanceAndDeadlineTableView.layer.cornerRadius = 16
+        tableViewBottomConstraint = importanceAndDeadlineTableView.bottomAnchor.constraint(equalTo:
+                                    textView.bottomAnchor, constant: 208)
         view.addSubview(importanceAndDeadlineTableView)
         [
             importanceAndDeadlineTableView.topAnchor.constraint(equalTo: textView.bottomAnchor, constant: 16),
             importanceAndDeadlineTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             importanceAndDeadlineTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            importanceAndDeadlineTableView.bottomAnchor.constraint(equalTo: textView.bottomAnchor, constant: 208)
+            tableViewBottomConstraint
         ].forEach({$0.isActive = true})
     }
     private func setupDeleteButton() {
@@ -123,12 +125,12 @@ extension NewToDoViewController {
         case true:
             dateLabel.isHidden = false
             deadlineLabelConstraint.constant = 9
-            hideShowDatePicker()
+            hideShowDatePickerCell()
         case false:
             dateLabel.isHidden = true
             deadlineLabelConstraint.constant = 17
             datePickerShown = false
-            hideShowDatePicker()
+            hideShowDatePickerCell()
         }
         view.layoutIfNeeded()
     }
@@ -162,7 +164,7 @@ extension NewToDoViewController: UITextViewDelegate {
 
 extension NewToDoViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return datePickerShown ? 2 : 3
+        return datePickerShown ? 3 : 2
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.row {
@@ -178,14 +180,29 @@ extension NewToDoViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        if datePickerCellIndexPath != nil && indexPath == datePickerCellIndexPath {
+            if datePickerShown {
+                return deadlinePicker.bounds.height
+            } else {
+                return .zero
+            }
+        }
         return UITableView.automaticDimension
     }
     private func hideShowDatePickerCell() {
+        importanceAndDeadlineTableView.reloadData()
         guard let index = datePickerCellIndexPath,
               let cell = importanceAndDeadlineTableView.cellForRow(at: index) else {
             return
         }
         cell.isHidden = datePickerShown
+        if !datePickerShown {
+            cell.frame.size.height = .zero
+//            tableViewBottomConstraint.constant = importanceAndDeadlineTableView.contentSize.height + 72 + deadlinePicker.bounds.height
+        } else {
+            cell.frame.size.height = deadlinePicker.bounds.height
+        }
+        print(importanceAndDeadlineTableView.contentSize.height)
     }
     private func getImportanceCell() -> UITableViewCell {
         let cell = UITableViewCell()
@@ -263,6 +280,7 @@ extension NewToDoViewController: UITableViewDelegate, UITableViewDataSource {
         ].forEach({$0.isActive = true})
         cell.contentView.bounds.size.height = deadlinePicker.bounds.height
         cell.isHidden = true
+        cell.layoutIfNeeded()
         return cell
     }
 }
