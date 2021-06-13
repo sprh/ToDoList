@@ -46,7 +46,7 @@ class ToDoViewController: UIViewController {
 
 extension ToDoViewController {
     @objc func addButtonClick() {
-        let newToDoModel = NewToDoModel()
+        let newToDoModel = NewToDoModel(toDoItem: ToDoItem(text: "", color: "#ACFA00"))
         let newToDoViewController = NewToDoViewController(model: newToDoModel)
         let newToDoNavigationController = UINavigationController(rootViewController: newToDoViewController)
         self.present(newToDoNavigationController, animated: true, completion: nil)

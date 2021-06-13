@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 /// An item of a to-do list structure.
 ///
@@ -43,6 +44,13 @@ struct ToDoItem {
         self.importance = importance ?? .common
         self.deadline = deadline == nil ? nil : Date(timeIntervalSince1970: deadline ?? 0)
         self.color = color
+    }
+    init() {
+        self.id = UUID().uuidString
+        self.text = ""
+        self.importance = .common
+        self.deadline = nil
+        self.color = UIColor.hexStringFromColor(color: .text)
     }
 }
 

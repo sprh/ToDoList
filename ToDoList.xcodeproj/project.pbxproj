@@ -19,6 +19,7 @@
 		E30540FB266A96BD008C2083 /* AboutModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30540FA266A96BD008C2083 /* AboutModel.swift */; };
 		E30E6DF526766891008A55BF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30E6DF426766891008A55BF /* ViewController.swift */; };
 		E30E6DFF2676701B008A55BF /* ColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30E6DFE2676701B008A55BF /* ColorView.swift */; };
+		E3925EAD26768DEC00BF26BA /* DatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3925EAC26768DEC00BF26BA /* DatePicker.swift */; };
 		E398447A266A9B29000D1B31 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3984479266A9B29000D1B31 /* ColorExtension.swift */; };
 		E3984488266AA019000D1B31 /* ImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3984487266AA019000D1B31 /* ImageExtension.swift */; };
 		E3DB43A7266FF0A5003A2736 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E3DB43A9266FF0A5003A2736 /* Localizable.strings */; };
@@ -73,6 +74,7 @@
 		E30540FA266A96BD008C2083 /* AboutModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutModel.swift; sourceTree = "<group>"; };
 		E30E6DF426766891008A55BF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		E30E6DFE2676701B008A55BF /* ColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorView.swift; sourceTree = "<group>"; };
+		E3925EAC26768DEC00BF26BA /* DatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePicker.swift; sourceTree = "<group>"; };
 		E3984479266A9B29000D1B31 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		E3984487266AA019000D1B31 /* ImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExtension.swift; sourceTree = "<group>"; };
 		E3DB439E266FF014003A2736 /* ru-RU */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ru-RU"; path = "ru-RU.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
@@ -231,6 +233,7 @@
 				E3984479266A9B29000D1B31 /* ColorExtension.swift */,
 				E3984487266AA019000D1B31 /* ImageExtension.swift */,
 				E3DB44292672B932003A2736 /* FontExtension.swift */,
+				E3925EAC26768DEC00BF26BA /* DatePicker.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -544,6 +547,7 @@
 				E30E6DF526766891008A55BF /* ViewController.swift in Sources */,
 				E3DB43C3266FF88C003A2736 /* Importance.swift in Sources */,
 				E3DB43BB266FF84B003A2736 /* ToDoItem.swift in Sources */,
+				E3925EAD26768DEC00BF26BA /* DatePicker.swift in Sources */,
 				E30540FB266A96BD008C2083 /* AboutModel.swift in Sources */,
 				E3DB44382674B6E8003A2736 /* NewToDoModel.swift in Sources */,
 				E3984488266AA019000D1B31 /* ImageExtension.swift in Sources */,

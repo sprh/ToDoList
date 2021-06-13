@@ -40,7 +40,6 @@ class NewToDoViewController: UIViewController {
         setupView()
         addSubviews()
         self.hideKeyboardWhenTappedAround()
-
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -60,6 +59,7 @@ class NewToDoViewController: UIViewController {
         saveButton?.setTitleTextAttributes([NSAttributedString.Key.foregroundColor:
                                                 UIColor.textGray], for: .normal)
         saveButton?.isEnabled = false
+        loadData()
     }
     private func setupView() {
         view = UIView()
@@ -210,7 +210,7 @@ class NewToDoViewController: UIViewController {
         ].forEach({$0.isActive = true})
         deadlinePicker.isHidden = true
         deadlinePicker.addTarget(self, action: #selector(dateWasChanged), for: .valueChanged)
-        dateButton.setTitle(getDatePickerDate(), for: .normal)
+        dateButton.setTitle(deadlinePicker.getDate(), for: .normal)
         dateButton.setTitleColor(.azure, for: .normal)
         dateButton.titleLabel?.font = .footnote
         dateButton.translatesAutoresizingMaskIntoConstraints = false
@@ -245,7 +245,7 @@ extension NewToDoViewController {
         dismiss(animated: true, completion: nil)
     }
     @objc func save() {
-        let color = colorSlider.thumbTintColor?.hex() ?? "#%06x"
+        let color = UIColor.hexStringFromColor(color: colorSlider.thumbTintColor ?? .red)
         model.save(text: textView.text, importance: segmentedControl.titleForSegment(at:
         segmentedControl.selectedSegmentIndex) ?? "common", deadline: deadlinePicker.date, color: color)
     }
@@ -276,7 +276,7 @@ extension NewToDoViewController {
         hideShowDatePicker()
     }
     @objc func dateWasChanged() {
-        dateButton.setTitle(getDatePickerDate(), for: .normal)
+        dateButton.setTitle(deadlinePicker.getDate(), for: .normal)
     }
     @objc func colorWasChanged() {
         let trackRect = colorSlider.trackRect(forBounds: colorSlider.bounds)
@@ -314,10 +314,17 @@ extension NewToDoViewController: UITextViewDelegate {
 }
 
 extension NewToDoViewController {
-    func getDatePickerDate() -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd MMMM yyyy"
-        let selectedDate = dateFormatter.string(from: deadlinePicker.date)
-        return selectedDate
+    func loadData() {
+        textView.text = model.toDoItem.text
+        if let deadline = model.toDoItem.deadline {
+            deadlineSwitch.isOn = true
+            deadlinePicker.minimumDate = min(Date(), deadline)
+            deadlinePicker.date = deadline
+        }
+        segmentedControl.selectedSegmentIndex =
+            ["unimportant", "common", "important"].firstIndex(of: model.toDoItem.importance.rawValue) ?? 0
+        let color = UIColor.colorWithHexString(hexString: model.toDoItem.color)
+        textView.textColor = color
+        colorSlider.thumbTintColor = color
     }
 }
