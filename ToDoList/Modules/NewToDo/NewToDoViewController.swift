@@ -25,6 +25,9 @@ class NewToDoViewController: UIViewController {
     var datePickerShown = false
     let deadlineLabel = UILabel()
     let labelImportance = UILabel()
+    let colorStack = UIStackView()
+    let colorSlider = UISlider()
+    let colorView = ColorView()
     init(model: NewToDoModel) {
         self.model = model
         super.init(nibName: nil, bundle: nil)
@@ -64,10 +67,44 @@ class NewToDoViewController: UIViewController {
     }
     private func addSubviews() {
         setupTextField()
-        // setupStack()
-        // setupDeleteButton()
+        addColorStack()
+        setupStack()
+        setupDeleteButton()
     }
-//    private func addColor
+    private func addColorStack() {
+        colorStack.translatesAutoresizingMaskIntoConstraints = false
+        colorStack.backgroundColor = .clear
+        colorStack.layer.cornerRadius = 16
+        view.addSubview(colorStack)
+        [
+            colorStack.topAnchor.constraint(equalTo: textView.bottomAnchor, constant: 10),
+            colorStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            colorStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            colorStack.bottomAnchor.constraint(equalTo:
+                                                textView.bottomAnchor, constant: colorSlider.bounds.height + 10)
+        ].forEach({$0.isActive = true})
+        colorView.translatesAutoresizingMaskIntoConstraints = false
+        colorView.backgroundColor?.withAlphaComponent(0.5)
+        colorStack.addSubview(colorView)
+        [
+            colorView.leadingAnchor.constraint(equalTo: colorStack.leadingAnchor, constant: 16),
+            colorView.trailingAnchor.constraint(equalTo: colorStack.trailingAnchor, constant: -16),
+            colorView.topAnchor.constraint(equalTo: colorStack.topAnchor, constant: 8),
+            colorView.bottomAnchor.constraint(equalTo: colorStack.topAnchor,
+                                              constant: colorSlider.bounds.height - 8)
+        ].forEach({$0.isActive = true})
+        colorSlider.translatesAutoresizingMaskIntoConstraints = false
+        colorSlider.minimumTrackTintColor = .clear
+        colorSlider.maximumTrackTintColor = .clear
+        colorStack.addSubview(colorSlider)
+        [
+            colorSlider.leadingAnchor.constraint(equalTo: colorStack.leadingAnchor, constant: 11),
+            colorSlider.trailingAnchor.constraint(equalTo: colorStack.trailingAnchor, constant: -11),
+            colorSlider.centerYAnchor.constraint(equalTo: colorView.centerYAnchor)
+        ].forEach({$0.isActive = true})
+        colorSlider.addTarget(self, action: #selector(colorWasChanged), for: .valueChanged)
+        colorWasChanged()
+    }
     private func setupTextField() {
         textBottomAnchorConstraint = textView.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 192)
         textView.backgroundColor = .subviewsBackgtound
@@ -92,10 +129,10 @@ class NewToDoViewController: UIViewController {
         importanceAndDateStack.backgroundColor = .subviewsBackgtound
         importanceAndDateStack.layer.cornerRadius = 16
         stackBottomConstraint = importanceAndDateStack.bottomAnchor.constraint(equalTo:
-                                                 textView.bottomAnchor, constant: 128.5)
+                                                 colorStack.bottomAnchor, constant: 128.5)
         view.addSubview(importanceAndDateStack)
         [
-            importanceAndDateStack.topAnchor.constraint(equalTo: textView.bottomAnchor, constant: 16),
+            importanceAndDateStack.topAnchor.constraint(equalTo: colorStack.bottomAnchor, constant: 16),
             importanceAndDateStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             importanceAndDateStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             stackBottomConstraint
@@ -219,13 +256,12 @@ extension NewToDoViewController {
         if deadlineSwitch.isOn {
             deadlineTopAnchorConstraint.constant = 66.5
         } else {
-            datePickerShown = false
-            hideShowDatePicker()
             deadlineTopAnchorConstraint.constant = 73.5
         }
+        hideShowDatePicker()
     }
     @objc func hideShowDatePicker() {
-        switch datePickerShown {
+        switch datePickerShown && deadlineSwitch.isOn {
         case true:
             stackBottomConstraint.constant = 128.5 + deadlinePicker.bounds.height
             deadlinePicker.isHidden = false
@@ -240,6 +276,16 @@ extension NewToDoViewController {
     }
     @objc func dateWasChanged() {
         dateButton.setTitle(getDatePickerDate(), for: .normal)
+    }
+    @objc func colorWasChanged() {
+        let trackRect = colorSlider.trackRect(forBounds: colorSlider.bounds)
+        let thumbRect = colorSlider.thumbRect(forBounds: colorSlider.bounds, trackRect: trackRect, value:
+                                                colorSlider.value)
+        let thumbPoint = CGPoint(x: thumbRect.midX, y: thumbRect.midY)
+        let color = colorView.getColor(from: thumbPoint)
+        colorSlider.thumbTintColor = color
+        textView.textColor = color
+        textView.tintColor = color
     }
 }
 
