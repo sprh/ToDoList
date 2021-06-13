@@ -7,5 +7,12 @@
 
 import Foundation
 
-class NewToDoModel {    
+class NewToDoModel {
+    func save(id: String? = nil, text: String, importance: String, deadline: Date?) {
+        // I think I don't need to save it now, because we haven't got a data base and
+        // a field with all to do items in the FileCache isn't a static.
+        let newToDoItem = ToDoItem(id: id, text: text,
+                                   importance: Importance.init(rawValue: importance), deadline: deadline)
+        print(newToDoItem)
+    }
 }

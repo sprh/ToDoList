@@ -192,6 +192,7 @@ class NewToDoViewController: UIViewController {
             deleteButton.topAnchor.constraint(equalTo: importanceAndDateStack.bottomAnchor, constant: 16),
             deleteButton.bottomAnchor.constraint(equalTo: importanceAndDateStack.bottomAnchor, constant: 72)
         ].forEach({$0.isActive = true})
+        deleteButton.addTarget(self, action: #selector(deleteItem), for: .touchUpInside)
     }
 }
 
@@ -201,7 +202,11 @@ extension NewToDoViewController {
         dismiss(animated: true, completion: nil)
     }
     @objc func save() {
-        // TODO: add it
+        model.save(text: textView.text, importance: segmentedControl.titleForSegment(at:
+        segmentedControl.selectedSegmentIndex) ?? "common", deadline: deadlinePicker.date)
+    }
+    @objc func deleteItem() {
+        // TODO
     }
     @objc func deadlineSwitched() {
         dateButton.isHidden = !deadlineSwitch.isOn
