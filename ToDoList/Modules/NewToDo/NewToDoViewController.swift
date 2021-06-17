@@ -28,6 +28,7 @@ class NewToDoViewController: UIViewController {
     let colorStack = UIStackView()
     let colorSlider = UISlider()
     let colorView = ColorView()
+    let scrollView = UIScrollView()
     init(model: NewToDoModel) {
         self.model = model
         super.init(nibName: nil, bundle: nil)
@@ -66,22 +67,32 @@ class NewToDoViewController: UIViewController {
         view.backgroundColor = .background
     }
     private func addSubviews() {
+        setupScrollview()
         setupTextField()
         addColorStack()
         setupStack()
         setupDeleteButton()
     }
+    private func setupScrollview() {
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(scrollView)
+        [
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ].forEach({$0.isActive = true})
+    }
     private func addColorStack() {
         colorStack.translatesAutoresizingMaskIntoConstraints = false
         colorStack.backgroundColor = .clear
         colorStack.layer.cornerRadius = 16
-        view.addSubview(colorStack)
+        scrollView.addSubview(colorStack)
         [
             colorStack.topAnchor.constraint(equalTo: textView.bottomAnchor, constant: 10),
-            colorStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            colorStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            colorStack.bottomAnchor.constraint(equalTo:
-                                                textView.bottomAnchor, constant: colorSlider.bounds.height + 10)
+            colorStack.leadingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            colorStack.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            colorStack.bottomAnchor.constraint(equalTo: textView.bottomAnchor, constant: colorSlider.bounds.height + 10)
         ].forEach({$0.isActive = true})
         colorView.translatesAutoresizingMaskIntoConstraints = false
         colorView.backgroundColor?.withAlphaComponent(0.5)
@@ -106,7 +117,8 @@ class NewToDoViewController: UIViewController {
         colorWasChanged()
     }
     private func setupTextField() {
-        textBottomAnchorConstraint = textView.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 192)
+        textBottomAnchorConstraint = textView.bottomAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.topAnchor,
+                                                                      constant: 136)
         textView.backgroundColor = .subviewsBackgtound
         textView.layer.cornerRadius = 16
         textView.placeholder = NSLocalizedString("What do you have to do?", comment: "")
@@ -115,11 +127,11 @@ class NewToDoViewController: UIViewController {
         textView.isScrollEnabled = false
         textView.delegate = self
         textView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(textView)
+        scrollView.addSubview(textView)
         [
-            textView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            textView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            textView.topAnchor.constraint(equalTo: view.topAnchor, constant: 72),
+            textView.leadingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            textView.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            textView.topAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.topAnchor, constant: 16),
             textBottomAnchorConstraint
         ].forEach({$0.isActive = true})
         textView.tintColor = .text
@@ -130,11 +142,13 @@ class NewToDoViewController: UIViewController {
         importanceAndDateStack.layer.cornerRadius = 16
         stackBottomConstraint = importanceAndDateStack.bottomAnchor.constraint(equalTo:
                                                  colorStack.bottomAnchor, constant: 128.5)
-        view.addSubview(importanceAndDateStack)
+        scrollView.addSubview(importanceAndDateStack)
         [
             importanceAndDateStack.topAnchor.constraint(equalTo: colorStack.bottomAnchor, constant: 16),
-            importanceAndDateStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            importanceAndDateStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            importanceAndDateStack.leadingAnchor.constraint(equalTo:
+                    scrollView.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            importanceAndDateStack.trailingAnchor.constraint(equalTo:
+                    scrollView.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             stackBottomConstraint
         ].forEach({$0.isActive = true})
         setupImportanceStack()
@@ -201,7 +215,7 @@ class NewToDoViewController: UIViewController {
         deadlinePicker.backgroundColor = .subviewsBackgtound
         deadlinePicker.tintColor = .azure
         // It's like DateTime.Now.
-        deadlinePicker.minimumDate = Date()
+        deadlinePicker.minimumDate = Calendar.current.date(byAdding: .day, value: 1, to: Date())
         importanceAndDateStack.addSubview(deadlinePicker)
         [
             deadlinePicker.leadingAnchor.constraint(equalTo: importanceAndDateStack.leadingAnchor, constant: 16),
@@ -228,10 +242,11 @@ class NewToDoViewController: UIViewController {
         deleteButton.setTitleColor(.textGray, for: .normal)
         deleteButton.translatesAutoresizingMaskIntoConstraints = false
         deleteButton.layer.cornerRadius = 16
-        view.addSubview(deleteButton)
+        scrollView.addSubview(deleteButton)
         [
-            deleteButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            deleteButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            deleteButton.leadingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            deleteButton.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor,
+                                                   constant: -16),
             deleteButton.topAnchor.constraint(equalTo: importanceAndDateStack.bottomAnchor, constant: 16),
             deleteButton.bottomAnchor.constraint(equalTo: importanceAndDateStack.bottomAnchor, constant: 72)
         ].forEach({$0.isActive = true})
@@ -293,7 +308,7 @@ extension NewToDoViewController {
 extension NewToDoViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         let textHeight = self.textView.sizeThatFits(self.textView.bounds.size).height + 80
-        textBottomAnchorConstraint.constant = max(192, textHeight)
+        textBottomAnchorConstraint.constant = max(136, textHeight)
         setupVisability()
     }
     func setupVisability() {

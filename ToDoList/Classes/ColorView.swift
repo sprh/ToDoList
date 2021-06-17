@@ -52,4 +52,3 @@ class ColorView: UIView {
         return color
     }
 }
-
