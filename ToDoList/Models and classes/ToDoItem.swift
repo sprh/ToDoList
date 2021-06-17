@@ -13,7 +13,7 @@ struct ToDoItem {
     let id: String
     let text: String
     let importance: Importance
-    var deadline: Date?
+    let deadline: Date?
     var deadlineSince1970: Double? {
         return deadline?.timeIntervalSince1970
     }
@@ -63,15 +63,15 @@ extension ToDoItem {
     /// - Returns:
     ///         - A to do item, loaded from json string.
     ///
-    static func parce(json: Any) -> ToDoItem? {
-        guard let data = json as? [String: Any] else {
+    static func parse(json: Any) -> ToDoItem? {
+        guard let data = json as? [String: Any] else { return nil }
+        guard data.keys.contains("id"), let id = data["id"] as? String else {
             return nil
         }
-        let id = data.keys.contains("id") ? data["id"] as? String? : nil
         let text = data["text"] as? String
         let importanceString = data.keys.contains("importance") ? data["importance"] as? String: "common"
         let importance = Importance(rawValue: importanceString ?? "common")
         let deadline = data.keys.contains("deadline") ? data["deadline"] as? Double : nil
-        return ToDoItem(id: id ?? nil, text: text!, importance: importance, deadline: deadline ?? nil)
+        return ToDoItem(id: id, text: text!, importance: importance, deadline: deadline ?? nil)
     }
 }
