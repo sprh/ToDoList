@@ -36,6 +36,11 @@ class NewToDoViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        scrollView.contentSize.height = scrollView.convert(deleteButton.frame.origin, to: scrollView).y +
+            UIViewController.safeAreaHeight()
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -80,7 +85,7 @@ class NewToDoViewController: UIViewController {
             scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ].forEach({$0.isActive = true})
     }
     private func addColorStack() {
@@ -117,7 +122,7 @@ class NewToDoViewController: UIViewController {
         colorWasChanged()
     }
     private func setupTextField() {
-        textBottomAnchorConstraint = textView.bottomAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.topAnchor,
+        textBottomAnchorConstraint = textView.bottomAnchor.constraint(equalTo: scrollView.topAnchor,
                                                                       constant: 136)
         textView.backgroundColor = .subviewsBackgtound
         textView.layer.cornerRadius = 16
@@ -131,7 +136,7 @@ class NewToDoViewController: UIViewController {
         [
             textView.leadingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             textView.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            textView.topAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.topAnchor, constant: 16),
+            textView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 16),
             textBottomAnchorConstraint
         ].forEach({$0.isActive = true})
         textView.tintColor = .text
@@ -277,6 +282,7 @@ extension NewToDoViewController {
         hideShowDatePicker()
     }
     @objc func hideShowDatePicker() {
+        let oldConstraint = stackBottomConstraint.constant
         switch datePickerShown && deadlineSwitch.isOn {
         case true:
             stackBottomConstraint.constant = 128.5 + deadlinePicker.bounds.height
@@ -285,6 +291,7 @@ extension NewToDoViewController {
             stackBottomConstraint.constant = 128.5
             deadlinePicker.isHidden = true
         }
+        scrollView.contentSize.height += stackBottomConstraint.constant - oldConstraint
     }
     @objc func dateButtonClick() {
         datePickerShown = !datePickerShown
@@ -307,8 +314,10 @@ extension NewToDoViewController {
 
 extension NewToDoViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        let textHeight = self.textView.sizeThatFits(self.textView.bounds.size).height + 80
-        textBottomAnchorConstraint.constant = max(136, textHeight)
+        let oldConstraint = textBottomAnchorConstraint.constant
+        let textHeight = self.textView.sizeThatFits(self.textView.bounds.size).height + 20
+        self.textBottomAnchorConstraint.constant = max(136, textHeight)
+        scrollView.contentSize.height += textBottomAnchorConstraint.constant - oldConstraint
         setupVisability()
     }
     func setupVisability() {
