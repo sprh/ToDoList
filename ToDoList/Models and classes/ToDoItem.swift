@@ -14,8 +14,8 @@ struct ToDoItem {
     let text: String
     let importance: Importance
     let deadline: Date?
-    var deadlineSince1970: Double? {
-        return deadline?.timeIntervalSince1970
+    var deadlineSince1970: Int? {
+        return Int(deadline?.timeIntervalSince1970 ?? 0)
     }
     /// - Parameters:
     ///     - id: An unique user id. Default value is UUID().uuidString
@@ -65,13 +65,13 @@ extension ToDoItem {
     ///
     static func parse(json: Any) -> ToDoItem? {
         guard let data = json as? [String: Any] else { return nil }
-        guard data.keys.contains("id"), let id = data["id"] as? String else {
+        guard data.keys.contains("id"), data.keys.contains("text"),
+              let id = data["id"] as? String, let text = data["text"] as? String else {
             return nil
         }
-        let text = data["text"] as? String
         let importanceString = data.keys.contains("importance") ? data["importance"] as? String: "common"
         let importance = Importance(rawValue: importanceString ?? "common")
         let deadline = data.keys.contains("deadline") ? data["deadline"] as? Double : nil
-        return ToDoItem(id: id, text: text!, importance: importance, deadline: deadline ?? nil)
+        return ToDoItem(id: id, text: text, importance: importance, deadline: deadline)
     }
 }

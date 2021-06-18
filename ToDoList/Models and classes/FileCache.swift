@@ -7,7 +7,7 @@
 
 import Foundation
 
-class FileCache {
+final class FileCache {
     /// An array of to do items.
     private(set) var toDoItems: [ToDoItem] = []
     /// Add an item to the array.
@@ -63,7 +63,7 @@ class FileCache {
             guard let data = try
                     JSONSerialization.jsonObject(with: jsonData, options: []) as? [Any] else {
                 print("Can't parse a json string")
-                return
+                throw FileCacheError.canNotRead
             }
             for item in data {
                 guard let toDoItem = ToDoItem.parse(json: item) else {
