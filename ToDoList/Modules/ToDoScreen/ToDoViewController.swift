@@ -11,7 +11,7 @@ import UIKit
 class ToDoViewController: UIViewController {
     let model: ToDoModel!
     let addButton = UIButton()
-    let tableView = UITableView(frame: CGRect(x: 16, y: 0, width: UIScreen.main.bounds.width - 32, height: UIScreen.main.bounds.height), style: .plain)
+    let tableView = UITableView(frame: CGRect(x: 16, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 100), style: .plain)
     let stackView = UIStackView()
     var doneShown: Bool = false
     let showButton = UIButton()
@@ -41,9 +41,9 @@ class ToDoViewController: UIViewController {
         view = UIView()
         view.backgroundColor = .background
         navigationItem.title = NSLocalizedString("My to-dos", comment: "")
-//        navigationController?.navigationBar.prefersLargeTitles = true
-//        navigationItem.largeTitleDisplayMode = .automatic
-//        navigationController?.navigationBar.sizeToFit()
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.largeTitleDisplayMode = .automatic
+        navigationController?.navigationBar.sizeToFit()
     }
     private func setupScrollView() {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -72,16 +72,18 @@ class ToDoViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.isScrollEnabled = false
+        tableView.delaysContentTouches = true
+        tableView.canCancelContentTouches = true
         tableView.register(ToDoCell.self, forCellReuseIdentifier: "\(ToDoCell.self)")
-        tableView.backgroundColor = .subviewsBackgtound
+        tableView.backgroundColor = .clear
         tableView.rowHeight = UITableView.automaticDimension
-        stackView.addSubview(tableView)
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.addSubview(stackView)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.addSubview(tableView)
         [
-            stackView.leadingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor),
-            stackView.topAnchor.constraint(equalTo: showButton.bottomAnchor, constant: 0)
+            tableView.topAnchor.constraint(equalTo: showButton.safeAreaLayoutGuide.bottomAnchor, constant: 12),
+            tableView.leadingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            tableView.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            tableView.bottomAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.bottomAnchor)
         ].forEach({$0.isActive = true})
     }
     private func doneToDosSetup() {
@@ -118,6 +120,8 @@ extension ToDoViewController {
     @objc func showButtonClick() {
         doneShown = !doneShown
     }
+    @objc func test() {
+    }
 }
 
 extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
@@ -130,6 +134,10 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
         }
         let toDoItem = model.getToDoItem(at: indexPath.row)
         cell.loadData(toDoItem: toDoItem)
+        cell.doneButton.addTarget(self, action: #selector(test), for: .touchUpInside)
         return cell
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("a")
     }
 }

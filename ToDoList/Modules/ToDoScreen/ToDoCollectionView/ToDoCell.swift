@@ -8,7 +8,7 @@
 import UIKit
 
 class ToDoCell: UITableViewCell {
-    var toDoItem: ToDoItem?
+    lazy var toDoItem: ToDoItem = ToDoItem()
     let label = UILabel()
     lazy var data = UILabel()
     let doneButton = UIButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
@@ -36,6 +36,7 @@ class ToDoCell: UITableViewCell {
         doneButton.backgroundColor = .clear
         doneButton.translatesAutoresizingMaskIntoConstraints = false
         doneButton.clipsToBounds = true
+        doneButton.addTarget(self, action: #selector(doneChanged), for: .touchUpInside)
         contentView.addSubview(doneButton)
         [
             doneButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
@@ -51,6 +52,9 @@ class ToDoCell: UITableViewCell {
     }
     public func loadData(toDoItem: ToDoItem) {
         self.toDoItem = toDoItem
+        setDataToCell()
+    }
+    public func setDataToCell() {
         if toDoItem.done {
             let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: toDoItem.text)
             attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range:
@@ -60,7 +64,9 @@ class ToDoCell: UITableViewCell {
         } else {
             switch toDoItem.importance {
             case .common, .unimportant:
-                label.text = toDoItem.text
+                let attributeString: NSMutableAttributedString =
+                    NSMutableAttributedString(string: toDoItem.text)
+                label.attributedText = attributeString
                 doneButton.setImage(.notDoneCell, for: .normal)
             case .important:
                 let attributeString: NSMutableAttributedString =
@@ -71,5 +77,13 @@ class ToDoCell: UITableViewCell {
                 doneButton.setImage(.importantCell, for: .normal)
             }
         }
+    }
+}
+
+extension ToDoCell {
+    @objc func doneChanged() {
+        print("A")
+        toDoItem = ToDoItem(id: toDoItem.id, text: toDoItem.text, importance: toDoItem.importance, deadline: toDoItem.deadline, color: toDoItem.color, done: !toDoItem.done)
+        setDataToCell()
     }
 }
