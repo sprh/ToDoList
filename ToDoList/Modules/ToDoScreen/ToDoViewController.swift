@@ -27,7 +27,7 @@ class ToDoViewController: UIViewController {
     }
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        collectionView.frame = CGRect(x: 0, y: 100, width: view.bounds.width, height: view.bounds.height - 100)
+        collectionView.frame = CGRect(x: 0, y: view.safeAreaInsets.top, width: view.bounds.width, height: view.bounds.height - view.safeAreaInsets.top)
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -53,7 +53,15 @@ class ToDoViewController: UIViewController {
         collectionView.register(ToDoCell.self, forCellWithReuseIdentifier: "\(ToDoCell.self)")
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(collectionView)
+        [
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ].forEach({$0.isActive = true})
+        
     }
 }
 
@@ -67,6 +75,18 @@ extension ToDoViewController {
 }
 
 extension ToDoViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, heightForTextAtIndexPath indexPath: IndexPath) -> CGFloat {
+        guard let cell = collectionView.cellForItem(at: indexPath) else {
+            print("can't")
+            return 100 as CGFloat
+        }
+        print("can")
+        return cell.sizeThatFits(cell.bounds.size).height
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let itemSize = (collectionView.frame.width - (collectionView.contentInset.left + collectionView.contentInset.right + 10)) / 2
+        return CGSize(width: itemSize, height: itemSize)
+    }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 10
     }

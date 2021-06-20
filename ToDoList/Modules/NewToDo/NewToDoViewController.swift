@@ -128,6 +128,7 @@ class NewToDoViewController: UIViewController {
         textView.layer.cornerRadius = 16
         textView.placeholder = NSLocalizedString("What do you have to do?", comment: "")
         textView.font = .body
+        textView.textColor = .text
         textView.placeholderColor = .textGray
         textView.isScrollEnabled = false
         textView.delegate = self
@@ -309,6 +310,15 @@ extension NewToDoViewController {
         colorSlider.thumbTintColor = color
         textView.textColor = color
         textView.tintColor = color
+    }
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if self.traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            // Without this line a user can't see the image because it doesn't want to draw.
+            colorView.layoutIfNeeded()
+            // I call this method because the first color in the picture is text; this color depends on the phone theme.
+            colorWasChanged()
+        }
     }
 }
 
