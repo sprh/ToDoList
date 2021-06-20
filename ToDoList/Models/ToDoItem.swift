@@ -15,6 +15,7 @@ struct ToDoItem {
     let text: String
     let importance: Importance
     var deadline: Date?
+    var done: Bool
     var deadlineSince1970: Double? {
         return deadline?.timeIntervalSince1970
     }
@@ -25,12 +26,13 @@ struct ToDoItem {
     ///     - importance: A value that shows the importance of the task. Default value is common..
     ///     - deadline: The task completeon date. An optional value of type Date.
     init(id: String? = UUID().uuidString, text: String, importance: Importance? = .common,
-         deadline: Date?, color: String) {
+         deadline: Date?, color: String, done: Bool) {
         self.id = id ?? UUID().uuidString
         self.text = text
         self.importance = importance ?? .common
         self.deadline = deadline
         self.color = color
+        self.done = done
     }
     /// - Parameters:
     ///     - id: An unique user id. Default value is UUID().uuidString
@@ -38,12 +40,13 @@ struct ToDoItem {
     ///     - importance: A value that shows the importance of the task. Default value is common.
     ///     - deadline: The task completeon date. An optional value of type Double.
     init(id: String? = UUID().uuidString, text: String, importance: Importance? = .common,
-         deadline: Double? = nil, color: String) {
+         deadline: Double? = nil, color: String, done: Bool) {
         self.id = id ?? UUID().uuidString
         self.text = text
         self.importance = importance ?? .common
         self.deadline = deadline == nil ? nil : Date(timeIntervalSince1970: deadline ?? 0)
         self.color = color
+        self.done = done
     }
     init() {
         self.id = UUID().uuidString
@@ -51,6 +54,7 @@ struct ToDoItem {
         self.importance = .common
         self.deadline = nil
         self.color = UIColor.hexStringFromColor(color: .text)
+        self.done = false
     }
 }
 
@@ -86,7 +90,8 @@ extension ToDoItem {
         let importance = Importance(rawValue: importanceString ?? "common")
         let deadline = data.keys.contains("deadline") ? data["deadline"] as? Double : nil
         let color = data.keys.contains("color") ? data["color"] as? String : "#%06x"
+        let done = data.keys.contains("done") ? data["done"] as? Bool : false
         return ToDoItem(id: id ?? nil, text: text!, importance: importance,
-                        deadline: deadline ?? nil, color: color ?? "#%06x")
+                        deadline: deadline ?? nil, color: color ?? "#%06x", done: done ?? false)
     }
 }

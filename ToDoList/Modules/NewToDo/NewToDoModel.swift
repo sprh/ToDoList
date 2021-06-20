@@ -16,7 +16,7 @@ class NewToDoModel {
         // I think I don't need to save it now, because we haven't got a data base and
         // a field with all to do items in the FileCache isn't a static.
         let newToDoItem = ToDoItem(id: id, text: text,
-                                   importance: Importance.init(rawValue: importance), deadline: deadline, color: color)
+                                   importance: Importance.init(rawValue: importance), deadline: deadline, color: color, done: false)
         print(newToDoItem)
     }
 }
