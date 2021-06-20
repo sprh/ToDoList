@@ -8,39 +8,26 @@
 import Foundation
 
 class ToDoModel {
-    // Sorry.
-    let toDoItems: [ToDoItem] = [ToDoItem(text: "Купить сыр", color: "", done: false),
-                                 ToDoItem(text: "Купить сыр", color: "", done: true),
-                                 ToDoItem(text: "Купить сыр", color: "", done: false),
-                                 ToDoItem(text: "Купить сыр", color: "", done: true),
-                                 ToDoItem(id: "", text: "Купить сыр", importance: .important,
-                                          deadline: nil, color: "", done: false),
-                                 ToDoItem(text: "Купить сыр", color: "", done: false),
-                                 ToDoItem(text: "Купить сыр", color: "", done: true),
-                                 ToDoItem(text: "Купить сыр", color: "", done: false),
-                                 ToDoItem(text: "Купить сыр", color: "", done: true),
-                                 ToDoItem(id: "", text: "Купить сыр", importance: .important,
-                                                    deadline: nil, color: "", done: false),
-                                 ToDoItem(text: "Купить сыр", color: "", done: false),
-                                 ToDoItem(text: "Купить сыр", color: "", done: true),
-                                 ToDoItem(text: "Купить сыр", color: "", done: false),
-                                 ToDoItem(text: "Купить сыр", color: "", done: true),
-                                 ToDoItem(id: "", text: "Купить сыр", importance: .important,
-                                                    deadline: nil, color: "", done: false),
-                                 ToDoItem(id: "", text: "Купить что-то, где-то, зачем-то, но зачем?", importance: .important, deadline: nil, color: "", done: true),
-                                 ToDoItem(id: "", text: "Купить что-то, где-то, зачем-то, но зачем не очень понятно, но точно чтобы показать, что необходимо купить сыр", importance:
-                                            .important, deadline: nil, color: "", done: true),
-                                 ToDoItem(text: "Купить сыр", color: "", done: false)]
+    let fileCache = FileCache()
     public func getToDoItem(at index: Int) -> ToDoItem {
-        return toDoItems[index]
+        return fileCache.toDoItems[index]
     }
     public func toDoItemsCount() -> Int {
-        return toDoItems.count
+        return fileCache.toDoItems.count
     }
     public func doneToDoItems() -> [ToDoItem] {
-        return toDoItems.compactMap({ $0.done ? $0 : nil})
+        return fileCache.toDoItems.compactMap({ $0.done ? $0 : nil})
     }
     public func doneToDoItemsCount() -> Int {
         return doneToDoItems().count
+    }
+    public func updateToDoItemDone(id: String) {
+        guard let item = fileCache.get(with: id) else { return }
+        let newItem = ToDoItem(id: id, text: item.text, importance: item.importance,
+                               deadline: item.deadline, color: item.color, done: !item.done)
+        fileCache.add(item: newItem)
+    }
+    public func deleteToDoItem(id: String) {
+        fileCache.delete(with: id)
     }
 }

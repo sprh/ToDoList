@@ -17,4 +17,6 @@ extension UIImage {
     static let importantCell: UIImage = UIImage(named: "importantCell") ?? UIImage()
     static let arrow: UIImage = UIImage(named: "arrow") ?? UIImage()
     static let calendar: UIImage = UIImage(named: "calendar") ?? UIImage()
+    static let trash: UIImage = UIImage(named: "trash") ?? UIImage()
+    static let done: UIImage = UIImage(named: "done") ?? UIImage()
 }

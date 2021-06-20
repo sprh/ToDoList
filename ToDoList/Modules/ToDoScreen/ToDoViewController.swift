@@ -60,7 +60,6 @@ class ToDoViewController: UIViewController {
         tableView.canCancelContentTouches = true
         tableView.register(ToDoCell.self, forCellReuseIdentifier: "\(ToDoCell.self)")
         tableView.backgroundColor = .clear
-        tableView.rowHeight = UITableView.automaticDimension
         view.addSubview(tableView)
     }
 }
@@ -74,8 +73,11 @@ extension ToDoViewController {
     }
     @objc func showButtonClick() {
         doneShown = !doneShown
+        showButton.setTitle(NSLocalizedString(doneShown ? "Hide" : "Show", comment: ""), for: .normal)
     }
-    @objc func test() {
+    @objc func doneButtonClick(sender: DoneButton) {
+        guard let id = sender.toDoItemId else { return }
+        model.updateToDoItemDone(id: id)
     }
 }
 
@@ -89,7 +91,7 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
         }
         let toDoItem = model.getToDoItem(at: indexPath.row)
         cell.loadData(toDoItem: toDoItem)
-        cell.doneButton.addTarget(self, action: #selector(test), for: .touchUpInside)
+        cell.doneButton.addTarget(self, action: #selector(doneButtonClick(sender:)), for: .touchUpInside)
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -119,5 +121,32 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
         ].forEach({$0.isActive = true})
         showButton.addTarget(self, action: #selector(showButtonClick), for: .touchUpInside)
         return view
+    }
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt
+                    indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let trashAction = UIContextualAction(style: .normal, title: "", handler:
+                {(_: UIContextualAction, _: UIView, success: (Bool) -> Void) in
+                  guard let cell = tableView.cellForRow(at: indexPath) as? ToDoCell else { success(false); return }
+                  self.model.deleteToDoItem(id: cell.toDoItem.id)
+                  tableView.performBatchUpdates({
+                        tableView.deleteRows(at: [indexPath], with: .fade)
+                  }, completion: nil)
+                })
+        trashAction.image = .trash
+        trashAction.backgroundColor = .red
+        return UISwipeActionsConfiguration(actions: [trashAction])
+    }
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) ->
+    UISwipeActionsConfiguration? {
+        let doneAction = UIContextualAction(style: .normal, title: "", handler:
+        {(_: UIContextualAction, _: UIView, success: (Bool) -> Void) in
+            guard let cell = tableView.cellForRow(at: indexPath) as? ToDoCell else { success(false); return }
+            cell.doneChanged()
+            self.model.updateToDoItemDone(id: cell.toDoItem.id)
+            success(true)
+        })
+        doneAction.image = .done
+        doneAction.backgroundColor = .green
+        return UISwipeActionsConfiguration(actions: [doneAction])
     }
 }

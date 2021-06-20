@@ -9,7 +9,28 @@ import Foundation
 
 class FileCache {
     /// An array of to do items.
-    private(set) var toDoItems: [ToDoItem] = []
+    private(set) var toDoItems: [ToDoItem] = [ToDoItem(text: "Купить сыр", color: "", done: false),
+                                 ToDoItem(text: "Купить сыр", color: "", done: true),
+                                 ToDoItem(text: "Купить сыр", color: "", done: false),
+                                 ToDoItem(text: "Купить сыр", color: "", done: true),
+                                 ToDoItem(id: "", text: "Купить сыр", importance: .important,
+                                          deadline: nil, color: "", done: false),
+                                 ToDoItem(text: "Купить сыр", color: "", done: false),
+                                 ToDoItem(text: "Купить сыр", color: "", done: true),
+                                 ToDoItem(text: "Купить сыр", color: "", done: false),
+                                 ToDoItem(text: "Купить сыр", color: "", done: true),
+                                 ToDoItem(id: "", text: "Купить сыр", importance: .important,
+                                                    deadline: nil, color: "", done: false),
+                                 ToDoItem(text: "Купить сыр", color: "", done: false),
+                                 ToDoItem(text: "Купить сыр", color: "", done: true),
+                                 ToDoItem(text: "Купить сыр", color: "", done: false),
+                                 ToDoItem(text: "Купить сыр", color: "", done: true),
+                                 ToDoItem(id: "", text: "Купить сыр", importance: .important,
+                                                    deadline: nil, color: "", done: false),
+                                 ToDoItem(id: "", text: "Купить что-то, где-то, зачем-то, но зачем?", importance: .important, deadline: nil, color: "", done: true),
+                                 ToDoItem(id: "", text: "Купить что-то, где-то, зачем-то, но зачем не очень понятно, но точно чтобы показать, что необходимо купить сыр", importance:
+                                            .important, deadline: nil, color: "", done: true),
+                                 ToDoItem(text: "Купить сыр", color: "", done: false)]
     /// Add an item to the array.
     ///  - Parameters:
     ///  - item: A new to do item.
@@ -25,6 +46,9 @@ class FileCache {
             return
         }
         toDoItems.remove(at: index)
+    }
+    func get(with id: String) -> ToDoItem? {
+        return toDoItems.first(where: {$0.id == id})
     }
     /// Save an array of objects to the file.
     /// - Parameters:

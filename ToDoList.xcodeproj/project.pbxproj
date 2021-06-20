@@ -22,6 +22,7 @@
 		E3169E23267E6439001C4FEE /* ToDoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3169E22267E6439001C4FEE /* ToDoCell.swift */; };
 		E3169E2B267E6CBA001C4FEE /* ToDoLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3169E2A267E6CBA001C4FEE /* ToDoLayout.swift */; };
 		E3169E3F267F6355001C4FEE /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3169E3E267F6355001C4FEE /* NavigationBar.swift */; };
+		E390C7BC267FA9EF005D7EA1 /* DoneButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E390C7BB267FA9EF005D7EA1 /* DoneButton.swift */; };
 		E3925EAD26768DEC00BF26BA /* DatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3925EAC26768DEC00BF26BA /* DatePicker.swift */; };
 		E398447A266A9B29000D1B31 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3984479266A9B29000D1B31 /* ColorExtension.swift */; };
 		E3984488266AA019000D1B31 /* ImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3984487266AA019000D1B31 /* ImageExtension.swift */; };
@@ -80,6 +81,7 @@
 		E3169E22267E6439001C4FEE /* ToDoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoCell.swift; sourceTree = "<group>"; };
 		E3169E2A267E6CBA001C4FEE /* ToDoLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoLayout.swift; sourceTree = "<group>"; };
 		E3169E3E267F6355001C4FEE /* NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
+		E390C7BB267FA9EF005D7EA1 /* DoneButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoneButton.swift; sourceTree = "<group>"; };
 		E3925EAC26768DEC00BF26BA /* DatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePicker.swift; sourceTree = "<group>"; };
 		E3984479266A9B29000D1B31 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		E3984487266AA019000D1B31 /* ImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExtension.swift; sourceTree = "<group>"; };
@@ -237,6 +239,7 @@
 			children = (
 				E3DB43CA2670F709003A2736 /* FileCache.swift */,
 				E30E6DFE2676701B008A55BF /* ColorView.swift */,
+				E390C7BB267FA9EF005D7EA1 /* DoneButton.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -562,6 +565,7 @@
 				E30540F6266A96B4008C2083 /* AboutViewController.swift in Sources */,
 				E30540BB266A960F008C2083 /* AppDelegate.swift in Sources */,
 				E3169E23267E6439001C4FEE /* ToDoCell.swift in Sources */,
+				E390C7BC267FA9EF005D7EA1 /* DoneButton.swift in Sources */,
 				E30E6DF526766891008A55BF /* ViewController.swift in Sources */,
 				E3DB43C3266FF88C003A2736 /* Importance.swift in Sources */,
 				E3169E2B267E6CBA001C4FEE /* ToDoLayout.swift in Sources */,
