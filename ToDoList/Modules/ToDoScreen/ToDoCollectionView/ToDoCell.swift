@@ -28,8 +28,9 @@ class ToDoCell: UITableViewCell {
         contentView.addSubview(label)
         [
             label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 52),
-            label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 38.95),
-            label.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16)
+            label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -38.95),
+            label.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
+            label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
         ].forEach({$0.isActive = true})
         doneButton.backgroundColor = .clear
         doneButton.translatesAutoresizingMaskIntoConstraints = false

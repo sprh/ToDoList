@@ -11,7 +11,7 @@ import UIKit
 class ToDoViewController: UIViewController {
     let model: ToDoModel!
     let addButton = UIButton()
-    let tableView = UITableView(frame: .zero, style: .grouped)
+    let tableView = UITableView(frame: CGRect(x: 16, y: 0, width: UIScreen.main.bounds.width - 32, height: UIScreen.main.bounds.height), style: .grouped)
     public init(model: ToDoModel) {
         self.model = model
         super.init(nibName: nil, bundle: nil)
@@ -24,11 +24,6 @@ class ToDoViewController: UIViewController {
         setupView()
         addTableView()
         addSubviews()
-    }
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        tableView.frame = CGRect(x: 16, y: 0, width: view.bounds.width - 32,
-                                 height: view.bounds.height)
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -53,11 +48,11 @@ class ToDoViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(ToDoCell.self, forCellReuseIdentifier: "\(ToDoCell.self)")
-        tableView.rowHeight = UITableView.automaticDimension
         tableView.layer.cornerRadius = 16
         tableView.backgroundColor = .clear
-        tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(tableView)
+        tableView.rowHeight = UITableView.automaticDimension
+//        tableView.estimatedRowHeight = UITableView.automaticDimension
     }
 }
 
@@ -81,14 +76,5 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
         let toDoItem = model.getToDoItem(at: indexPath.row)
         cell.loadData(toDoItem: toDoItem)
         return cell
-    }
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
-    }
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-            return UITableView.automaticDimension
-    }
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-            cell.layoutIfNeeded()
     }
 }
