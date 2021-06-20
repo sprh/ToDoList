@@ -68,7 +68,10 @@ class ToDoViewController: UIViewController {
 extension ToDoViewController {
     @objc func addButtonClick() {
         let newToDoModel = NewToDoModel(toDoItem: ToDoItem(text: "", color: "#ACFA00", done: false), fileCache:
-                                            model.fileCache)
+                                            model.fileCache, escaping: { saved -> Void in
+                                                if saved {
+                                                    self.tableViewAddNew()
+                                                }})
         let newToDoViewController = NewToDoViewController(model: newToDoModel)
         let newToDoNavigationController = UINavigationController(rootViewController: newToDoViewController)
         self.present(newToDoNavigationController, animated: true, completion: nil)
@@ -100,7 +103,14 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? ToDoCell else { return }
-        let newToDoModel = NewToDoModel(toDoItem: cell.toDoItem, fileCache: model.fileCache)
+        let newToDoModel = NewToDoModel(toDoItem: cell.toDoItem, fileCache: model.fileCache, escaping: { saved in
+            if saved {
+                self.tableViewReloadOldCell(at: indexPath)
+            }
+            else {
+                self.tableViewDeleteOldCell(at: indexPath)
+            }
+        })
         let newToDoViewController = NewToDoViewController(model: newToDoModel)
         let newToDoNavigationController = UINavigationController(rootViewController: newToDoViewController)
         self.present(newToDoNavigationController, animated: true, completion: {() in
@@ -138,9 +148,7 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
                   guard let cell = tableView.cellForRow(at: indexPath) as? ToDoCell else { success(false); return }
                   self.model.deleteToDoItem(id: cell.toDoItem.id)
                   self.showLabelSetText()
-                  tableView.performBatchUpdates({
-                        tableView.deleteRows(at: [indexPath], with: .fade)
-                  }, completion: nil)
+                  self.tableViewDeleteOldCell(at: indexPath)
                 })
         trashAction.image = .trash
         trashAction.backgroundColor = .red
@@ -163,5 +171,22 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
     func showLabelSetText() {
         showLabel.text = "\(NSLocalizedString("Done", comment: ""))" +
             "— \(model.toDoItemsCount() - model.notDoneToDoItemsCount())"
+    }
+    func tableViewAddNew() {
+        self.tableView.performBatchUpdates({
+        self.tableView.insertRows(at:
+                                    [IndexPath(row: self.doneShown ? self.model.toDoItemsCount() - 1 :
+                                                self.model.notDoneToDoItemsCount() - 1, section: 0)], with: .fade)
+        }, completion: nil)
+    }
+    func tableViewReloadOldCell(at indexPath: IndexPath) {
+        tableView.performBatchUpdates({
+              tableView.reloadRows(at: [indexPath], with: .fade)
+        }, completion: nil)
+    }
+    func tableViewDeleteOldCell(at indexPath: IndexPath) {
+        tableView.performBatchUpdates({
+              tableView.deleteRows(at: [indexPath], with: .fade)
+        }, completion: nil)
     }
 }

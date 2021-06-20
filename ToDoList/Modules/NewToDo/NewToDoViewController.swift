@@ -267,15 +267,16 @@ extension NewToDoViewController {
     }
     @objc func save() {
         let color = UIColor.hexStringFromColor(color: colorSlider.thumbTintColor ?? .red)
-        model.save(text: textView.text, importance: segmentedControl.titleForSegment(at:
-        segmentedControl.selectedSegmentIndex) ?? "common", deadline: deadlinePicker.date, color: color)
+        model.save(text: textView.text,
+                   importance: getImportance(),
+                   deadline: deadlineSwitch.isOn ?  deadlinePicker.date : nil, color: color)
+        navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
     }
     @objc func deleteItem() {
-        navigationController?.popViewController(animated: true)
-        dismiss(animated: true, completion: {
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "test"), object: nil)
-        })
         model.delete()
+        navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
     }
     @objc func deadlineSwitched() {
         dateButton.isHidden = !deadlineSwitch.isOn
@@ -356,6 +357,7 @@ extension NewToDoViewController {
         textView.text = model.toDoItem.text
         if let deadline = model.toDoItem.deadline {
             deadlineSwitch.isOn = true
+            deadlineSwitched()
             deadlinePicker.minimumDate = min(Date(), deadline)
             deadlinePicker.date = deadline
         }
@@ -365,5 +367,9 @@ extension NewToDoViewController {
         textView.textColor = color
         colorSlider.thumbTintColor = color
         setupVisability()
+    }
+    func getImportance() -> String {
+        let index = segmentedControl.selectedSegmentIndex
+        return ["unimportant", "common", "important"][index]
     }
 }
