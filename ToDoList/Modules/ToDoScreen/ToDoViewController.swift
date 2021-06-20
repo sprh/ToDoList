@@ -11,7 +11,11 @@ import UIKit
 class ToDoViewController: UIViewController {
     let model: ToDoModel!
     let addButton = UIButton()
-    let tableView = UITableView(frame: CGRect(x: 16, y: 0, width: UIScreen.main.bounds.width - 32, height: UIScreen.main.bounds.height), style: .grouped)
+    let tableView = UITableView(frame: CGRect(x: 16, y: 0, width: UIScreen.main.bounds.width - 32, height: UIScreen.main.bounds.height), style: .plain)
+    let stackView = UIStackView()
+    var doneShown: Bool = false
+    let showButton = UIButton()
+    let scrollView = UIScrollView()
     public init(model: ToDoModel) {
         self.model = model
         super.init(nibName: nil, bundle: nil)
@@ -22,19 +26,37 @@ class ToDoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        setupScrollView()
+        doneToDosSetup()
         addTableView()
-        addSubviews()
+        addAddButton()
     }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.title = NSLocalizedString("My to-dos", comment: "")
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        print(scrollView.convert(showButton.frame.origin, to: stackView).y + UIViewController.safeAreaHeight())
+        scrollView.contentSize.height = scrollView.convert(showButton.frame.origin, to: stackView).y + UIViewController.safeAreaHeight() +
+            tableView.contentSize.height + addButton.bounds.height
     }
     private func setupView() {
         view = UIView()
         view.backgroundColor = .background
+        navigationItem.title = NSLocalizedString("My to-dos", comment: "")
+//        navigationController?.navigationBar.prefersLargeTitles = true
+//        navigationItem.largeTitleDisplayMode = .automatic
+//        navigationController?.navigationBar.sizeToFit()
     }
-    private func addSubviews() {
+    private func setupScrollView() {
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.alwaysBounceVertical = true
+        view.addSubview(scrollView)
+        [
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ].forEach({$0.isActive = true})
+    }
+    private func addAddButton() {
         addButton.setImage(.addButton, for: .normal)
         view.addSubview(addButton)
         addButton.translatesAutoresizingMaskIntoConstraints = false
@@ -45,14 +67,44 @@ class ToDoViewController: UIViewController {
         addButton.addTarget(self, action: #selector(addButtonClick), for: .touchUpInside)
     }
     private func addTableView() {
+        tableView.layer.cornerRadius = 20
+        tableView.layer.masksToBounds = true
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.isScrollEnabled = false
         tableView.register(ToDoCell.self, forCellReuseIdentifier: "\(ToDoCell.self)")
-        tableView.layer.cornerRadius = 16
-        tableView.backgroundColor = .clear
-        view.addSubview(tableView)
+        tableView.backgroundColor = .subviewsBackgtound
         tableView.rowHeight = UITableView.automaticDimension
-//        tableView.estimatedRowHeight = UITableView.automaticDimension
+        stackView.addSubview(tableView)
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.addSubview(stackView)
+        [
+            stackView.leadingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor),
+            stackView.topAnchor.constraint(equalTo: showButton.bottomAnchor, constant: 0)
+        ].forEach({$0.isActive = true})
+    }
+    private func doneToDosSetup() {
+        let show = UILabel()
+        show.text = "\(NSLocalizedString("Done", comment: "")) — \(model.doneToDoItemsCount())"
+        show.translatesAutoresizingMaskIntoConstraints = false
+        show.textColor = .textGray
+        show.font = .headkune
+        scrollView.addSubview(show)
+        [
+            show.leadingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.leadingAnchor, constant: 32),
+            show.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 18)
+        ].forEach({$0.isActive = true})
+        showButton.setTitle(NSLocalizedString("Show", comment: ""), for: .normal)
+        showButton.translatesAutoresizingMaskIntoConstraints = false
+        showButton.setTitleColor(.azure, for: .normal)
+        showButton.titleLabel?.font = .headkune
+        scrollView.addSubview(showButton)
+        [
+            showButton.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor, constant: -32),
+            showButton.centerYAnchor.constraint(equalTo: show.centerYAnchor)
+        ].forEach({$0.isActive = true})
+        showButton.addTarget(self, action: #selector(showButtonClick), for: .touchUpInside)
     }
 }
 
@@ -62,6 +114,9 @@ extension ToDoViewController {
         let newToDoViewController = NewToDoViewController(model: newToDoModel)
         let newToDoNavigationController = UINavigationController(rootViewController: newToDoViewController)
         self.present(newToDoNavigationController, animated: true, completion: nil)
+    }
+    @objc func showButtonClick() {
+        doneShown = !doneShown
     }
 }
 

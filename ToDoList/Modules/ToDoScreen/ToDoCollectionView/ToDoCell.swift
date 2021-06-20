@@ -12,6 +12,7 @@ class ToDoCell: UITableViewCell {
     let label = UILabel()
     lazy var data = UILabel()
     let doneButton = UIButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
+    let arrow = UIImageView(frame: CGRect(x: 0, y: 0, width: 6.95, height: 11.9))
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.backgroundColor = .subviewsBackgtound
@@ -40,6 +41,13 @@ class ToDoCell: UITableViewCell {
             doneButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             doneButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16)
         ].forEach({$0.isActive = true})
+        arrow.translatesAutoresizingMaskIntoConstraints = false
+        arrow.image = .arrow
+        contentView.addSubview(arrow)
+        [
+            arrow.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -22.05),
+            arrow.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+        ].forEach({$0.isActive = true})
     }
     public func loadData(toDoItem: ToDoItem) {
         self.toDoItem = toDoItem
@@ -63,7 +71,5 @@ class ToDoCell: UITableViewCell {
                 doneButton.setImage(.importantCell, for: .normal)
             }
         }
-    }
-    public func setupIfDone(done: Bool, text: String) {
     }
 }
