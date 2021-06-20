@@ -9,44 +9,35 @@ import Foundation
 
 class FileCache {
     /// An array of to do items.
-    private(set) var toDoItems: [ToDoItem] = [ToDoItem(text: "Купить сыр", color: "", done: false),
-                                 ToDoItem(text: "Купить сыр", color: "", done: true),
-                                 ToDoItem(text: "Купить сыр", color: "", done: false),
-                                 ToDoItem(text: "Купить сыр", color: "", done: true),
-                                 ToDoItem(id: "", text: "Купить сыр", importance: .important,
-                                          deadline: nil, color: "", done: false),
-                                 ToDoItem(text: "Купить сыр", color: "", done: false),
-                                 ToDoItem(text: "Купить сыр", color: "", done: true),
-                                 ToDoItem(text: "Купить сыр", color: "", done: false),
-                                 ToDoItem(text: "Купить сыр", color: "", done: true),
-                                 ToDoItem(id: "", text: "Купить сыр", importance: .important,
-                                                    deadline: nil, color: "", done: false),
-                                 ToDoItem(text: "Купить сыр", color: "", done: false),
-                                 ToDoItem(text: "Купить сыр", color: "", done: true),
-                                 ToDoItem(text: "Купить сыр", color: "", done: false),
-                                 ToDoItem(text: "Купить сыр", color: "", done: true),
-                                 ToDoItem(id: "", text: "Купить сыр", importance: .important,
-                                                    deadline: nil, color: "", done: false),
-                                 ToDoItem(id: "", text: "Купить что-то, где-то, зачем-то, но зачем?", importance: .important, deadline: nil, color: "", done: true),
-                                 ToDoItem(id: "", text: "Купить что-то, где-то, зачем-то, но зачем не очень понятно, но точно чтобы показать, что необходимо купить сыр", importance:
-                                            .important, deadline: nil, color: "", done: true),
-                                 ToDoItem(text: "Купить сыр", color: "", done: false)]
+    private(set) var toDoItems: [ToDoItem] =
+        [ToDoItem(id: "1", text: "Купить сыр", deadline: Date(), color: "", done: false),
+         ToDoItem(id: "2", text: "Купить сыр", deadline: Date(), color: "", done: true),
+         ToDoItem(id: "3", text: "Купить сыр", color: "", done: false)]
+//  ToDoItem(id: "4", text: "Купить сыр", deadline: Date(), color: "", done: true),
+//  ToDoItem(id: "5", text: "Купить сыр", importance: .important,
+//       deadline: nil, color: "", done: false),
+//  ToDoItem(id: "6", text: "Купить что-то, где-то, зачем-то, но зачем не очень понятно,
+    // но точно чтобы показать, что необходимо купить сыр", importance:
+//          .important, deadline: nil, color: "", done: true),
+//  ToDoItem(id: "7", text: "Купить сыр", color: "", done: false)]
     /// Add an item to the array.
     ///  - Parameters:
     ///  - item: A new to do item.
     ///
     func add(item toDoItem: ToDoItem) {
-        toDoItems.append(toDoItem)
-    }
-    /// Delete an element from the array by its id.
-    /// - Parameters:
-    /// - id: an identifire of the item.
-    func delete(with id: String) {
-        guard let index = toDoItems.firstIndex(where: {$0.id == id}) else {
-            return
-        }
-        toDoItems.remove(at: index)
-    }
+         guard let index = toDoItems.firstIndex(where: {$0.id == toDoItem.id}) else {
+             toDoItems.append(toDoItem)
+             return
+         }
+         toDoItems[index] = toDoItem
+     }
+     /// Delete an element from the array by its id.
+     /// - Parameters:
+     /// - id: an identifire of the item.
+     func delete(with id: String) {
+         guard let index = toDoItems.firstIndex(where: {$0.id == id}) else { return }
+         toDoItems.remove(at: index)
+     }
     func get(with id: String) -> ToDoItem? {
         return toDoItems.first(where: {$0.id == id})
     }

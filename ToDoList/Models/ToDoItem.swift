@@ -77,7 +77,10 @@ extension ToDoItem {
         let deadline = data.keys.contains("deadline") ? data["deadline"] as? Double : nil
         let color = data.keys.contains("color") ? data["color"] as? String : "#%06x"
         let done = data.keys.contains("done") ? data["done"] as? Bool : false
-        return ToDoItem(id: id ?? nil, text: text!, importance: importance,
-                        deadline: Date.init(timeIntervalSince1970: deadline ?? 0), color: color ?? "#%06x", done: done ?? false)
+        return ToDoItem(id: id ?? nil,
+                        text: text!, importance: importance,
+                        deadline: Date.init(timeIntervalSince1970:
+                                                deadline ?? 0),
+                        color: color ?? "#%06x", done: done ?? false)
     }
 }

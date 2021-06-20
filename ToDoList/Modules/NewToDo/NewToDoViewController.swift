@@ -271,7 +271,11 @@ extension NewToDoViewController {
         segmentedControl.selectedSegmentIndex) ?? "common", deadline: deadlinePicker.date, color: color)
     }
     @objc func deleteItem() {
-        // TODO
+        navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "test"), object: nil)
+        })
+        model.delete()
     }
     @objc func deadlineSwitched() {
         dateButton.isHidden = !deadlineSwitch.isOn
@@ -360,5 +364,6 @@ extension NewToDoViewController {
         let color = UIColor.colorWithHexString(hexString: model.toDoItem.color)
         textView.textColor = color
         colorSlider.thumbTintColor = color
+        setupVisability()
     }
 }

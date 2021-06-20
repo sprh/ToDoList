@@ -9,17 +9,21 @@ import Foundation
 
 class ToDoModel {
     let fileCache = FileCache()
-    public func getToDoItem(at index: Int) -> ToDoItem {
-        return fileCache.toDoItems[index]
+    public func getToDoItem(at index: Int, doneShown: Bool) -> ToDoItem {
+        if doneShown {
+            return fileCache.toDoItems[index]
+        } else {
+            return notDoneToDoItems()[index]
+        }
     }
     public func toDoItemsCount() -> Int {
         return fileCache.toDoItems.count
     }
-    public func doneToDoItems() -> [ToDoItem] {
-        return fileCache.toDoItems.compactMap({ $0.done ? $0 : nil})
+    public func notDoneToDoItems() -> [ToDoItem] {
+        return fileCache.toDoItems.compactMap({ $0.done ? nil : $0})
     }
-    public func doneToDoItemsCount() -> Int {
-        return doneToDoItems().count
+    public func notDoneToDoItemsCount() -> Int {
+        return notDoneToDoItems().count
     }
     public func updateToDoItemDone(id: String) {
         guard let item = fileCache.get(with: id) else { return }

@@ -15,6 +15,7 @@ class ToDoViewController: UIViewController {
                                                 UIScreen.main.bounds.height), style: .insetGrouped)
     var doneShown: Bool = false
     let showButton = UIButton()
+    let showLabel = UILabel()
     public init(model: ToDoModel) {
         self.model = model
         super.init(nibName: nil, bundle: nil)
@@ -66,7 +67,8 @@ class ToDoViewController: UIViewController {
 
 extension ToDoViewController {
     @objc func addButtonClick() {
-        let newToDoModel = NewToDoModel(toDoItem: ToDoItem(text: "", color: "#ACFA00", done: false))
+        let newToDoModel = NewToDoModel(toDoItem: ToDoItem(text: "", color: "#ACFA00", done: false), fileCache:
+                                            model.fileCache)
         let newToDoViewController = NewToDoViewController(model: newToDoModel)
         let newToDoNavigationController = UINavigationController(rootViewController: newToDoViewController)
         self.present(newToDoNavigationController, animated: true, completion: nil)
@@ -74,41 +76,48 @@ extension ToDoViewController {
     @objc func showButtonClick() {
         doneShown = !doneShown
         showButton.setTitle(NSLocalizedString(doneShown ? "Hide" : "Show", comment: ""), for: .normal)
+        tableView.reloadData()
     }
     @objc func doneButtonClick(sender: DoneButton) {
         guard let id = sender.toDoItemId else { return }
         model.updateToDoItemDone(id: id)
+        showLabelSetText()
     }
 }
 
 extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return model.toDoItemsCount()
+        return doneShown ? model.toDoItemsCount() : model.notDoneToDoItemsCount()
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(ToDoCell.self)") as? ToDoCell else {
             return UITableViewCell()
         }
-        let toDoItem = model.getToDoItem(at: indexPath.row)
+        let toDoItem = model.getToDoItem(at: indexPath.row, doneShown: doneShown)
         cell.loadData(toDoItem: toDoItem)
         cell.doneButton.addTarget(self, action: #selector(doneButtonClick(sender:)), for: .touchUpInside)
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) as? ToDoCell else { return }
+        let newToDoModel = NewToDoModel(toDoItem: cell.toDoItem, fileCache: model.fileCache)
+        let newToDoViewController = NewToDoViewController(model: newToDoModel)
+        let newToDoNavigationController = UINavigationController(rootViewController: newToDoViewController)
+        self.present(newToDoNavigationController, animated: true, completion: {() in
+        })
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section != 0 { return UIView() }
         let view = UIView()
-        let show = UILabel()
-        show.text = "\(NSLocalizedString("Done", comment: "")) — \(model.doneToDoItemsCount())"
-        show.translatesAutoresizingMaskIntoConstraints = false
-        show.textColor = .textGray
-        show.font = .headkune
-        view.addSubview(show)
+        showLabelSetText()
+        showLabel.translatesAutoresizingMaskIntoConstraints = false
+        showLabel.textColor = .textGray
+        showLabel.font = .headkune
+        view.addSubview(showLabel)
         [
-            show.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            show.topAnchor.constraint(equalTo: view.topAnchor, constant: 18),
-            show.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -18)
+            showLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            showLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 18),
+            showLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -18)
         ].forEach({$0.isActive = true})
         showButton.setTitle(NSLocalizedString("Show", comment: ""), for: .normal)
         showButton.translatesAutoresizingMaskIntoConstraints = false
@@ -117,7 +126,7 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
         view.addSubview(showButton)
         [
             showButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            showButton.centerYAnchor.constraint(equalTo: show.centerYAnchor)
+            showButton.centerYAnchor.constraint(equalTo: showLabel.centerYAnchor)
         ].forEach({$0.isActive = true})
         showButton.addTarget(self, action: #selector(showButtonClick), for: .touchUpInside)
         return view
@@ -128,6 +137,7 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
                 {(_: UIContextualAction, _: UIView, success: (Bool) -> Void) in
                   guard let cell = tableView.cellForRow(at: indexPath) as? ToDoCell else { success(false); return }
                   self.model.deleteToDoItem(id: cell.toDoItem.id)
+                  self.showLabelSetText()
                   tableView.performBatchUpdates({
                         tableView.deleteRows(at: [indexPath], with: .fade)
                   }, completion: nil)
@@ -143,10 +153,15 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
             guard let cell = tableView.cellForRow(at: indexPath) as? ToDoCell else { success(false); return }
             cell.doneChanged()
             self.model.updateToDoItemDone(id: cell.toDoItem.id)
+            self.showLabelSetText()
             success(true)
         })
         doneAction.image = .done
         doneAction.backgroundColor = .green
         return UISwipeActionsConfiguration(actions: [doneAction])
+    }
+    func showLabelSetText() {
+        showLabel.text = "\(NSLocalizedString("Done", comment: ""))" +
+            "— \(model.toDoItemsCount() - model.notDoneToDoItemsCount())"
     }
 }
