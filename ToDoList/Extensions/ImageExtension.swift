@@ -12,4 +12,7 @@ extension UIImage {
     static var addButton: UIImage = UIImage(named: "addButton") ?? UIImage()
     static var lowImportance: UIImage = UIImage(named: "lowImportance") ?? UIImage()
     static var highImportance: UIImage = UIImage(named: "highImportance") ?? UIImage()
+    static let doneCell: UIImage = UIImage(named: "doneCell") ?? UIImage()
+    static let notDoneCell: UIImage = UIImage(named: "notDoneCell") ?? UIImage()
+    static let importantCell: UIImage = UIImage(named: "importantCell") ?? UIImage()
 }

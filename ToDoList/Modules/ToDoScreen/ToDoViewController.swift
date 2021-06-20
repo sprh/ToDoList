@@ -11,7 +11,7 @@ import UIKit
 class ToDoViewController: UIViewController {
     let model: ToDoModel!
     let addButton = UIButton()
-    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: ToDoLayout())
+    let tableView = UITableView(frame: .zero, style: .grouped)
     public init(model: ToDoModel) {
         self.model = model
         super.init(nibName: nil, bundle: nil)
@@ -22,12 +22,13 @@ class ToDoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        addCollectionView()
+        addTableView()
         addSubviews()
     }
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        collectionView.frame = CGRect(x: 0, y: view.safeAreaInsets.top, width: view.bounds.width, height: view.bounds.height - view.safeAreaInsets.top)
+        tableView.frame = CGRect(x: 16, y: 0, width: view.bounds.width - 32,
+                                 height: view.bounds.height)
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -48,20 +49,15 @@ class ToDoViewController: UIViewController {
         ].forEach({$0.isActive = true})
         addButton.addTarget(self, action: #selector(addButtonClick), for: .touchUpInside)
     }
-    private func addCollectionView() {
-        collectionView.backgroundColor = .subviewsBackgtound
-        collectionView.register(ToDoCell.self, forCellWithReuseIdentifier: "\(ToDoCell.self)")
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(collectionView)
-        [
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ].forEach({$0.isActive = true})
-        
+    private func addTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(ToDoCell.self, forCellReuseIdentifier: "\(ToDoCell.self)")
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.layer.cornerRadius = 16
+        tableView.backgroundColor = .clear
+        tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.addSubview(tableView)
     }
 }
 
@@ -74,31 +70,25 @@ extension ToDoViewController {
     }
 }
 
-extension ToDoViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, heightForTextAtIndexPath indexPath: IndexPath) -> CGFloat {
-        guard let cell = collectionView.cellForItem(at: indexPath) else {
-            print("can't")
-            return 100 as CGFloat
+extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return model.toDoItemsCount()
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(ToDoCell.self)") as? ToDoCell else {
+            return UITableViewCell()
         }
-        print("can")
-        return cell.sizeThatFits(cell.bounds.size).height
-    }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let itemSize = (collectionView.frame.width - (collectionView.contentInset.left + collectionView.contentInset.right + 10)) / 2
-        return CGSize(width: itemSize, height: itemSize)
-    }
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
-    }
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        // Because I can't use force unvrap.
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ToDoCell.self)", for:  indexPath) as? ToDoCell else {
-            return ToDoCell(frame: .zero)
-        }
-        cell.layer.borderWidth = 1.0
-        cell.backgroundColor = .white
-        let toDoItem = ToDoItem(text: "AAA", color: "color", done: false)
+        let toDoItem = model.getToDoItem(at: indexPath.row)
         cell.loadData(toDoItem: toDoItem)
         return cell
+    }
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+            return UITableView.automaticDimension
+    }
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+            cell.layoutIfNeeded()
     }
 }
