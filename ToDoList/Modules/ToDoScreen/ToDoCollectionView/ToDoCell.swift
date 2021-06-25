@@ -13,7 +13,7 @@ class ToDoCell: UITableViewCell {
     var dateText = UILabel()
     let doneButton = DoneButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
     var dateImageView = UIImageView()
-    let arrow = UIImageView(frame: CGRect(x: 0, y: 0, width: 6.95, height: 11.9))
+    let arrow = UIImageView(frame: CGRect(x: 0, y: 0, width: 7, height: 12))
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.backgroundColor = .subviewsBackgtound
@@ -31,7 +31,7 @@ class ToDoCell: UITableViewCell {
         contentView.addSubview(labelText)
         [
             labelText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 52),
-            labelText.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -38.95),
+            labelText.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -39),
             labelText.topAnchor.constraint(equalTo: contentView.topAnchor, constant: hasDeadline ? 12 : 16),
             labelText.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: hasDeadline ? -32: -16)
         ].forEach({$0.isActive = true})
@@ -48,7 +48,7 @@ class ToDoCell: UITableViewCell {
         arrow.image = .arrow
         contentView.addSubview(arrow)
         [
-            arrow.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -22.05),
+            arrow.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -22),
             arrow.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ].forEach({$0.isActive = true})
         guard let deadline = toDoItem.deadline else { return }
@@ -59,7 +59,7 @@ class ToDoCell: UITableViewCell {
         dateImageView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(dateImageView)
         [
-            dateImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 53.5),
+            dateImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 54),
             dateImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
         ].forEach({$0.isActive = true})
         dateText.font = .subhead
@@ -67,7 +67,7 @@ class ToDoCell: UITableViewCell {
         dateText.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(dateText)
         [
-            dateText.leadingAnchor.constraint(equalTo: dateImageView.trailingAnchor, constant: 3.5),
+            dateText.leadingAnchor.constraint(equalTo: dateImageView.trailingAnchor, constant: 4),
             dateText.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
         ].forEach({$0.isActive = true})
         let dateFormatter = DateFormatter()

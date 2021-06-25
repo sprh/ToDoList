@@ -7,26 +7,31 @@
 
 import Foundation
 
-class NewToDoModel {
+final class NewToDoModel {
     private(set) var toDoItem: ToDoItem!
     private(set) var fileCache: FileCache!
-    private(set) var escaping: (Bool) -> Void
-    public init(toDoItem: ToDoItem, fileCache: FileCache, escaping: @escaping (Bool) -> Void) {
+    weak var delegate: NewToDoDelegate?
+    private(set) var indexPath: IndexPath?
+    public init(toDoItem: ToDoItem, fileCache: FileCache, indexPath: IndexPath?) {
         self.toDoItem = toDoItem
         self.fileCache = fileCache
-        self.escaping = escaping
+        self.indexPath = indexPath
     }
     func save(text: String, importance: String, deadline: Date?, color: String) {
-        // I think I don't need to save it now, because we haven't got a data base and
-        // a field with all to do items in the FileCache isn't a static.
         let newToDoItem = ToDoItem(id: toDoItem.id, text: text,
                                    importance: Importance.init(rawValue: importance), deadline:
-                                    deadline, color: color, done: false)
+                                    deadline, color: color, done: toDoItem.done)
+        toDoItem = newToDoItem
         fileCache.add(item: newToDoItem)
-        escaping(true)
+        guard let indexPath = self.indexPath else {
+            delegate?.add()
+            return
+        }
+        delegate?.update(indexPath: indexPath)
     }
     func delete() {
         fileCache.delete(with: toDoItem.id)
-        escaping(false)
+        guard let indexPath = self.indexPath else { return }
+        delegate?.delete(indexPath: indexPath)
     }
 }

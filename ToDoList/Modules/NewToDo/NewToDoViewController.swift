@@ -220,7 +220,6 @@ class NewToDoViewController: UIViewController {
         deadlinePicker.preferredDatePickerStyle = .inline
         deadlinePicker.backgroundColor = .subviewsBackgtound
         deadlinePicker.tintColor = .azure
-        // It's like DateTime.Now.
         deadlinePicker.minimumDate = Calendar.current.date(byAdding: .day, value: 1, to: Date())
         importanceAndDateStack.addSubview(deadlinePicker)
         [
@@ -230,7 +229,7 @@ class NewToDoViewController: UIViewController {
         ].forEach({$0.isActive = true})
         deadlinePicker.isHidden = true
         deadlinePicker.addTarget(self, action: #selector(dateWasChanged), for: .valueChanged)
-        dateButton.setTitle(deadlinePicker.getDate(), for: .normal)
+        dateButton.setTitle(deadlinePicker.formattedDate(), for: .normal)
         dateButton.setTitleColor(.azure, for: .normal)
         dateButton.titleLabel?.font = .footnote
         dateButton.translatesAutoresizingMaskIntoConstraints = false
@@ -304,7 +303,7 @@ extension NewToDoViewController {
         hideShowDatePicker()
     }
     @objc func dateWasChanged() {
-        dateButton.setTitle(deadlinePicker.getDate(), for: .normal)
+        dateButton.setTitle(deadlinePicker.formattedDate(), for: .normal)
     }
     @objc func colorWasChanged() {
         let trackRect = colorSlider.trackRect(forBounds: colorSlider.bounds)
@@ -319,9 +318,7 @@ extension NewToDoViewController {
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         if self.traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
-            // Without this line a user can't see the image because it doesn't want to draw.
             colorView.layoutIfNeeded()
-            // I call this method because the first color in the picture is text; this color depends on the phone theme.
             colorWasChanged()
         }
     }
@@ -338,7 +335,6 @@ extension NewToDoViewController: UITextViewDelegate {
     func setupVisability() {
         if textView.text.isEmpty || textView.text == "" {
             deleteButton.isEnabled = false
-            // It hides this bar batton and I don't understand why. Is it a bug?
             saveButton?.isEnabled = false
             saveButton?.setTitleTextAttributes([NSAttributedString.Key.foregroundColor:
                                                     UIColor.textGray], for: .normal)

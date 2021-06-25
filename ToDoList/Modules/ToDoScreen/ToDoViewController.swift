@@ -68,10 +68,7 @@ class ToDoViewController: UIViewController {
 extension ToDoViewController {
     @objc func addButtonClick() {
         let newToDoModel = NewToDoModel(toDoItem: ToDoItem(text: "", color: "#ACFA00", done: false), fileCache:
-                                            model.fileCache, escaping: { saved -> Void in
-                                                if saved {
-                                                    self.tableViewAddNew()
-                                                }})
+                                            model.fileCache, indexPath: nil)
         let newToDoViewController = NewToDoViewController(model: newToDoModel)
         let newToDoNavigationController = UINavigationController(rootViewController: newToDoViewController)
         self.present(newToDoNavigationController, animated: true, completion: nil)
@@ -84,7 +81,7 @@ extension ToDoViewController {
     @objc func doneButtonClick(sender: DoneButton) {
         guard let id = sender.toDoItemId else { return }
         model.updateToDoItemDone(id: id)
-        showLabelSetText()
+        tableView.reloadData()
     }
 }
 
@@ -103,14 +100,8 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? ToDoCell else { return }
-        let newToDoModel = NewToDoModel(toDoItem: cell.toDoItem, fileCache: model.fileCache, escaping: { saved in
-            if saved {
-                self.tableViewReloadOldCell(at: indexPath)
-            }
-            else {
-                self.tableViewDeleteOldCell(at: indexPath)
-            }
-        })
+        let newToDoModel = NewToDoModel(toDoItem: cell.toDoItem, fileCache: model.fileCache, indexPath: indexPath)
+        newToDoModel.delegate = self
         let newToDoViewController = NewToDoViewController(model: newToDoModel)
         let newToDoNavigationController = UINavigationController(rootViewController: newToDoViewController)
         self.present(newToDoNavigationController, animated: true, completion: {() in
@@ -188,5 +179,17 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.performBatchUpdates({
               tableView.deleteRows(at: [indexPath], with: .fade)
         }, completion: nil)
+    }
+}
+
+extension ToDoViewController: NewToDoDelegate {
+    func delete(indexPath: IndexPath) {
+        tableViewDeleteOldCell(at: indexPath)
+    }
+    func add() {
+        tableViewAddNew()
+    }
+    func update(indexPath: IndexPath) {
+        tableViewReloadOldCell(at: indexPath)
     }
 }
