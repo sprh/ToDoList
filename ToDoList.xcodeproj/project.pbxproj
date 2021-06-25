@@ -17,16 +17,16 @@
 		E30540DD266A9612008C2083 /* ToDoListUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30540DC266A9612008C2083 /* ToDoListUITests.swift */; };
 		E30540F6266A96B4008C2083 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30540F5266A96B4008C2083 /* AboutViewController.swift */; };
 		E30540FB266A96BD008C2083 /* AboutModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30540FA266A96BD008C2083 /* AboutModel.swift */; };
-		E34A3908267BE04100546DAF /* FileCacheError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34A3907267BE04100546DAF /* FileCacheError.swift */; };
 		E30E6DF526766891008A55BF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30E6DF426766891008A55BF /* ViewController.swift */; };
 		E30E6DFF2676701B008A55BF /* ColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30E6DFE2676701B008A55BF /* ColorView.swift */; };
+		E34A3908267BE04100546DAF /* FileCacheError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34A3907267BE04100546DAF /* FileCacheError.swift */; };
+		E34EDB712685F03C00C852B0 /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34EDB702685F03C00C852B0 /* FileCache.swift */; };
 		E3925EAD26768DEC00BF26BA /* DatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3925EAC26768DEC00BF26BA /* DatePicker.swift */; };
 		E398447A266A9B29000D1B31 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3984479266A9B29000D1B31 /* ColorExtension.swift */; };
 		E3984488266AA019000D1B31 /* ImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3984487266AA019000D1B31 /* ImageExtension.swift */; };
 		E3DB43A7266FF0A5003A2736 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E3DB43A9266FF0A5003A2736 /* Localizable.strings */; };
 		E3DB43BB266FF84B003A2736 /* ToDoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DB43BA266FF84B003A2736 /* ToDoItem.swift */; };
 		E3DB43C3266FF88C003A2736 /* Importance.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DB43C2266FF88C003A2736 /* Importance.swift */; };
-		E3DB43CB2670F709003A2736 /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DB43CA2670F709003A2736 /* FileCache.swift */; };
 		E3DB44202672B7F7003A2736 /* ToDoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DB441F2672B7F7003A2736 /* ToDoViewController.swift */; };
 		E3DB44252672B816003A2736 /* ToDoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DB44242672B816003A2736 /* ToDoModel.swift */; };
 		E3DB442A2672B932003A2736 /* FontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DB44292672B932003A2736 /* FontExtension.swift */; };
@@ -73,9 +73,10 @@
 		E30540DE266A9612008C2083 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E30540F5266A96B4008C2083 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		E30540FA266A96BD008C2083 /* AboutModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutModel.swift; sourceTree = "<group>"; };
-		E34A3907267BE04100546DAF /* FileCacheError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCacheError.swift; sourceTree = "<group>"; };
 		E30E6DF426766891008A55BF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		E30E6DFE2676701B008A55BF /* ColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorView.swift; sourceTree = "<group>"; };
+		E34A3907267BE04100546DAF /* FileCacheError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCacheError.swift; sourceTree = "<group>"; };
+		E34EDB702685F03C00C852B0 /* FileCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileCache.swift; sourceTree = "<group>"; };
 		E3925EAC26768DEC00BF26BA /* DatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePicker.swift; sourceTree = "<group>"; };
 		E3984479266A9B29000D1B31 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		E3984487266AA019000D1B31 /* ImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExtension.swift; sourceTree = "<group>"; };
@@ -84,7 +85,6 @@
 		E3DB43AD266FF0A8003A2736 /* ru-RU */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ru-RU"; path = "ru-RU.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		E3DB43BA266FF84B003A2736 /* ToDoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItem.swift; sourceTree = "<group>"; };
 		E3DB43C2266FF88C003A2736 /* Importance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Importance.swift; sourceTree = "<group>"; };
-		E3DB43CA2670F709003A2736 /* FileCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCache.swift; sourceTree = "<group>"; };
 		E3DB441F2672B7F7003A2736 /* ToDoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoViewController.swift; sourceTree = "<group>"; };
 		E3DB44242672B816003A2736 /* ToDoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoModel.swift; sourceTree = "<group>"; };
 		E3DB44292672B932003A2736 /* FontExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontExtension.swift; sourceTree = "<group>"; };
@@ -222,7 +222,7 @@
 		E3925EA52676893C00BF26BA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				E3DB43CA2670F709003A2736 /* FileCache.swift */,
+				E34EDB702685F03C00C852B0 /* FileCache.swift */,
 				E30E6DFE2676701B008A55BF /* ColorView.swift */,
 			);
 			path = Classes;
@@ -245,7 +245,6 @@
 			children = (
 				E3DB43BA266FF84B003A2736 /* ToDoItem.swift */,
 				E3DB43C2266FF88C003A2736 /* Importance.swift */,
-				E3DB43CA2670F709003A2736 /* FileCache.swift */,
 				E34A3907267BE04100546DAF /* FileCacheError.swift */,
 			);
 			path = Models;
@@ -552,12 +551,12 @@
 				E3DB43C3266FF88C003A2736 /* Importance.swift in Sources */,
 				E3DB43BB266FF84B003A2736 /* ToDoItem.swift in Sources */,
 				E3925EAD26768DEC00BF26BA /* DatePicker.swift in Sources */,
+				E34EDB712685F03C00C852B0 /* FileCache.swift in Sources */,
 				E30540FB266A96BD008C2083 /* AboutModel.swift in Sources */,
 				E3DB44382674B6E8003A2736 /* NewToDoModel.swift in Sources */,
 				E3984488266AA019000D1B31 /* ImageExtension.swift in Sources */,
 				E34A3908267BE04100546DAF /* FileCacheError.swift in Sources */,
 				E3DB44252672B816003A2736 /* ToDoModel.swift in Sources */,
-				E3DB43CB2670F709003A2736 /* FileCache.swift in Sources */,
 				E30E6DFF2676701B008A55BF /* ColorView.swift in Sources */,
 				E3DB442A2672B932003A2736 /* FontExtension.swift in Sources */,
 				E398447A266A9B29000D1B31 /* ColorExtension.swift in Sources */,

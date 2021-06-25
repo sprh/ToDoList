@@ -86,6 +86,7 @@ extension ToDoItem {
         let importance = Importance(rawValue: importanceString ?? "common")
         let deadline = data.keys.contains("deadline") ? data["deadline"] as? Double : nil
         let color = data.keys.contains("color") ? data["color"] as? String : "#%06x"
-        return ToDoItem(id: id ?? nil, text: text!, importance: importance, deadline: deadline ?? nil, color: color ?? "#%06x")
+        return ToDoItem(id: id, text: text, importance: importance, deadline: deadline ?? nil,
+                        color: color ?? "#%06x")
     }
 }
