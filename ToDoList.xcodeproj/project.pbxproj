@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -18,12 +18,20 @@
 		E30540F6266A96B4008C2083 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30540F5266A96B4008C2083 /* AboutViewController.swift */; };
 		E30540FB266A96BD008C2083 /* AboutModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30540FA266A96BD008C2083 /* AboutModel.swift */; };
 		E34A3908267BE04100546DAF /* FileCacheError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34A3907267BE04100546DAF /* FileCacheError.swift */; };
+		E30E6DF526766891008A55BF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30E6DF426766891008A55BF /* ViewController.swift */; };
+		E30E6DFF2676701B008A55BF /* ColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30E6DFE2676701B008A55BF /* ColorView.swift */; };
+		E3925EAD26768DEC00BF26BA /* DatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3925EAC26768DEC00BF26BA /* DatePicker.swift */; };
 		E398447A266A9B29000D1B31 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3984479266A9B29000D1B31 /* ColorExtension.swift */; };
 		E3984488266AA019000D1B31 /* ImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3984487266AA019000D1B31 /* ImageExtension.swift */; };
 		E3DB43A7266FF0A5003A2736 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E3DB43A9266FF0A5003A2736 /* Localizable.strings */; };
 		E3DB43BB266FF84B003A2736 /* ToDoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DB43BA266FF84B003A2736 /* ToDoItem.swift */; };
 		E3DB43C3266FF88C003A2736 /* Importance.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DB43C2266FF88C003A2736 /* Importance.swift */; };
 		E3DB43CB2670F709003A2736 /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DB43CA2670F709003A2736 /* FileCache.swift */; };
+		E3DB44202672B7F7003A2736 /* ToDoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DB441F2672B7F7003A2736 /* ToDoViewController.swift */; };
+		E3DB44252672B816003A2736 /* ToDoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DB44242672B816003A2736 /* ToDoModel.swift */; };
+		E3DB442A2672B932003A2736 /* FontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DB44292672B932003A2736 /* FontExtension.swift */; };
+		E3DB44302674B6DE003A2736 /* NewToDoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DB442F2674B6DE003A2736 /* NewToDoViewController.swift */; };
+		E3DB44382674B6E8003A2736 /* NewToDoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DB44372674B6E8003A2736 /* NewToDoModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +74,9 @@
 		E30540F5266A96B4008C2083 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		E30540FA266A96BD008C2083 /* AboutModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutModel.swift; sourceTree = "<group>"; };
 		E34A3907267BE04100546DAF /* FileCacheError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCacheError.swift; sourceTree = "<group>"; };
+		E30E6DF426766891008A55BF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		E30E6DFE2676701B008A55BF /* ColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorView.swift; sourceTree = "<group>"; };
+		E3925EAC26768DEC00BF26BA /* DatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePicker.swift; sourceTree = "<group>"; };
 		E3984479266A9B29000D1B31 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		E3984487266AA019000D1B31 /* ImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExtension.swift; sourceTree = "<group>"; };
 		E3DB439E266FF014003A2736 /* ru-RU */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ru-RU"; path = "ru-RU.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
@@ -74,6 +85,11 @@
 		E3DB43BA266FF84B003A2736 /* ToDoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItem.swift; sourceTree = "<group>"; };
 		E3DB43C2266FF88C003A2736 /* Importance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Importance.swift; sourceTree = "<group>"; };
 		E3DB43CA2670F709003A2736 /* FileCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCache.swift; sourceTree = "<group>"; };
+		E3DB441F2672B7F7003A2736 /* ToDoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoViewController.swift; sourceTree = "<group>"; };
+		E3DB44242672B816003A2736 /* ToDoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoModel.swift; sourceTree = "<group>"; };
+		E3DB44292672B932003A2736 /* FontExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontExtension.swift; sourceTree = "<group>"; };
+		E3DB442F2674B6DE003A2736 /* NewToDoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewToDoViewController.swift; sourceTree = "<group>"; };
+		E3DB44372674B6E8003A2736 /* NewToDoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewToDoModel.swift; sourceTree = "<group>"; };
 		E792E91359C5F2677CF83B76 /* Pods-ToDoListTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ToDoListTests.release.xcconfig"; path = "Target Support Files/Pods-ToDoListTests/Pods-ToDoListTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -153,7 +169,8 @@
 		E30540B9266A960F008C2083 /* ToDoList */ = {
 			isa = PBXGroup;
 			children = (
-				E3DB43B9266FF838003A2736 /* Models and classes */,
+				E3925EA52676893C00BF26BA /* Classes */,
+				E3DB43B9266FF838003A2736 /* Models */,
 				E3984478266A9B15000D1B31 /* Extensions */,
 				E30540F3266A9691008C2083 /* Modules */,
 				E30540BA266A960F008C2083 /* AppDelegate.swift */,
@@ -186,6 +203,8 @@
 		E30540F3266A9691008C2083 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				E3DB442E2674B6B4003A2736 /* NewToDo */,
+				E3DB441E2672B77A003A2736 /* ToDoScreen */,
 				E30540F4266A969E008C2083 /* About */,
 			);
 			path = Modules;
@@ -200,16 +219,28 @@
 			path = About;
 			sourceTree = "<group>";
 		};
+		E3925EA52676893C00BF26BA /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				E3DB43CA2670F709003A2736 /* FileCache.swift */,
+				E30E6DFE2676701B008A55BF /* ColorView.swift */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
 		E3984478266A9B15000D1B31 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				E30E6DF426766891008A55BF /* ViewController.swift */,
 				E3984479266A9B29000D1B31 /* ColorExtension.swift */,
 				E3984487266AA019000D1B31 /* ImageExtension.swift */,
+				E3DB44292672B932003A2736 /* FontExtension.swift */,
+				E3925EAC26768DEC00BF26BA /* DatePicker.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		E3DB43B9266FF838003A2736 /* Models and classes */ = {
+		E3DB43B9266FF838003A2736 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				E3DB43BA266FF84B003A2736 /* ToDoItem.swift */,
@@ -217,7 +248,25 @@
 				E3DB43CA2670F709003A2736 /* FileCache.swift */,
 				E34A3907267BE04100546DAF /* FileCacheError.swift */,
 			);
-			path = "Models and classes";
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E3DB441E2672B77A003A2736 /* ToDoScreen */ = {
+			isa = PBXGroup;
+			children = (
+				E3DB441F2672B7F7003A2736 /* ToDoViewController.swift */,
+				E3DB44242672B816003A2736 /* ToDoModel.swift */,
+			);
+			path = ToDoScreen;
+			sourceTree = "<group>";
+		};
+		E3DB442E2674B6B4003A2736 /* NewToDo */ = {
+			isa = PBXGroup;
+			children = (
+				E3DB442F2674B6DE003A2736 /* NewToDoViewController.swift */,
+				E3DB44372674B6E8003A2736 /* NewToDoModel.swift */,
+			);
+			path = NewToDo;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -227,11 +276,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E30540E1266A9612008C2083 /* Build configuration list for PBXNativeTarget "ToDoList" */;
 			buildPhases = (
-				E3DB43F52672557A003A2736 /* ShellScript */,
 				A7D401B6F62512B8121DF4FC /* [CP] Check Pods Manifest.lock */,
+				E3DB43F52672557A003A2736 /* ShellScript */,
+				E3ECFF492674C93A008034D6 /* ShellScript */,
 				E30540B3266A960F008C2083 /* Sources */,
 				E30540B4266A960F008C2083 /* Frameworks */,
 				E30540B5266A960F008C2083 /* Resources */,
+				EBAF836600F3AEE071C3AEF6 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -269,6 +320,7 @@
 				E30540D4266A9612008C2083 /* Sources */,
 				E30540D5266A9612008C2083 /* Frameworks */,
 				E30540D6266A9612008C2083 /* Resources */,
+				CAC0530F857B76E97E9DE03A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -395,6 +447,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		CAC0530F857B76E97E9DE03A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ToDoList-ToDoListUITests/Pods-ToDoList-ToDoListUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ToDoList-ToDoListUITests/Pods-ToDoList-ToDoListUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ToDoList-ToDoListUITests/Pods-ToDoList-ToDoListUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		CF08BBC69E12CB37B2D4DDDF /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -434,6 +503,40 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
 		};
+		E3ECFF492674C93A008034D6 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nTAGS=\"TODO:|FIXME:\"\nERRORTAG=\"ERROR:\"\nfind \"${SRCROOT}\" \\( -name \"*.h\" -or -name \"*.m\" -or -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$|($ERRORTAG).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\" | perl -p -e \"s/($ERRORTAG)/ error: \\$1/\"\n";
+		};
+		EBAF836600F3AEE071C3AEF6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ToDoList/Pods-ToDoList-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ToDoList/Pods-ToDoList-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ToDoList/Pods-ToDoList-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -441,14 +544,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3DB44202672B7F7003A2736 /* ToDoViewController.swift in Sources */,
+				E3DB44302674B6DE003A2736 /* NewToDoViewController.swift in Sources */,
 				E30540F6266A96B4008C2083 /* AboutViewController.swift in Sources */,
 				E30540BB266A960F008C2083 /* AppDelegate.swift in Sources */,
+				E30E6DF526766891008A55BF /* ViewController.swift in Sources */,
 				E3DB43C3266FF88C003A2736 /* Importance.swift in Sources */,
 				E3DB43BB266FF84B003A2736 /* ToDoItem.swift in Sources */,
+				E3925EAD26768DEC00BF26BA /* DatePicker.swift in Sources */,
 				E30540FB266A96BD008C2083 /* AboutModel.swift in Sources */,
+				E3DB44382674B6E8003A2736 /* NewToDoModel.swift in Sources */,
 				E3984488266AA019000D1B31 /* ImageExtension.swift in Sources */,
 				E34A3908267BE04100546DAF /* FileCacheError.swift in Sources */,
+				E3DB44252672B816003A2736 /* ToDoModel.swift in Sources */,
 				E3DB43CB2670F709003A2736 /* FileCache.swift in Sources */,
+				E30E6DFF2676701B008A55BF /* ColorView.swift in Sources */,
+				E3DB442A2672B932003A2736 /* FontExtension.swift in Sources */,
 				E398447A266A9B29000D1B31 /* ColorExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -632,7 +743,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = ToDoList/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -652,7 +763,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = ToDoList/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

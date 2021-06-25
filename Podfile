@@ -6,6 +6,7 @@ target 'ToDoList' do
   use_frameworks!
 
   pod 'SwiftLint'
+  pod 'UITextView+Placeholder'
 
   target 'ToDoListTests' do
     inherit! :search_paths
