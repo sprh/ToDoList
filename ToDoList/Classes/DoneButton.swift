@@ -8,5 +8,5 @@
 import UIKit
 
 class DoneButton: UIButton {
-    var toDoItemId: String? = nil
+    var toDoItemId: String?
 }

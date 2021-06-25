@@ -134,8 +134,9 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt
                     indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let trashAction = UIContextualAction(style: .normal, title: "", handler:
-                {(_: UIContextualAction, _: UIView, success: (Bool) -> Void) in
+        let trashAction =
+            UIContextualAction(style: .normal, title: "",
+                handler: {(_: UIContextualAction, _: UIView, success: (Bool) -> Void) in
                   guard let cell = tableView.cellForRow(at: indexPath) as? ToDoCell else { success(false); return }
                   self.model.deleteToDoItem(id: cell.toDoItem.id)
                   self.showLabelSetText()
@@ -147,8 +148,8 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) ->
     UISwipeActionsConfiguration? {
-        let doneAction = UIContextualAction(style: .normal, title: "", handler:
-        {(_: UIContextualAction, _: UIView, success: (Bool) -> Void) in
+        let doneAction = UIContextualAction(style: .normal, title: "",
+            handler: {(_: UIContextualAction, _: UIView, success: (Bool) -> Void) in
             guard let cell = tableView.cellForRow(at: indexPath) as? ToDoCell else { success(false); return }
             cell.doneChanged()
             self.model.updateToDoItemDone(id: cell.toDoItem.id)

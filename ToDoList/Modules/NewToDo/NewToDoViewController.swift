@@ -67,6 +67,9 @@ class NewToDoViewController: UIViewController {
         saveButton?.isEnabled = false
         loadData()
     }
+}
+
+extension NewToDoViewController {
     private func setupView() {
         view = UIView()
         view.backgroundColor = .background

@@ -27,7 +27,10 @@ extension UIColor {
      }
 
     static func colorWithHexString(hexString: String) -> UIColor {
-        if !hexString.starts(with: "#") || hexString.count != 6 { return UIColor.text }
+        if !hexString.starts(with: "#") || hexString.count != 7 {
+            print("can't")
+            return UIColor.text
+        }
         var colorString = hexString.trimmingCharacters(in: .whitespacesAndNewlines)
         colorString = colorString.replacingOccurrences(of: "#", with: "").uppercased()
         let red: CGFloat = colorComponentFrom(colorString: colorString, start: 0, length: 2)
