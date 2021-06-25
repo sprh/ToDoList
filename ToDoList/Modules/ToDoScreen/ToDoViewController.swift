@@ -29,10 +29,6 @@ class ToDoViewController: UIViewController {
         addTableView()
         addAddButton()
     }
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        tableView.contentSize.height -= addButton.bounds.height
-    }
     private func setupView() {
         view = UIView()
         view.backgroundColor = .background
@@ -60,8 +56,23 @@ class ToDoViewController: UIViewController {
         tableView.delaysContentTouches = true
         tableView.canCancelContentTouches = true
         tableView.register(ToDoCell.self, forCellReuseIdentifier: "\(ToDoCell.self)")
+        tableView.register(NewToDoCell.self, forCellReuseIdentifier: "\(NewToDoCell.self)")
         tableView.backgroundColor = .clear
         view.addSubview(tableView)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(
+            [tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)])
+    }
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        tableView.layoutIfNeeded()
+    }
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        self.tableView.layoutIfNeeded()
     }
 }
 
@@ -69,13 +80,13 @@ extension ToDoViewController {
     @objc func addButtonClick() {
         let newToDoModel = NewToDoModel(toDoItem: ToDoItem(text: "", color: "#ACFA00", done: false), fileCache:
                                             model.fileCache, indexPath: nil)
+        newToDoModel.delegate = self
         let newToDoViewController = NewToDoViewController(model: newToDoModel)
         let newToDoNavigationController = UINavigationController(rootViewController: newToDoViewController)
         self.present(newToDoNavigationController, animated: true, completion: nil)
     }
     @objc func showButtonClick() {
         doneShown = !doneShown
-        showButton.setTitle(NSLocalizedString(doneShown ? "Hide" : "Show", comment: ""), for: .normal)
         tableView.reloadData()
     }
     @objc func doneButtonClick(sender: DoneButton) {
@@ -120,7 +131,7 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
             showLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 18),
             showLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -18)
         ].forEach({$0.isActive = true})
-        showButton.setTitle(NSLocalizedString("Show", comment: ""), for: .normal)
+        showButton.setTitle(NSLocalizedString(doneShown ? "Hide" : "Show", comment: ""), for: .normal)
         showButton.translatesAutoresizingMaskIntoConstraints = false
         showButton.setTitleColor(.azure, for: .normal)
         showButton.titleLabel?.font = .headkune

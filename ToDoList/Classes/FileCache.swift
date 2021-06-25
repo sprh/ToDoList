@@ -12,14 +12,22 @@ final class FileCache {
     private(set) var toDoItems: [ToDoItem] =
         [ToDoItem(id: "1", text: "Купить сыр", deadline: Date(), color: "", done: false),
          ToDoItem(id: "2", text: "Купить сыр", deadline: Date(), color: "", done: true),
-         ToDoItem(id: "3", text: "Купить сыр", color: "", done: false)]
-//  ToDoItem(id: "4", text: "Купить сыр", deadline: Date(), color: "", done: true),
-//  ToDoItem(id: "5", text: "Купить сыр", importance: .important,
-//       deadline: nil, color: "", done: false),
-//  ToDoItem(id: "6", text: "Купить что-то, где-то, зачем-то, но зачем не очень понятно,
-    // но точно чтобы показать, что необходимо купить сыр", importance:
-//          .important, deadline: nil, color: "", done: true),
-//  ToDoItem(id: "7", text: "Купить сыр", color: "", done: false)]
+         ToDoItem(id: "3", text: "Купить сыр", color: "", done: false),
+  ToDoItem(id: "4", text: "Купить сыр", deadline: Date(), color: "", done: true),
+  ToDoItem(id: "5", text: "Купить сыр", importance: .important,
+       deadline: nil, color: "", done: false),
+  ToDoItem(id: "6", text: "Купить что-то, где-то, зачем-то, но зачем не очень понятно, но точно чтобы показать, что необходимо купить сыр", importance:
+          .important, deadline: nil, color: "", done: true),
+  ToDoItem(id: "7", text: "Купить сыр", color: "", done: false),
+  ToDoItem(id: "1", text: "Купить сыр", deadline: Date(), color: "", done: false),
+   ToDoItem(id: "2", text: "Купить сыр", deadline: Date(), color: "", done: true),
+   ToDoItem(id: "3", text: "Купить сыр", color: "", done: false),
+   ToDoItem(id: "1", text: "Купить сыр", deadline: Date(), color: "", done: false),
+    ToDoItem(id: "2", text: "Купить сыр", deadline: Date(), color: "", done: true),
+    ToDoItem(id: "3", text: "Купить сыр", color: "", done: false),
+    ToDoItem(id: "1", text: "Купить сыр", deadline: Date(), color: "", done: false),
+     ToDoItem(id: "2", text: "Купить сыр", deadline: Date(), color: "", done: true),
+     ToDoItem(id: "3", text: "Купить сыр", color: "", done: false)]
     /// Add an item to the array.
     ///  - Parameters:
     ///  - item: A new to do item.
