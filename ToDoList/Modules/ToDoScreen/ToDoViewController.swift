@@ -98,16 +98,23 @@ extension ToDoViewController {
 
 extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return doneShown ? model.toDoItemsCount() : model.notDoneToDoItemsCount()
+        return (doneShown ? model.toDoItemsCount() : model.notDoneToDoItemsCount()) + 1
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(ToDoCell.self)") as? ToDoCell else {
-            return UITableViewCell()
+        let lastSectionIndex = doneShown ? model.toDoItemsCount() : model.notDoneToDoItemsCount()
+        if indexPath.row == lastSectionIndex {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(NewToDoCell.self)") as? NewToDoCell else {
+                return UITableViewCell() }
+            cell.textView.delegate = self
+            return cell
+        } else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(ToDoCell.self)") as? ToDoCell else {
+            return UITableViewCell() }
+            let toDoItem = model.getToDoItem(at: indexPath.row, doneShown: doneShown)
+            cell.loadData(toDoItem: toDoItem)
+            cell.doneButton.addTarget(self, action: #selector(doneButtonClick(sender:)), for: .touchUpInside)
+            return cell
         }
-        let toDoItem = model.getToDoItem(at: indexPath.row, doneShown: doneShown)
-        cell.loadData(toDoItem: toDoItem)
-        cell.doneButton.addTarget(self, action: #selector(doneButtonClick(sender:)), for: .touchUpInside)
-        return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? ToDoCell else { return }
@@ -203,5 +210,28 @@ extension ToDoViewController: NewToDoDelegate {
     }
     func update(indexPath: IndexPath) {
         tableViewReloadOldCell(at: indexPath)
+    }
+}
+
+extension ToDoViewController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        let size = textView.bounds.size
+        let newSize = textView.sizeThatFits(size)
+        if size != newSize {
+            tableView.beginUpdates()
+            tableView.endUpdates()
+        }
+    }
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            textView.resignFirstResponder()
+            let toDoItem = ToDoItem(text: textView.text, color: "", done: false)
+            textView.text = ""
+            model.addToDoItem(toDoItem: toDoItem)
+            tableView.reloadData()
+            return false
+        }
+        return true
+        
     }
 }

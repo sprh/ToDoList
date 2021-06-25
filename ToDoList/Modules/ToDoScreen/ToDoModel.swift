@@ -34,4 +34,7 @@ class ToDoModel {
     public func deleteToDoItem(id: String) {
         fileCache.delete(with: id)
     }
+    public func addToDoItem(toDoItem: ToDoItem) {
+        fileCache.add(item: toDoItem)
+    }
 }

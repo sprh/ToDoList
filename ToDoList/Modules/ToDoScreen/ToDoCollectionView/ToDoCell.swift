@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// ToDoCell is a cell that contains information about a ToDoItem that already exists.
 class ToDoCell: UITableViewCell {
     lazy var toDoItem: ToDoItem = ToDoItem()
     let labelText = UILabel()
