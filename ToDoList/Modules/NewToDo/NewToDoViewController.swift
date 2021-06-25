@@ -36,6 +36,11 @@ class NewToDoViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        scrollView.contentSize.height = scrollView.convert(deleteButton.frame.origin, to: scrollView).y +
+            UIViewController.safeAreaHeight()
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -80,7 +85,7 @@ class NewToDoViewController: UIViewController {
             scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ].forEach({$0.isActive = true})
     }
     private func addColorStack() {
@@ -117,12 +122,13 @@ class NewToDoViewController: UIViewController {
         colorWasChanged()
     }
     private func setupTextField() {
-        textBottomAnchorConstraint = textView.bottomAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.topAnchor,
+        textBottomAnchorConstraint = textView.bottomAnchor.constraint(equalTo: scrollView.topAnchor,
                                                                       constant: 136)
         textView.backgroundColor = .subviewsBackgtound
         textView.layer.cornerRadius = 16
         textView.placeholder = NSLocalizedString("What do you have to do?", comment: "")
         textView.font = .body
+        textView.textColor = .text
         textView.placeholderColor = .textGray
         textView.isScrollEnabled = false
         textView.delegate = self
@@ -131,7 +137,7 @@ class NewToDoViewController: UIViewController {
         [
             textView.leadingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             textView.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            textView.topAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.topAnchor, constant: 16),
+            textView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 16),
             textBottomAnchorConstraint
         ].forEach({$0.isActive = true})
         textView.tintColor = .text
@@ -261,11 +267,16 @@ extension NewToDoViewController {
     }
     @objc func save() {
         let color = UIColor.hexStringFromColor(color: colorSlider.thumbTintColor ?? .red)
-        model.save(text: textView.text, importance: segmentedControl.titleForSegment(at:
-        segmentedControl.selectedSegmentIndex) ?? "common", deadline: deadlinePicker.date, color: color)
+        model.save(text: textView.text,
+                   importance: getImportance(),
+                   deadline: deadlineSwitch.isOn ?  deadlinePicker.date : nil, color: color)
+        navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
     }
     @objc func deleteItem() {
-        // TODO
+        model.delete()
+        navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
     }
     @objc func deadlineSwitched() {
         dateButton.isHidden = !deadlineSwitch.isOn
@@ -277,6 +288,7 @@ extension NewToDoViewController {
         hideShowDatePicker()
     }
     @objc func hideShowDatePicker() {
+        let oldConstraint = stackBottomConstraint.constant
         switch datePickerShown && deadlineSwitch.isOn {
         case true:
             stackBottomConstraint.constant = 128.5 + deadlinePicker.bounds.height
@@ -285,6 +297,7 @@ extension NewToDoViewController {
             stackBottomConstraint.constant = 128.5
             deadlinePicker.isHidden = true
         }
+        scrollView.contentSize.height += stackBottomConstraint.constant - oldConstraint
     }
     @objc func dateButtonClick() {
         datePickerShown = !datePickerShown
@@ -303,12 +316,23 @@ extension NewToDoViewController {
         textView.textColor = color
         textView.tintColor = color
     }
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if self.traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            // Without this line a user can't see the image because it doesn't want to draw.
+            colorView.layoutIfNeeded()
+            // I call this method because the first color in the picture is text; this color depends on the phone theme.
+            colorWasChanged()
+        }
+    }
 }
 
 extension NewToDoViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        let textHeight = self.textView.sizeThatFits(self.textView.bounds.size).height + 80
-        textBottomAnchorConstraint.constant = max(136, textHeight)
+        let oldConstraint = textBottomAnchorConstraint.constant
+        let textHeight = self.textView.sizeThatFits(self.textView.bounds.size).height + 20
+        self.textBottomAnchorConstraint.constant = max(136, textHeight)
+        scrollView.contentSize.height += textBottomAnchorConstraint.constant - oldConstraint
         setupVisability()
     }
     func setupVisability() {
@@ -333,6 +357,7 @@ extension NewToDoViewController {
         textView.text = model.toDoItem.text
         if let deadline = model.toDoItem.deadline {
             deadlineSwitch.isOn = true
+            deadlineSwitched()
             deadlinePicker.minimumDate = min(Date(), deadline)
             deadlinePicker.date = deadline
         }
@@ -341,5 +366,10 @@ extension NewToDoViewController {
         let color = UIColor.colorWithHexString(hexString: model.toDoItem.color)
         textView.textColor = color
         colorSlider.thumbTintColor = color
+        setupVisability()
+    }
+    func getImportance() -> String {
+        let index = segmentedControl.selectedSegmentIndex
+        return ["unimportant", "common", "important"][index]
     }
 }

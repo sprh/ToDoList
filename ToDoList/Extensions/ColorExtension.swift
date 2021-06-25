@@ -15,6 +15,7 @@ extension UIColor {
     static var segmented: UIColor = UIColor(named: "segmentedColor") ?? .gray
     static var segmentedSelected: UIColor = UIColor(named: "segmentedSelectedColor") ?? .gray
     static var azure: UIColor = UIColor(named: "azure") ?? .blue
+    static var green: UIColor = #colorLiteral(red: 0.2052684426, green: 0.7807833552, blue: 0.3487253785, alpha: 1)
     static func hexStringFromColor(color: UIColor) -> String {
         let components = color.cgColor.components
         let redColor: CGFloat = components?[0] ?? 0.0
@@ -26,6 +27,7 @@ extension UIColor {
      }
 
     static func colorWithHexString(hexString: String) -> UIColor {
+        if !hexString.starts(with: "#") || hexString.count != 6 { return UIColor.text }
         var colorString = hexString.trimmingCharacters(in: .whitespacesAndNewlines)
         colorString = colorString.replacingOccurrences(of: "#", with: "").uppercased()
         let red: CGFloat = colorComponentFrom(colorString: colorString, start: 0, length: 2)
