@@ -12,7 +12,7 @@ class ToDoCell: UITableViewCell {
     lazy var toDoItem: ToDoItem = ToDoItem()
     let labelText = UILabel()
     var dateText = UILabel()
-    let doneButton = DoneButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
+    let doneButton = UIButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
     var dateImageView = UIImageView()
     let arrow = UIImageView(frame: CGRect(x: 0, y: 0, width: 7, height: 12))
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -79,7 +79,6 @@ class ToDoCell: UITableViewCell {
     public func loadData(toDoItem: ToDoItem) {
         self.toDoItem = toDoItem
         setDataToCell()
-        doneButton.toDoItemId = toDoItem.id
         setupSubviews()
     }
     public func setDataToCell() {

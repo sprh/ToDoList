@@ -38,8 +38,7 @@ class NewToDoViewController: UIViewController {
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        scrollView.contentSize.height = scrollView.convert(deleteButton.frame.origin, to: scrollView).y +
-            UIViewController.safeAreaHeight()
+        setScrollViewContentSize()
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,6 +47,8 @@ class NewToDoViewController: UIViewController {
         hideKeyboardWhenTappedAround()
         keyboardWillShow(scrollView)
         keyboardWillHide(scrollView)
+        registerHideAndShowKeyboardNotifications()
+        setScrollViewContentSize()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -72,6 +73,11 @@ class NewToDoViewController: UIViewController {
 }
 
 extension NewToDoViewController {
+    func setScrollViewContentSize() {
+        scrollView.contentSize.height = scrollView.convert(deleteButton.frame.origin, to: scrollView).y +
+            UIViewController.safeAreaHeight() + UIViewController.safeAreaHeight()
+        print(scrollView.contentSize.height)
+    }
     private func setupView() {
         view = UIView()
         view.backgroundColor = .background
@@ -368,9 +374,32 @@ extension NewToDoViewController {
         textView.textColor = color
         colorSlider.thumbTintColor = color
         setupVisability()
+        textViewDidChange(textView)
     }
     func getImportance() -> String {
         let index = segmentedControl.selectedSegmentIndex
         return ["unimportant", "common", "important"][index]
+    }
+}
+
+extension NewToDoViewController {
+    func registerHideAndShowKeyboardNotifications() {
+        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification,
+                                               object: nil, queue: nil, using: { notification -> Void in
+            let orientation = UIDevice.current.orientation
+            if orientation == .landscapeLeft || orientation == .landscapeRight {
+                self.colorStack.isHidden = true
+                self.importanceAndDateStack.isHidden = true
+                self.deleteButton.isHidden = true
+                self.scrollView.contentSize = self.textView.contentSize
+            }
+        })
+        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification,
+                                               object: nil, queue: nil, using: { notification -> Void in
+            self.colorStack.isHidden = false
+            self.importanceAndDateStack.isHidden = false
+            self.deleteButton.isHidden = false
+            self.setScrollViewContentSize()
+        })
     }
 }

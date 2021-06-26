@@ -92,10 +92,8 @@ extension ToDoViewController {
         doneShown = !doneShown
         tableView.reloadData()
     }
-    @objc func doneButtonClick(sender: DoneButton) {
-        guard let id = sender.toDoItemId else { return }
-        model.updateToDoItemDone(id: id)
-        tableView.reloadData()
+    @objc func doneButtonClick(indexPath: IndexPath) {
+        tableViewReloadOldCell(at: indexPath)
     }
 }
 
@@ -115,7 +113,6 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell() }
             let toDoItem = model.getToDoItem(at: indexPath.row, doneShown: doneShown)
             cell.loadData(toDoItem: toDoItem)
-            cell.doneButton.addTarget(self, action: #selector(doneButtonClick(sender:)), for: .touchUpInside)
             return cell
         }
     }

@@ -34,4 +34,7 @@ final class NewToDoModel {
         guard let indexPath = self.indexPath else { return }
         delegate?.delete(indexPath: indexPath)
     }
+    func toDoItemIsNew() -> Bool {
+        return indexPath == nil
+    }
 }
