@@ -1,79 +1,11 @@
 //
-//  NewToDoViewController.swift
+//  NewToDoAddSubviews.swift
 //  ToDoList
 //
-//  Created by Софья Тимохина on 12.06.2021.
+//  Created by Софья Тимохина on 26.06.2021.
 //
 
 import UIKit
-import UITextView_Placeholder
-
-class NewToDoViewController: UIViewController {
-    var model: NewToDoModel!
-    var textView = UITextView()
-    var textBottomAnchorConstraint = NSLayoutConstraint()
-    var importanceAndDateStack = UIStackView()
-    var deadlineSwitch = UISwitch()
-    var segmentedControl = UISegmentedControl(items: ["unimportant", "common", "important"])
-    var deleteButton = UIButton()
-    var cancelButton: UIBarButtonItem?
-    var saveButton: UIBarButtonItem?
-    var deadlinePicker = UIDatePicker()
-    var stackBottomConstraint = NSLayoutConstraint()
-    var dateButton = UIButton()
-    var deadlineTopAnchorConstraint = NSLayoutConstraint()
-    var datePickerShown = false
-    let deadlineLabel = UILabel()
-    let labelImportance = UILabel()
-    let colorStack = UIStackView()
-    let colorSlider = UISlider()
-    let colorView = ColorView()
-    let scrollView = UIScrollView()
-    init(model: NewToDoModel) {
-        self.model = model
-        super.init(nibName: nil, bundle: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(hideFieldsInLandscape),
-                                               name: UIResponder.keyboardDidShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(showFields),
-                                               name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        setScrollViewContentSize()
-    }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupView()
-        addSubviews()
-        hideKeyboardWhenTappedAround()
-        keyboardWillShow(scrollView)
-        keyboardWillHide(scrollView)
-        setScrollViewContentSize()
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-        navigationController?.navigationBar.isTranslucent = true
-        navigationController?.view.backgroundColor = .clear
-        navigationController?.navigationBar.prefersLargeTitles = false
-        title = NSLocalizedString("To-do", comment: "")
-        cancelButton = UIBarButtonItem(title: NSLocalizedString("Cancel",
-                        comment: ""), style: .plain, target: self, action: #selector(cancel))
-        cancelButton?.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.blue], for: .normal)
-        navigationController?.navigationBar.topItem?.leftBarButtonItem = cancelButton
-        saveButton = UIBarButtonItem(title: NSLocalizedString("Save",
-                        comment: ""), style: .plain, target: self, action: #selector(save))
-        navigationController?.navigationBar.topItem?.rightBarButtonItem = saveButton
-        saveButton?.setTitleTextAttributes([NSAttributedString.Key.foregroundColor:
-                                                UIColor.textGray], for: .normal)
-        saveButton?.isEnabled = false
-        loadData()
-    }
-}
 
 extension NewToDoViewController {
     func setScrollViewContentSize() {
@@ -81,11 +13,11 @@ extension NewToDoViewController {
             UIViewController.safeAreaHeight() + UIViewController.safeAreaHeight()
         print(scrollView.contentSize.height)
     }
-    private func setupView() {
+    func setupView() {
         view = UIView()
         view.backgroundColor = .background
     }
-    private func addSubviews() {
+    func addSubviews() {
         setupScrollview()
         setupTextField()
         addColorStack()
@@ -270,135 +202,5 @@ extension NewToDoViewController {
             deleteButton.bottomAnchor.constraint(equalTo: importanceAndDateStack.bottomAnchor, constant: 72)
         ].forEach({$0.isActive = true})
         deleteButton.addTarget(self, action: #selector(deleteItem), for: .touchUpInside)
-    }
-}
-
-extension NewToDoViewController {
-    @objc func cancel() {
-        navigationController?.popViewController(animated: true)
-        dismiss(animated: true, completion: nil)
-    }
-    @objc func save() {
-        let color = UIColor.hexStringFromColor(color: colorSlider.thumbTintColor ?? .red)
-        model.save(text: textView.text,
-                   importance: getImportance(),
-                   deadline: deadlineSwitch.isOn ?  deadlinePicker.date : nil, color: color)
-        navigationController?.popViewController(animated: true)
-        dismiss(animated: true, completion: nil)
-    }
-    @objc func deleteItem() {
-        model.delete()
-        navigationController?.popViewController(animated: true)
-        dismiss(animated: true, completion: nil)
-    }
-    @objc func deadlineSwitched() {
-        dateButton.isHidden = !deadlineSwitch.isOn
-        if deadlineSwitch.isOn {
-            deadlineTopAnchorConstraint.constant = 66.5
-        } else {
-            deadlineTopAnchorConstraint.constant = 73.5
-        }
-        hideShowDatePicker()
-    }
-    @objc func hideShowDatePicker() {
-        let oldConstraint = stackBottomConstraint.constant
-        switch datePickerShown && deadlineSwitch.isOn {
-        case true:
-            stackBottomConstraint.constant = 128.5 + deadlinePicker.bounds.height
-            deadlinePicker.isHidden = false
-        case false:
-            stackBottomConstraint.constant = 128.5
-            deadlinePicker.isHidden = true
-        }
-        scrollView.contentSize.height += stackBottomConstraint.constant - oldConstraint
-    }
-    @objc func dateButtonClick() {
-        datePickerShown = !datePickerShown
-        hideShowDatePicker()
-    }
-    @objc func dateWasChanged() {
-        dateButton.setTitle(deadlinePicker.formattedDate(), for: .normal)
-    }
-    @objc func colorWasChanged() {
-        let trackRect = colorSlider.trackRect(forBounds: colorSlider.bounds)
-        let thumbRect = colorSlider.thumbRect(forBounds: colorSlider.bounds, trackRect: trackRect, value:
-                                                colorSlider.value)
-        let thumbPoint = CGPoint(x: thumbRect.midX, y: thumbRect.midY)
-        let color = colorView.getColor(from: thumbPoint)
-        colorSlider.thumbTintColor = color
-        textView.textColor = color
-        textView.tintColor = color
-    }
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        if self.traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
-            colorView.layoutIfNeeded()
-            colorWasChanged()
-        }
-    }
-}
-
-extension NewToDoViewController: UITextViewDelegate {
-    func textViewDidChange(_ textView: UITextView) {
-        let oldConstraint = textBottomAnchorConstraint.constant
-        let textHeight = self.textView.sizeThatFits(self.textView.bounds.size).height + 20
-        self.textBottomAnchorConstraint.constant = max(136, textHeight)
-        scrollView.contentSize.height += textBottomAnchorConstraint.constant - oldConstraint
-        setupVisability()
-    }
-    func setupVisability() {
-        if textView.text.isEmpty || textView.text == "" {
-            deleteButton.isEnabled = false
-            saveButton?.isEnabled = false
-            saveButton?.setTitleTextAttributes([NSAttributedString.Key.foregroundColor:
-                                                    UIColor.textGray], for: .normal)
-            deleteButton.setTitleColor(.textGray, for: .normal)
-        } else {
-            saveButton?.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.blue], for: .normal)
-            deleteButton.setTitleColor(#colorLiteral(red: 0.8694987297, green: 0, blue: 0.2487540245, alpha: 1), for: .normal)
-            deleteButton.isEnabled = true
-            saveButton?.isEnabled = true
-        }
-    }
-}
-
-extension NewToDoViewController {
-    func loadData() {
-        textView.text = model.toDoItem.text
-        if let deadline = model.toDoItem.deadline {
-            deadlineSwitch.isOn = true
-            deadlineSwitched()
-            deadlinePicker.minimumDate = min(Date(), deadline)
-            deadlinePicker.date = deadline
-        }
-        segmentedControl.selectedSegmentIndex =
-            ["unimportant", "common", "important"].firstIndex(of: model.toDoItem.importance.rawValue) ?? 0
-        let color = UIColor.colorWithHexString(hexString: model.toDoItem.color)
-        textView.textColor = color
-        colorSlider.thumbTintColor = color
-        setupVisability()
-        textViewDidChange(textView)
-    }
-    func getImportance() -> String {
-        let index = segmentedControl.selectedSegmentIndex
-        return ["unimportant", "common", "important"][index]
-    }
-}
-
-extension NewToDoViewController {
-    @objc func hideFieldsInLandscape() {
-        let orientation = UIDevice.current.orientation
-        if orientation == .landscapeLeft || orientation == .landscapeRight {
-            colorStack.isHidden = true
-            importanceAndDateStack.isHidden = true
-            deleteButton.isHidden = true
-            scrollView.contentSize = textView.contentSize
-        }
-    }
-    @objc func showFields() {
-        colorStack.isHidden = false
-        importanceAndDateStack.isHidden = false
-        deleteButton.isHidden = false
-        setScrollViewContentSize()
     }
 }

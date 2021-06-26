@@ -1,101 +1,11 @@
 //
-//  ToDoViewController.swift
+//  ToDoTableViewDelegate.swift
 //  ToDoList
 //
-//  Created by Софья Тимохина on 11.06.2021.
+//  Created by Софья Тимохина on 26.06.2021.
 //
 
-import Foundation
 import UIKit
-
-class ToDoViewController: UIViewController {
-    let model: ToDoModel!
-    let addButton = UIButton()
-    let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height:
-                                                UIScreen.main.bounds.height), style: .insetGrouped)
-    var doneShown: Bool = false
-    let showButton = UIButton()
-    let showLabel = UILabel()
-    public init(model: ToDoModel) {
-        self.model = model
-        super.init(nibName: nil, bundle: nil)
-    }
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupView()
-        addTableView()
-        addAddButton()
-        hideKeyboardWhenTappedAround()
-        keyboardWillShow(tableView)
-        keyboardWillHide(tableView)
-    }
-    private func setupView() {
-        view = UIView()
-        view.backgroundColor = .background
-        navigationItem.title = NSLocalizedString("My to-dos", comment: "")
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.largeTitleDisplayMode = .automatic
-        navigationController?.navigationBar.sizeToFit()
-    }
-    private func addAddButton() {
-        addButton.setImage(.addButton, for: .normal)
-        view.addSubview(addButton)
-        addButton.translatesAutoresizingMaskIntoConstraints = false
-        [
-            addButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            addButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-        ].forEach({$0.isActive = true})
-        addButton.addTarget(self, action: #selector(addButtonClick), for: .touchUpInside)
-    }
-    private func addTableView() {
-        tableView.layer.cornerRadius = 20
-        tableView.layer.masksToBounds = true
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.isScrollEnabled = true
-        tableView.delaysContentTouches = true
-        tableView.canCancelContentTouches = true
-        tableView.register(ToDoCell.self, forCellReuseIdentifier: "\(ToDoCell.self)")
-        tableView.register(NewToDoCell.self, forCellReuseIdentifier: "\(NewToDoCell.self)")
-        tableView.backgroundColor = .clear
-        view.addSubview(tableView)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate(
-            [tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)])
-    }
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        tableView.layoutIfNeeded()
-    }
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        self.tableView.layoutIfNeeded()
-    }
-}
-
-extension ToDoViewController {
-    @objc func addButtonClick() {
-        let newToDoModel = NewToDoModel(toDoItem: ToDoItem(text: "", color: "#ACFA00", done: false), fileCache:
-                                            model.fileCache, indexPath: nil)
-        newToDoModel.delegate = self
-        let newToDoViewController = NewToDoViewController(model: newToDoModel)
-        let newToDoNavigationController = UINavigationController(rootViewController: newToDoViewController)
-        self.present(newToDoNavigationController, animated: true, completion: nil)
-    }
-    @objc func showButtonClick() {
-        doneShown = !doneShown
-        tableView.reloadData()
-    }
-    @objc func doneButtonClick(indexPath: IndexPath) {
-        tableViewReloadOldCell(at: indexPath)
-    }
-}
 
 extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -198,40 +108,5 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.performBatchUpdates({
               tableView.deleteRows(at: [indexPath], with: .fade)
         }, completion: nil)
-    }
-}
-
-extension ToDoViewController: NewToDoDelegate {
-    func delete(indexPath: IndexPath) {
-        tableViewDeleteOldCell(at: indexPath)
-    }
-    func add() {
-        tableViewAddNew()
-    }
-    func update(indexPath: IndexPath) {
-        tableViewReloadOldCell(at: indexPath)
-    }
-}
-
-extension ToDoViewController: UITextViewDelegate {
-    func textViewDidChange(_ textView: UITextView) {
-        let size = textView.bounds.size
-        let newSize = textView.sizeThatFits(size)
-        if size != newSize {
-            tableView.beginUpdates()
-            tableView.endUpdates()
-        }
-    }
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if text != "\n" {
-            return true
-        }
-        textView.resignFirstResponder()
-        if !textView.text.isEmpty {
-            let toDoItem = ToDoItem(text: textView.text, color: "", done: false)
-            textView.text = ""
-            model.addToDoItem(toDoItem: toDoItem)
-            tableView.reloadData() }
-        return false
     }
 }

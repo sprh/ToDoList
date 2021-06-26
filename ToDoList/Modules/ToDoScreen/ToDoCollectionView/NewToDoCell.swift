@@ -8,7 +8,8 @@
 import UIKit
 import UITextView_Placeholder
 
-/// NewToDoCell is the last cell in the tableview on the ToDoView screen. This cell is used to add a new to do item without opening another screen.
+/// NewToDoCell is the last cell in the tableview on the ToDoView screen.
+/// This cell is used to add a new to do item without opening another screen.
 final class NewToDoCell: UITableViewCell {
     let textView = UITextView()
     var textBottomAnchorConstraint = NSLayoutConstraint()
