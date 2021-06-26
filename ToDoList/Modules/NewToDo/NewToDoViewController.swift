@@ -32,6 +32,10 @@ class NewToDoViewController: UIViewController {
     init(model: NewToDoModel) {
         self.model = model
         super.init(nibName: nil, bundle: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(hideFieldsInLandscape),
+                                               name: UIResponder.keyboardDidShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showFields),
+                                               name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -47,7 +51,6 @@ class NewToDoViewController: UIViewController {
         hideKeyboardWhenTappedAround()
         keyboardWillShow(scrollView)
         keyboardWillHide(scrollView)
-        registerHideAndShowKeyboardNotifications()
         setScrollViewContentSize()
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -383,23 +386,19 @@ extension NewToDoViewController {
 }
 
 extension NewToDoViewController {
-    func registerHideAndShowKeyboardNotifications() {
-        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification,
-                                               object: nil, queue: nil, using: { notification -> Void in
-            let orientation = UIDevice.current.orientation
-            if orientation == .landscapeLeft || orientation == .landscapeRight {
-                self.colorStack.isHidden = true
-                self.importanceAndDateStack.isHidden = true
-                self.deleteButton.isHidden = true
-                self.scrollView.contentSize = self.textView.contentSize
-            }
-        })
-        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification,
-                                               object: nil, queue: nil, using: { notification -> Void in
-            self.colorStack.isHidden = false
-            self.importanceAndDateStack.isHidden = false
-            self.deleteButton.isHidden = false
-            self.setScrollViewContentSize()
-        })
+    @objc func hideFieldsInLandscape() {
+        let orientation = UIDevice.current.orientation
+        if orientation == .landscapeLeft || orientation == .landscapeRight {
+            colorStack.isHidden = true
+            importanceAndDateStack.isHidden = true
+            deleteButton.isHidden = true
+            scrollView.contentSize = textView.contentSize
+        }
+    }
+    @objc func showFields() {
+        colorStack.isHidden = false
+        importanceAndDateStack.isHidden = false
+        deleteButton.isHidden = false
+        setScrollViewContentSize()
     }
 }
