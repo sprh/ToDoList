@@ -15,6 +15,7 @@ final class NewToDoCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         backgroundColor = .subviewsBackgtound
+        selectionStyle = .none
         addSubviews()
     }
     required init?(coder: NSCoder) {

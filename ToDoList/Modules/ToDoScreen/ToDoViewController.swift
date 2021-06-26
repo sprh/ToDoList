@@ -28,6 +28,9 @@ class ToDoViewController: UIViewController {
         setupView()
         addTableView()
         addAddButton()
+        hideKeyboardWhenTappedAround()
+        keyboardWillShow(tableView)
+        keyboardWillHide(tableView)
     }
     private func setupView() {
         view = UIView()
@@ -223,15 +226,15 @@ extension ToDoViewController: UITextViewDelegate {
         }
     }
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if text == "\n" {
-            textView.resignFirstResponder()
+        if text != "\n" {
+            return true
+        }
+        textView.resignFirstResponder()
+        if !textView.text.isEmpty {
             let toDoItem = ToDoItem(text: textView.text, color: "", done: false)
             textView.text = ""
             model.addToDoItem(toDoItem: toDoItem)
-            tableView.reloadData()
-            return false
-        }
-        return true
-        
+            tableView.reloadData() }
+        return false
     }
 }

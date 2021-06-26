@@ -45,7 +45,9 @@ class NewToDoViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         addSubviews()
-        self.hideKeyboardWhenTappedAround()
+        hideKeyboardWhenTappedAround()
+        keyboardWillShow(scrollView)
+        keyboardWillHide(scrollView)
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
