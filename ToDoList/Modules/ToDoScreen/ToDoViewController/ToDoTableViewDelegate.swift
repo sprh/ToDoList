@@ -112,7 +112,11 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) ->
     UIContextMenuConfiguration? {
-        if !(tableView.cellForRow(at: indexPath) is ToDoCell) { return nil}
+        self.indexPath = indexPath
+        if !(tableView.cellForRow(at: indexPath) is ToDoCell) {
+            self.indexPath = nil
+            return nil
+        }
         let actionProvider: UIContextMenuActionProvider = { _ in
             let copyAction = UIAction(title: "Copy") { _ in
                     guard let cell = tableView.cellForRow(at: indexPath) as? ToDoCell else { return }

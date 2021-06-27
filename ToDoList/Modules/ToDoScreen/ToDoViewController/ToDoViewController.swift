@@ -16,7 +16,7 @@ class ToDoViewController: UIViewController {
     var doneShown: Bool = false
     let showButton = UIButton()
     let showLabel = UILabel()
-    let indexPath: IndexPath? = nil
+    var indexPath: IndexPath?
     public init(model: ToDoModel) {
         self.model = model
         super.init(nibName: nil, bundle: nil)
