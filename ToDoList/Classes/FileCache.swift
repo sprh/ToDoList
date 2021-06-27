@@ -47,21 +47,20 @@ final class FileCache {
     /// - Parameters:
     /// - id: an identifire of the item.
     func delete(with id: String) {
+        guard let index = toDoItems.firstIndex(where: {$0.id == id}) else { return }
+        toDoItems.remove(at: index)
         let queue = DispatchQueue.global(qos: .background)
         let workItem = DispatchWorkItem { [weak self] in
-            guard let index = self?.toDoItems.firstIndex(where: {$0.id == id}) else { return }
-            self?.toDoItems.remove(at: index)
+            // Here we should go to the server.
         }
         queue.async(execute: workItem)
     }
     func get(with id: String) -> ToDoItem? {
-        var toDoItem: ToDoItem?
+        return toDoItems.first(where: {$0.id == id})
         let queue = DispatchQueue.global(qos: .background)
         let workItem = DispatchWorkItem { [weak self] in
-            toDoItem = self?.toDoItems.first(where: {$0.id == id})
         }
         queue.async(execute: workItem)
-        return toDoItem
     }
     /// Save an array of objects to the file.
     /// - Parameters:
