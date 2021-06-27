@@ -32,8 +32,7 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
         newToDoModel.delegate = self
         let newToDoViewController = NewToDoViewController(model: newToDoModel)
         let newToDoNavigationController = UINavigationController(rootViewController: newToDoViewController)
-        newToDoNavigationController.transitioningDelegate = cell
-        self.present(newToDoNavigationController, animated: true)
+        self.present(newToDoNavigationController, animated: true, completion: nil)
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section != 0 { return UIView() }
@@ -124,6 +123,25 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
         }
 
         return UIContextMenuConfiguration(identifier: "\(indexPath)" as NSCopying,
-                                          previewProvider: nil, actionProvider: actionProvider)
+                                          previewProvider: makePreview, actionProvider: actionProvider)
+    }
+    func makePreview() -> UIViewController {
+        guard let indexPath = indexPath,
+              let cell = tableView.cellForRow(at: indexPath) as? ToDoCell else {
+            return UIViewController()
+        }
+        let model = NewToDoModel(toDoItem: cell.toDoItem, fileCache: model.fileCache, indexPath: indexPath)
+        model.delegate = self
+        let destinationVc = NewToDoViewController(model: model)
+        return destinationVc
+    }
+    func tableView(_ tableView: UITableView,
+                   willPerformPreviewActionForMenuWith configuration: UIContextMenuConfiguration,
+                   animator: UIContextMenuInteractionCommitAnimating) {
+        DispatchQueue.main.async {
+            let newToDoViewController = self.makePreview()
+            let newToDoNavigationController = UINavigationController(rootViewController: newToDoViewController)
+            self.present(newToDoNavigationController, animated: true, completion: nil)
+        }
     }
 }
