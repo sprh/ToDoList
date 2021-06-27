@@ -33,67 +33,92 @@ final class FileCache {
     ///  - item: A new to do item.
     ///
     func add(item toDoItem: ToDoItem) {
-        guard let index = toDoItems.firstIndex(where: {$0.id == toDoItem.id}) else {
-            toDoItems.append(toDoItem)
-            return
+        let queue = DispatchQueue.global(qos: .background)
+        let workItem = DispatchWorkItem { [weak self] in
+            guard let index = self?.toDoItems.firstIndex(where: {$0.id == toDoItem.id}) else {
+                self?.toDoItems.append(toDoItem)
+                return
+            }
+            self?.toDoItems[index] = toDoItem
         }
-        toDoItems[index] = toDoItem
+        queue.async(execute: workItem)
     }
     /// Delete an element from the array by its id.
     /// - Parameters:
     /// - id: an identifire of the item.
     func delete(with id: String) {
-        guard let index = toDoItems.firstIndex(where: {$0.id == id}) else { return }
-        toDoItems.remove(at: index)
+        let queue = DispatchQueue.global(qos: .background)
+        let workItem = DispatchWorkItem { [weak self] in
+            guard let index = self?.toDoItems.firstIndex(where: {$0.id == id}) else { return }
+            self?.toDoItems.remove(at: index)
+        }
+        queue.async(execute: workItem)
     }
     func get(with id: String) -> ToDoItem? {
-        return toDoItems.first(where: {$0.id == id})
+        var toDoItem: ToDoItem?
+        let queue = DispatchQueue.global(qos: .background)
+        let workItem = DispatchWorkItem { [weak self] in
+            toDoItem = self?.toDoItems.first(where: {$0.id == id})
+        }
+        queue.async(execute: workItem)
+        return toDoItem
     }
     /// Save an array of objects to the file.
     /// - Parameters:
     /// - Path: a string contains the path to the file in which we save an array.
-    func saveFile(to path: String = "todoitems.json") throws {
-        guard let documentDirectory = FileManager.default.urls(for: .documentDirectory,
+    func saveFile(to path: String = "todoitems.json", closure: @escaping (FileCacheError) -> Void) {
+        let queue = DispatchQueue.global(qos: .background)
+        let workItem = DispatchWorkItem { [weak self] in
+            guard let documentDirectory = FileManager.default.urls(for: .documentDirectory,
                                                             in: .userDomainMask).first else {
-            throw FileCacheError.fileNotFound
+                closure(FileCacheError.fileNotFound)
+                return
+            }
+            let jsonArray = self?.toDoItems.map { $0.json }
+            let url = documentDirectory.appendingPathComponent(path)
+            do {
+                let json = try JSONSerialization.data(withJSONObject: jsonArray, options: .prettyPrinted)
+                try json.write(to: url, options: [])
+            } catch {
+                closure(FileCacheError.canNotWrite)
+            }
         }
-        let jsonArray = toDoItems.map { $0.json }
-        let url = documentDirectory.appendingPathComponent(path)
-        do {
-            let json = try JSONSerialization.data(withJSONObject: jsonArray, options: .prettyPrinted)
-            try json.write(to: url, options: [])
-        } catch {
-            throw FileCacheError.canNotWrite
-        }
+        queue.async(execute: workItem)
     }
     /// Load an array of objects from the file.
     /// - Parameters:
     /// - Path: a string contains the path to the file from which we load an array.
-    func loadFile(from path: String = "todoitems.json") throws {
-        // Check if a file with the path exists.
-        guard let documentDirectory = FileManager.default.urls(for: .documentDirectory,
-                                                            in: .userDomainMask).first else {
-            throw FileCacheError.fileNotFound
-        }
-        // Because we don't want to store repeatable elements.
-        toDoItems.removeAll()
-        let url = documentDirectory.appendingPathComponent(path)
-        do {
-            let json = try String(contentsOf: url, encoding: .utf8)
-            let jsonData = json.data(using: String.Encoding.utf8, allowLossyConversion: false)!
-            guard let data = try
-                    JSONSerialization.jsonObject(with: jsonData, options: []) as? [Any] else {
-                print("Can't parse a json string")
-                throw FileCacheError.canNotRead
+    func loadFile(from path: String = "todoitems.json", closure: @escaping (FileCacheError) -> Void) {
+        let queue = DispatchQueue.global(qos: .background)
+        let workItem = DispatchWorkItem { [weak self] in
+            // Check if a file with the path exists.
+            guard let documentDirectory = FileManager.default.urls(for: .documentDirectory,
+                                                                   in: .userDomainMask).first else {
+                closure(FileCacheError.fileNotFound)
+                return
             }
-            for item in data {
-                guard let toDoItem = ToDoItem.parse(json: item) else {
-                    continue
+            // Because we don't want to store repeatable elements.
+            self?.toDoItems.removeAll()
+            let url = documentDirectory.appendingPathComponent(path)
+            do {
+                let json = try String(contentsOf: url, encoding: .utf8)
+                let jsonData = json.data(using: String.Encoding.utf8, allowLossyConversion: false)!
+                guard let data = try
+                        JSONSerialization.jsonObject(with: jsonData, options: []) as? [Any] else {
+                    print("Can't parse a json string")
+                    closure(FileCacheError.canNotRead)
+                    return
                 }
-                toDoItems.append(toDoItem)
+                for item in data {
+                    guard let toDoItem = ToDoItem.parse(json: item) else {
+                        continue
+                    }
+                    self?.toDoItems.append(toDoItem)
+                }
+            } catch {
+                closure(FileCacheError.canNotRead)
             }
-        } catch {
-            throw FileCacheError.canNotRead
         }
+        queue.async(execute: workItem)
     }
 }

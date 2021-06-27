@@ -28,7 +28,6 @@ extension UIColor {
 
     static func colorWithHexString(hexString: String) -> UIColor {
         if !hexString.starts(with: "#") || hexString.count != 7 {
-            print("can't")
             return UIColor.text
         }
         var colorString = hexString.trimmingCharacters(in: .whitespacesAndNewlines)

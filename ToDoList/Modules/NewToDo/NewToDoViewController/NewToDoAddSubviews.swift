@@ -11,7 +11,6 @@ extension NewToDoViewController {
     func setScrollViewContentSize() {
         scrollView.contentSize.height = scrollView.convert(deleteButton.frame.origin, to: scrollView).y +
             UIViewController.safeAreaHeight() + UIViewController.safeAreaHeight()
-        print(scrollView.contentSize.height)
     }
     func setupView() {
         view = UIView()
