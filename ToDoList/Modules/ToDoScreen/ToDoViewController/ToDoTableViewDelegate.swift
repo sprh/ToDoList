@@ -32,8 +32,8 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
         newToDoModel.delegate = self
         let newToDoViewController = NewToDoViewController(model: newToDoModel)
         let newToDoNavigationController = UINavigationController(rootViewController: newToDoViewController)
-        self.present(newToDoNavigationController, animated: true, completion: {() in
-        })
+        newToDoNavigationController.transitioningDelegate = cell
+        self.present(newToDoNavigationController, animated: true)
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section != 0 { return UIView() }

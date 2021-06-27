@@ -37,6 +37,8 @@
 		E3925EAD26768DEC00BF26BA /* DatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3925EAC26768DEC00BF26BA /* DatePicker.swift */; };
 		E398447A266A9B29000D1B31 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3984479266A9B29000D1B31 /* ColorExtension.swift */; };
 		E3984488266AA019000D1B31 /* ImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3984487266AA019000D1B31 /* ImageExtension.swift */; };
+		E3B7B1872688946B00676FDB /* ToDoShowAnotherViewAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B7B1862688946A00676FDB /* ToDoShowAnotherViewAnimation.swift */; };
+		E3B7B18C268895DD00676FDB /* AnimationTransitionFromCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B7B18B268895DD00676FDB /* AnimationTransitionFromCell.swift */; };
 		E3DB43A7266FF0A5003A2736 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E3DB43A9266FF0A5003A2736 /* Localizable.strings */; };
 		E3DB43BB266FF84B003A2736 /* ToDoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DB43BA266FF84B003A2736 /* ToDoItem.swift */; };
 		E3DB43C3266FF88C003A2736 /* Importance.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DB43C2266FF88C003A2736 /* Importance.swift */; };
@@ -106,6 +108,8 @@
 		E3925EAC26768DEC00BF26BA /* DatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePicker.swift; sourceTree = "<group>"; };
 		E3984479266A9B29000D1B31 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		E3984487266AA019000D1B31 /* ImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExtension.swift; sourceTree = "<group>"; };
+		E3B7B1862688946A00676FDB /* ToDoShowAnotherViewAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoShowAnotherViewAnimation.swift; sourceTree = "<group>"; };
+		E3B7B18B268895DD00676FDB /* AnimationTransitionFromCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationTransitionFromCell.swift; sourceTree = "<group>"; };
 		E3DB439E266FF014003A2736 /* ru-RU */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ru-RU"; path = "ru-RU.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		E3DB43A8266FF0A5003A2736 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E3DB43AD266FF0A8003A2736 /* ru-RU */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ru-RU"; path = "ru-RU.lproj/Localizable.strings"; sourceTree = "<group>"; };
@@ -275,6 +279,7 @@
 				E37C9FCC26877B820045336D /* ToDoTableViewDelegate.swift */,
 				E37C9FD526877BB50045336D /* ToDoNewToDoDelegate.swift */,
 				E37C9FDA26877BDE0045336D /* ToDoTextViewDelegate.swift */,
+				E3B7B1862688946A00676FDB /* ToDoShowAnotherViewAnimation.swift */,
 			);
 			path = ToDoViewController;
 			sourceTree = "<group>";
@@ -284,6 +289,7 @@
 			children = (
 				E34EDB702685F03C00C852B0 /* FileCache.swift */,
 				E30E6DFE2676701B008A55BF /* ColorView.swift */,
+				E3B7B18B268895DD00676FDB /* AnimationTransitionFromCell.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -628,6 +634,7 @@
 				E3984488266AA019000D1B31 /* ImageExtension.swift in Sources */,
 				E34A3908267BE04100546DAF /* FileCacheError.swift in Sources */,
 				E37C9FDB26877BDE0045336D /* ToDoTextViewDelegate.swift in Sources */,
+				E3B7B1872688946B00676FDB /* ToDoShowAnotherViewAnimation.swift in Sources */,
 				E37C9FCD26877B820045336D /* ToDoTableViewDelegate.swift in Sources */,
 				E33611112686187D00BE31CB /* NewToDoCell.swift in Sources */,
 				E3DB44252672B816003A2736 /* ToDoModel.swift in Sources */,
@@ -636,6 +643,7 @@
 				E3DB442A2672B932003A2736 /* FontExtension.swift in Sources */,
 				E398447A266A9B29000D1B31 /* ColorExtension.swift in Sources */,
 				E3169E3F267F6355001C4FEE /* NavigationBar.swift in Sources */,
+				E3B7B18C268895DD00676FDB /* AnimationTransitionFromCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
