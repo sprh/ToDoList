@@ -126,12 +126,3 @@ extension ToDoCell {
         setDataToCell()
     }
 }
-
-extension ToDoCell: UIViewControllerTransitioningDelegate {
-    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return AnimationTransitionForCell(presentationCell: self, isPresenting: false)
-    }
-    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return AnimationTransitionForCell(presentationCell: self, isPresenting: true)
-    }
-}
