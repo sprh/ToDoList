@@ -19,6 +19,7 @@ class ToDoCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.backgroundColor = .subviewsBackgtound
         selectionStyle = .none
+        layer.cornerRadius = 16
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -104,6 +105,13 @@ class ToDoCell: UITableViewCell {
                 doneButton.setImage(.importantCell, for: .normal)
             }
         }
+    }
+    public func getCopy() -> String {
+        var text = "\(toDoItem.done ? NSLocalizedString("[Finished] ", comment: "") : ";")\(toDoItem.text)\n"
+        if toDoItem.deadline != nil {
+            text += "\(NSLocalizedString("Deadline", comment: "")) \(dateText.text ?? "")"
+        }
+        return text
     }
 }
 

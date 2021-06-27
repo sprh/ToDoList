@@ -70,6 +70,8 @@ extension NewToDoViewController {
             importanceAndDateStack.isHidden = true
             deleteButton.isHidden = true
             scrollView.contentSize = textView.contentSize
+        } else {
+            setScrollViewContentSize()
         }
     }
     @objc func showFields() {

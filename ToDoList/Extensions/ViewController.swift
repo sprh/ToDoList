@@ -32,10 +32,10 @@ extension UIViewController {
             guard let userInfo = notification.userInfo,
                   let keyboardSize = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as AnyObject).cgRectValue?.size
             else {return}
-            let contentInsets = UIEdgeInsets(top: scrollView.contentInset.top,
-                                             left: scrollView.contentInset.left,
+            let contentInsets = UIEdgeInsets(top: 0,
+                                             left: 0,
                                              bottom: keyboardSize.height,
-                                             right: scrollView.contentInset.right)
+                                             right: 0)
             scrollView.contentInset = contentInsets
             scrollView.scrollIndicatorInsets = contentInsets
         })
@@ -45,12 +45,8 @@ extension UIViewController {
     func keyboardWillHide(_ scrollView: UIScrollView) {
         _ = NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification,
                                                    object: nil, queue: nil, using: { _ -> Void in
-            let contentInsets = UIEdgeInsets(top: scrollView.contentInset.top,
-                                             left: scrollView.contentInset.left,
-                                             bottom: 0,
-                                             right: scrollView.contentInset.right)
-            scrollView.contentInset = contentInsets
-            scrollView.scrollIndicatorInsets = contentInsets
+                                                    scrollView.contentInset = .zero
+                                                    scrollView.scrollIndicatorInsets = .zero
         })
     }
 }

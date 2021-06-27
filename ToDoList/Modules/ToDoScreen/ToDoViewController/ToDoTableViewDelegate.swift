@@ -62,6 +62,7 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt
                     indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        if !(tableView.cellForRow(at: indexPath) is ToDoCell) { return nil}
         let trashAction =
             UIContextualAction(style: .normal, title: "",
                 handler: {(_: UIContextualAction, _: UIView, success: (Bool) -> Void) in
@@ -76,6 +77,7 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) ->
     UISwipeActionsConfiguration? {
+        if !(tableView.cellForRow(at: indexPath) is ToDoCell) { return nil}
         let doneAction = UIContextualAction(style: .normal, title: "",
             handler: {(_: UIContextualAction, _: UIView, success: (Bool) -> Void) in
             guard let cell = tableView.cellForRow(at: indexPath) as? ToDoCell else { success(false); return }
@@ -108,5 +110,20 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.performBatchUpdates({
               tableView.deleteRows(at: [indexPath], with: .fade)
         }, completion: nil)
+    }
+    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) ->
+    UIContextMenuConfiguration? {
+        if !(tableView.cellForRow(at: indexPath) is ToDoCell) { return nil}
+        let actionProvider: UIContextMenuActionProvider = { _ in
+            let copyAction = UIAction(title: "Copy") { _ in
+                    guard let cell = tableView.cellForRow(at: indexPath) as? ToDoCell else { return }
+                    let pasteboard = UIPasteboard.general
+                    pasteboard.string = cell.getCopy()
+                }
+            return UIMenu(title: "", children: [copyAction])
+        }
+
+        return UIContextMenuConfiguration(identifier: "\(indexPath)" as NSCopying,
+                                          previewProvider: nil, actionProvider: actionProvider)
     }
 }
