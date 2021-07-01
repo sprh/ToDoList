@@ -42,20 +42,20 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
         showLabel.textColor = .textGray
         showLabel.font = .headkune
         view.addSubview(showLabel)
-        [
+        NSLayoutConstraint.activate([
             showLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             showLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 18),
             showLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -18)
-        ].forEach({$0.isActive = true})
-        showButton.setTitle(NSLocalizedString(doneShown ? "Hide" : "Show", comment: ""), for: .normal)
+        ])
+        showButton.setTitle(doneShown ? "Hide".localized : "Show".localized, for: .normal)
         showButton.translatesAutoresizingMaskIntoConstraints = false
         showButton.setTitleColor(.azure, for: .normal)
         showButton.titleLabel?.font = .headkune
         view.addSubview(showButton)
-        [
+        NSLayoutConstraint.activate([
             showButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             showButton.centerYAnchor.constraint(equalTo: showLabel.centerYAnchor)
-        ].forEach({$0.isActive = true})
+        ])
         showButton.addTarget(self, action: #selector(showButtonClick), for: .touchUpInside)
         return view
     }
@@ -90,7 +90,7 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
         return UISwipeActionsConfiguration(actions: [doneAction])
     }
     func showLabelSetText() {
-        showLabel.text = "\(NSLocalizedString("Done", comment: ""))" +
+        showLabel.text = "\("Done".localized)" +
             "— \(model.toDoItemsCount() - model.notDoneToDoItemsCount())"
     }
     func tableViewAddNew() {
@@ -118,7 +118,7 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
             return nil
         }
         let actionProvider: UIContextMenuActionProvider = { _ in
-            let copyAction = UIAction(title: "Copy") { _ in
+            let copyAction = UIAction(title: "Copy".localized) { _ in
                     guard let cell = tableView.cellForRow(at: indexPath) as? ToDoCell else { return }
                     let pasteboard = UIPasteboard.general
                     pasteboard.string = cell.getCopy()

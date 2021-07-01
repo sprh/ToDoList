@@ -14,7 +14,7 @@ class NewToDoViewController: UIViewController {
     var textBottomAnchorConstraint = NSLayoutConstraint()
     var importanceAndDateStack = UIStackView()
     var deadlineSwitch = UISwitch()
-    var segmentedControl = UISegmentedControl(items: ["unimportant", "common", "important"])
+    var segmentedControl = UISegmentedControl(items: ["low", "basin", "important"])
     var deleteButton = UIButton()
     var cancelButton: UIBarButtonItem?
     var saveButton: UIBarButtonItem?
@@ -29,6 +29,7 @@ class NewToDoViewController: UIViewController {
     let colorSlider = UISlider()
     let colorView = ColorView()
     let scrollView = UIScrollView()
+    let importanceAsArray = ["low", "basin", "important"]
     init(model: NewToDoModel) {
         self.model = model
         super.init(nibName: nil, bundle: nil)
@@ -60,13 +61,12 @@ class NewToDoViewController: UIViewController {
         navigationController?.navigationBar.isTranslucent = true
         navigationController?.view.backgroundColor = .clear
         navigationController?.navigationBar.prefersLargeTitles = false
-        title = NSLocalizedString("To-do", comment: "")
-        cancelButton = UIBarButtonItem(title: NSLocalizedString("Cancel",
-                        comment: ""), style: .plain, target: self, action: #selector(cancel))
+        title = "To-do".localized
+        cancelButton = UIBarButtonItem(title: "Cancel".localized,
+                                       style: .plain, target: self, action: #selector(cancel))
         cancelButton?.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.blue], for: .normal)
         navigationController?.navigationBar.topItem?.leftBarButtonItem = cancelButton
-        saveButton = UIBarButtonItem(title: NSLocalizedString("Save",
-                        comment: ""), style: .plain, target: self, action: #selector(save))
+        saveButton = UIBarButtonItem(title: "Save".localized, style: .plain, target: self, action: #selector(save))
         navigationController?.navigationBar.topItem?.rightBarButtonItem = saveButton
         saveButton?.setTitleTextAttributes([NSAttributedString.Key.foregroundColor:
                                                 UIColor.textGray], for: .normal)

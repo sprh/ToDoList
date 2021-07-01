@@ -17,7 +17,7 @@ extension NewToDoViewController {
             deadlinePicker.date = deadline
         }
         segmentedControl.selectedSegmentIndex =
-            ["unimportant", "common", "important"].firstIndex(of: model.toDoItem.importance.rawValue) ?? 0
+            importanceAsArray.firstIndex(of: model.toDoItem.importance.rawValue) ?? 0
         let color = UIColor.colorWithHexString(hexString: model.toDoItem.color)
         textView.textColor = color
         colorSlider.thumbTintColor = color
@@ -26,6 +26,6 @@ extension NewToDoViewController {
     }
     func getImportance() -> String {
         let index = segmentedControl.selectedSegmentIndex
-        return ["unimportant", "common", "important"][index]
+        return importanceAsArray[index]
     }
 }

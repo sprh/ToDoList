@@ -33,34 +33,34 @@ public class AboutViewController: UIViewController {
         // MARK: - Adding a scroll view to the view.
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(scrollView)
-        [
+        NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
-        ].forEach({$0.isActive = true})
+        ])
         // MARK: - Setuping a logo image and adding it to the scroll view.
         logoImage.translatesAutoresizingMaskIntoConstraints = false
         logoImage.contentMode = .scaleToFill
         let logoImageHeight = UIImage.logo.size.height
         scrollView.addSubview(logoImage)
-        [
+        NSLayoutConstraint.activate([
             logoImage.topAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.topAnchor, constant: 10),
             logoImage.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
             logoImage.bottomAnchor.constraint(equalTo:
                                   scrollView.safeAreaLayoutGuide.topAnchor, constant: 10 + logoImageHeight)
-        ].forEach({$0.isActive = true})
+        ])
         logoImage.image = .logo
         // MARK: - Setuping a label with the current version number and adding it to the scroll view.
         versionNumber.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(versionNumber)
-        [
+        NSLayoutConstraint.activate([
             versionNumber.topAnchor.constraint(equalTo: logoImage.bottomAnchor, constant: 20),
             versionNumber.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
-        ].forEach({$0.isActive = true})
+        ])
         versionNumber.textColor = .black
         versionNumber.font = .systemFont(ofSize: 20)
-        versionNumber.text = "\(NSLocalizedString("The current version is ", comment: ""))" +
+        versionNumber.text = "The current version is ".localized +
             "\(model.getTheCurrentVersionNumber())"
     }
 }

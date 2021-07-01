@@ -47,7 +47,7 @@ extension NewToDoViewController {
         scrollView.contentSize.height += stackBottomConstraint.constant - oldConstraint
     }
     @objc func dateButtonClick() {
-        datePickerShown = !datePickerShown
+        datePickerShown.toggle()
         hideShowDatePicker()
     }
     @objc func dateWasChanged() {

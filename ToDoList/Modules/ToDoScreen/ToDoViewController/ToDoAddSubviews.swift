@@ -11,7 +11,7 @@ extension ToDoViewController {
     func setupView() {
         view = UIView()
         view.backgroundColor = .background
-        navigationItem.title = NSLocalizedString("My to-dos", comment: "")
+        navigationItem.title = "My to-dos".localized
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .automatic
         navigationController?.navigationBar.sizeToFit()

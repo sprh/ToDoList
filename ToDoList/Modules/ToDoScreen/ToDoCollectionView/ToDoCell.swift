@@ -32,28 +32,28 @@ class ToDoCell: UITableViewCell {
         labelText.translatesAutoresizingMaskIntoConstraints = false
         labelText.numberOfLines = 3
         contentView.addSubview(labelText)
-        [
+        NSLayoutConstraint.activate([
             labelText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 52),
             labelText.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -39),
             labelText.topAnchor.constraint(equalTo: contentView.topAnchor, constant: hasDeadline ? 12 : 16),
             labelText.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: hasDeadline ? -32: -16)
-        ].forEach({$0.isActive = true})
+        ])
         doneButton.backgroundColor = .clear
         doneButton.translatesAutoresizingMaskIntoConstraints = false
         doneButton.clipsToBounds = true
         doneButton.addTarget(self, action: #selector(doneChanged), for: .touchUpInside)
         contentView.addSubview(doneButton)
-        [
+        NSLayoutConstraint.activate([
             doneButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             doneButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16)
-        ].forEach({$0.isActive = true})
+        ])
         arrow.translatesAutoresizingMaskIntoConstraints = false
         arrow.image = .arrow
         contentView.addSubview(arrow)
-        [
+        NSLayoutConstraint.activate([
             arrow.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -22),
             arrow.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
-        ].forEach({$0.isActive = true})
+        ])
         guard let deadline = toDoItem.deadline else { return }
         addDateLabels(date: deadline)
     }
@@ -61,18 +61,18 @@ class ToDoCell: UITableViewCell {
         dateImageView.image = .calendar
         dateImageView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(dateImageView)
-        [
+        NSLayoutConstraint.activate([
             dateImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 54),
             dateImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
-        ].forEach({$0.isActive = true})
+        ])
         dateText.font = .subhead
         dateText.textColor = .textGray
         dateText.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(dateText)
-        [
+        NSLayoutConstraint.activate([
             dateText.leadingAnchor.constraint(equalTo: dateImageView.trailingAnchor, constant: 4),
             dateText.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
-        ].forEach({$0.isActive = true})
+        ])
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd MMMM"
         dateText.text = dateFormatter.string(from: date)
@@ -91,7 +91,7 @@ class ToDoCell: UITableViewCell {
             doneButton.setImage(.doneCell, for: .normal)
         } else {
             switch toDoItem.importance {
-            case .common, .unimportant:
+            case .low, .basic:
                 let attributeString: NSMutableAttributedString =
                     NSMutableAttributedString(string: toDoItem.text)
                 labelText.attributedText = attributeString
@@ -107,9 +107,9 @@ class ToDoCell: UITableViewCell {
         }
     }
     public func getCopy() -> String {
-        var text = "\(toDoItem.done ? NSLocalizedString("[Finished] ", comment: "") : ";")\(toDoItem.text)\n"
+        var text = "\(toDoItem.done ? "[Finished]".localized : ";")\(toDoItem.text)\n"
         if toDoItem.deadline != nil {
-            text += "\(NSLocalizedString("Deadline", comment: "")) \(dateText.text ?? "")"
+            text += "\("Deadline".localized) \(dateText.text ?? "")"
         }
         return text
     }

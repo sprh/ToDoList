@@ -28,7 +28,7 @@ final class NewToDoCell: UITableViewCell {
                                                                       constant: 30)
         textView.backgroundColor = .subviewsBackgtound
         textView.layer.cornerRadius = 16
-        textView.placeholder = NSLocalizedString("New", comment: "")
+        textView.placeholder = "New".localized
         textView.font = .body
         textView.textColor = .text
         textView.placeholderColor = .textGray
