@@ -11,9 +11,9 @@ class ToDoModel {
     let fileCache = FileCache()
     public func getToDoItem(at index: Int, doneShown: Bool) -> ToDoItem {
         if doneShown {
-            return fileCache.toDoItems[index]
+            return index >= fileCache.toDoItems.count ? ToDoItem() : fileCache.toDoItems[index]
         } else {
-            return notDoneToDoItems()[index]
+            return index >= notDoneToDoItems().count ? ToDoItem() : notDoneToDoItems()[index]
         }
     }
     public func toDoItemsCount() -> Int {
@@ -33,5 +33,8 @@ class ToDoModel {
     }
     public func deleteToDoItem(id: String) {
         fileCache.delete(with: id)
+    }
+    public func addToDoItem(toDoItem: ToDoItem) {
+        fileCache.add(item: toDoItem)
     }
 }

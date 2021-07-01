@@ -25,11 +25,11 @@ struct ToDoItem {
     ///     - text: The current do to item description.
     ///     - importance: A value that shows the importance of the task. Default value is common..
     ///     - deadline: The task completeon date. An optional value of type Date.
-    init(id: String? = UUID().uuidString, text: String, importance: Importance? = .common,
+    init(id: String? = UUID().uuidString, text: String, importance: Importance? = .basic,
          deadline: Date? = nil, color: String, done: Bool) {
         self.id = id ?? UUID().uuidString
         self.text = text
-        self.importance = importance ?? .common
+        self.importance = importance ?? .basic
         self.deadline = deadline
         self.color = color
         self.done = done
@@ -37,7 +37,7 @@ struct ToDoItem {
     init() {
         self.id = UUID().uuidString
         self.text = ""
-        self.importance = .common
+        self.importance = .basic
         self.deadline = nil
         self.color = UIColor.hexStringFromColor(color: .text)
         self.done = false
@@ -51,7 +51,7 @@ extension ToDoItem {
     ///         - The current object as a json string.
     var json: Any {
         var data: [String: Any] = ["id": id, "text": text, "color": color]
-        if importance != .common {
+        if importance != .basic {
             data["importance"] = importance.rawValue
         }
         if deadline != nil {
@@ -72,7 +72,7 @@ extension ToDoItem {
               let id = data["id"] as? String, let text = data["text"] as? String else {
             return nil
         }
-        let importanceString = data.keys.contains("importance") ? data["importance"] as? String: "common"
+        let importanceString = data.keys.contains("importance") ? data["importance"] as? String: "basic"
         let importance = Importance(rawValue: importanceString ?? "common")
         let deadline = data.keys.contains("deadline") ? data["deadline"] as? Double : nil
         let color = data.keys.contains("color") ? data["color"] as? String : "#%06x"
