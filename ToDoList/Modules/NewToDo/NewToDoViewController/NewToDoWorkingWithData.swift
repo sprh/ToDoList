@@ -10,12 +10,11 @@ import UIKit
 extension NewToDoViewController {
     func loadData() {
         textView.text = model.toDoItem.text
-        if let deadline = model.toDoItem.deadline {
-            deadlineSwitch.isOn = true
-            deadlineSwitched()
-            deadlinePicker.minimumDate = min(Date(), deadline)
-            deadlinePicker.date = deadline
-        }
+        guard let deadline = model.toDoItem.deadline else { return }
+        deadlineSwitch.isOn = true
+        deadlineSwitched()
+        deadlinePicker.minimumDate = Date.init(timeIntervalSince1970: Double(deadline))
+        deadlinePicker.date = Date.init(timeIntervalSince1970: Double(deadline))
         segmentedControl.selectedSegmentIndex =
             importanceAsArray.firstIndex(of: model.toDoItem.importance.rawValue) ?? 0
         let color = UIColor.colorWithHexString(hexString: model.toDoItem.color)

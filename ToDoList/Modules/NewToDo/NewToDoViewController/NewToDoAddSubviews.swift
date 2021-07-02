@@ -141,8 +141,7 @@ extension NewToDoViewController {
     private func setupDeadlineStack() {
         // MARK: - Labels for the stack.
         deadlineLabel.text = "Deadline".localized
-        deadlineLabel.font = .body
-        deadlineLabel.textColor = .text
+        deadlineLabel.font = .body; deadlineLabel.textColor = .text
         deadlineLabel.translatesAutoresizingMaskIntoConstraints = false
         deadlineTopAnchorConstraint = deadlineLabel.topAnchor.constraint(equalTo: importanceAndDateStack.topAnchor,
                                                                          constant: 73.5)
@@ -165,7 +164,8 @@ extension NewToDoViewController {
         deadlinePicker.preferredDatePickerStyle = .inline
         deadlinePicker.backgroundColor = .subviewsBackgtound
         deadlinePicker.tintColor = .azure
-        deadlinePicker.minimumDate = Calendar.current.date(byAdding: .day, value: 1, to: Date())
+        deadlinePicker.minimumDate = Date()
+        deadlinePicker.date = Calendar.current.date(byAdding: .day, value: 1, to: Date()) ?? Date()
         importanceAndDateStack.addSubview(deadlinePicker)
         NSLayoutConstraint.activate([
             deadlinePicker.leadingAnchor.constraint(equalTo: importanceAndDateStack.leadingAnchor, constant: 16),

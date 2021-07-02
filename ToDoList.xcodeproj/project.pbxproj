@@ -37,6 +37,7 @@
 		E3804D9B268F080500957844 /* FileCacheServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3804D98268F080500957844 /* FileCacheServiceProtocol.swift */; };
 		E3804D9C268F080500957844 /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3804D99268F080500957844 /* FileCache.swift */; };
 		E3804D9D268F080500957844 /* FileCacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3804D9A268F080500957844 /* FileCacheService.swift */; };
+		E3804D9F268F0B9200957844 /* ToDoItemNetworkingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3804D9E268F0B9200957844 /* ToDoItemNetworkingModel.swift */; };
 		E3925EAD26768DEC00BF26BA /* DatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3925EAC26768DEC00BF26BA /* DatePicker.swift */; };
 		E398447A266A9B29000D1B31 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3984479266A9B29000D1B31 /* ColorExtension.swift */; };
 		E3984488266AA019000D1B31 /* ImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3984487266AA019000D1B31 /* ImageExtension.swift */; };
@@ -111,6 +112,7 @@
 		E3804D98268F080500957844 /* FileCacheServiceProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileCacheServiceProtocol.swift; sourceTree = "<group>"; };
 		E3804D99268F080500957844 /* FileCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileCache.swift; sourceTree = "<group>"; };
 		E3804D9A268F080500957844 /* FileCacheService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileCacheService.swift; sourceTree = "<group>"; };
+		E3804D9E268F0B9200957844 /* ToDoItemNetworkingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItemNetworkingModel.swift; sourceTree = "<group>"; };
 		E3925EAC26768DEC00BF26BA /* DatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePicker.swift; sourceTree = "<group>"; };
 		E3984479266A9B29000D1B31 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		E3984487266AA019000D1B31 /* ImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExtension.swift; sourceTree = "<group>"; };
@@ -328,6 +330,7 @@
 			children = (
 				E3CD751A2688F22B00FF2093 /* Network.swift */,
 				E3CD751B2688F22B00FF2093 /* NetworkProtocol.swift */,
+				E3804D9E268F0B9200957844 /* ToDoItemNetworkingModel.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -643,6 +646,7 @@
 				E30540F6266A96B4008C2083 /* AboutViewController.swift in Sources */,
 				E30DC117268D9C2F00ABB6C9 /* String.swift in Sources */,
 				E37C9FB1268779CE0045336D /* NewToDoObjcMethods.swift in Sources */,
+				E3804D9F268F0B9200957844 /* ToDoItemNetworkingModel.swift in Sources */,
 				E30540BB266A960F008C2083 /* AppDelegate.swift in Sources */,
 				E37C9FAC268779B60045336D /* NewToDoAddSubviews.swift in Sources */,
 				E3804D9C268F080500957844 /* FileCache.swift in Sources */,

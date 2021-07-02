@@ -14,10 +14,7 @@ struct ToDoItem {
     let id: String
     let text: String
     let importance: Importance
-    let deadline: Date?
-    var deadlineSince1970: Int? {
-        return Int(deadline?.timeIntervalSince1970 ?? 0)
-    }
+    let deadline: Int?
     var done: Bool
     var color: String
     /// - Parameters:
@@ -26,7 +23,7 @@ struct ToDoItem {
     ///     - importance: A value that shows the importance of the task. Default value is common..
     ///     - deadline: The task completeon date. An optional value of type Date.
     init(id: String? = UUID().uuidString, text: String, importance: Importance? = .basic,
-         deadline: Date? = nil, color: String, done: Bool) {
+         deadline: Int? = nil, color: String = "", done: Bool = false) {
         self.id = id ?? UUID().uuidString
         self.text = text
         self.importance = importance ?? .basic
@@ -55,7 +52,7 @@ extension ToDoItem {
             data["importance"] = importance.rawValue
         }
         if deadline != nil {
-            data["deadline"] = deadlineSince1970
+            data["deadline"] = deadline
         }
         return data
     }
@@ -74,13 +71,13 @@ extension ToDoItem {
         }
         let importanceString = data.keys.contains("importance") ? data["importance"] as? String: "basic"
         let importance = Importance(rawValue: importanceString ?? "common")
-        let deadline = data.keys.contains("deadline") ? data["deadline"] as? Double : nil
+        let deadline = data.keys.contains("deadline") ? data["deadline"] as? Int : nil
         let color = data.keys.contains("color") ? data["color"] as? String : "#%06x"
         let done = data.keys.contains("done") ? data["done"] as? Bool : false
         return ToDoItem(id: id,
                         text: text,
                         importance: importance,
-                        deadline: Date.init(timeIntervalSince1970: deadline ?? 0),
+                        deadline: deadline,
                         color: color ?? "#%06x",
                         done: done ?? false)
     }

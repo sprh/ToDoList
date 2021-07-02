@@ -18,9 +18,13 @@ final class NewToDoModel {
         self.indexPath = indexPath
     }
     func save(text: String, importance: String, deadline: Date?, color: String) {
-        let newToDoItem = ToDoItem(id: toDoItem.id, text: text,
-                                   importance: Importance.init(rawValue: importance), deadline:
-                                    deadline, color: color, done: toDoItem.done)
+        let deadlineSince1970: Int? = (deadline != nil) ? Int(Date().timeIntervalSince(deadline!)) : nil
+        let newToDoItem = ToDoItem(id: toDoItem.id,
+                                   text: text,
+                                   importance: Importance.init(rawValue: importance),
+                                   deadline: deadlineSince1970,
+                                   color: color,
+                                   done: toDoItem.done)
         toDoItem = newToDoItem
         fileCache.add(item: newToDoItem)
         guard let indexPath = self.indexPath else {

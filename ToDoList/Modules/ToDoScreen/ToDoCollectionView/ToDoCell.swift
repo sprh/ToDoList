@@ -55,9 +55,10 @@ class ToDoCell: UITableViewCell {
             arrow.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
         guard let deadline = toDoItem.deadline else { return }
-        addDateLabels(date: deadline)
+        addDateLabels(deadline: deadline)
     }
-    private func addDateLabels(date: Date) {
+    private func addDateLabels(deadline: Int) {
+        let date = Date.init(timeIntervalSince1970: Double(deadline))
         dateImageView.image = .calendar
         dateImageView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(dateImageView)
