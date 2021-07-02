@@ -9,7 +9,7 @@ import UIKit
 
 extension ToDoViewController {
     @objc func addButtonClick() {
-        let newToDoModel = NewToDoModel(toDoItem: ToDoItem(text: "", color: "#ACFA00", done: false), fileCache:
+        let newToDoModel = NewToDoModel(toDoItem: ToDoItem(), fileCache:
                                             model.fileCache, indexPath: nil)
         newToDoModel.delegate = self
         let newToDoViewController = NewToDoViewController(model: newToDoModel)

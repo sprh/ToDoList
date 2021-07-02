@@ -27,8 +27,13 @@ class ToDoModel {
     }
     public func updateToDoItemDone(id: String) {
         guard let item = fileCache.get(with: id) else { return }
-        let newItem = ToDoItem(id: id, text: item.text, importance: item.importance,
-                               deadline: item.deadline, color: item.color, done: !item.done)
+        let newItem = ToDoItem(id: id,
+                               text: item.text,
+                               importance: item.importance,
+                               deadline: item.deadline,
+                               color: item.color,
+                               done: !item.done,
+                               updatedAt: Int(Date().timeIntervalSince1970))
         fileCache.add(item: newItem)
     }
     public func deleteToDoItem(id: String) {

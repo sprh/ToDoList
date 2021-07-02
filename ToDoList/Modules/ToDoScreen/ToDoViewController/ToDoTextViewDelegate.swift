@@ -22,7 +22,11 @@ extension ToDoViewController: UITextViewDelegate {
         }
         textView.resignFirstResponder()
         if !textView.text.isEmpty {
-            let toDoItem = ToDoItem(text: textView.text, color: "", done: false)
+            let toDoItem = ToDoItem(text: textView.text,
+                                    color: "",
+                                    done: false,
+                                    updatedAt: Int(Date().timeIntervalSince1970),
+                                    createdAt: Int(Date().timeIntervalSince1970))
             textView.text = ""
             model.addToDoItem(toDoItem: toDoItem)
             tableView.reloadData() }

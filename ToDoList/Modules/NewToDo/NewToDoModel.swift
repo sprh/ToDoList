@@ -24,7 +24,9 @@ final class NewToDoModel {
                                    importance: Importance.init(rawValue: importance),
                                    deadline: deadlineSince1970,
                                    color: color,
-                                   done: toDoItem.done)
+                                   done: toDoItem.done,
+                                   updatedAt: Int(Date().timeIntervalSince1970),
+                                   createdAt: indexPath == nil ? Int(Date().timeIntervalSince1970) : toDoItem.createdAt)
         toDoItem = newToDoItem
         fileCache.add(item: newToDoItem)
         guard let indexPath = self.indexPath else {

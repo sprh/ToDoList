@@ -123,7 +123,8 @@ extension ToDoCell {
                             importance: toDoItem.importance,
                             deadline: toDoItem.deadline,
                             color: toDoItem.color,
-                            done: !toDoItem.done)
+                            done: !toDoItem.done,
+                            updatedAt: Int(Date().timeIntervalSince1970))
         setDataToCell()
     }
 }
