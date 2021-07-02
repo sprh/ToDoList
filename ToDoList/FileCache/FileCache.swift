@@ -10,6 +10,8 @@ import Foundation
 final class FileCache {
     /// An array of to do items.
     private(set) var toDoItems: [ToDoItem] = []
+    /// An array of tombstones.
+    private(set) var tombstones: [Tombstone] = []
     /// Add an item to the array.
     ///  - Parameters:
     ///  - item: A new to do item.
