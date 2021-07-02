@@ -8,8 +8,8 @@
 import Foundation
 
 protocol NetworkProtocol {
-    func getToDoItems(completion: @escaping (NetworkResult<[ToDoItem]>) -> Void)
-    func deleteToDoItem(id: String, completion: @escaping (NetworkResult<ToDoItem>) -> Void)
-    func addToDoItem(toDoItem: ToDoItem, completion: @escaping (NetworkResult<ToDoItem>) -> Void)
-    func getToDoItem(toDoItem: ToDoItem, completion: @escaping (NetworkResult<ToDoItem>) -> Void)
+    func getToDoItems(completion: @escaping (Result<[ToDoItem], Error>) -> Void)
+    func deleteToDoItem(id: String, completion: @escaping (Result<ToDoItem, Error>) -> Void)
+    func addToDoItem(toDoItem: ToDoItem, completion: @escaping (Result<ToDoItem, Error>) -> Void)
+    func getToDoItem(toDoItem: ToDoItem, completion: @escaping (Result<ToDoItem, Error>) -> Void)
 }

@@ -52,10 +52,11 @@ final class FileCache {
     /// Save an array of objects to the file.
     /// - Parameters:
     /// - Path: a string contains the path to the file in which we save an array.
-    func saveFile(to path: String = "todoitems.json", closure: @escaping (FileCacheError) -> Void) {
+    func saveFile(to path: String = "todoitems.json",
+                  completion: @escaping (Result<[ToDoItem], FileCacheError>) -> Void) {
         guard let documentDirectory = FileManager.default.urls(for: .documentDirectory,
                                                                in: .userDomainMask).first else {
-            closure(FileCacheError.fileNotFound)
+            completion(.failure(.fileNotFound))
             return
         }
         let jsonArray = toDoItems.map { $0.json }
@@ -64,17 +65,19 @@ final class FileCache {
             let json = try JSONSerialization.data(withJSONObject: jsonArray, options: .prettyPrinted)
             try json.write(to: url, options: [])
         } catch {
-            closure(FileCacheError.canNotWrite)
+            completion(.failure(.canNotWrite))
         }
+        completion(.success(toDoItems))
     }
     /// Load an array of objects from the file.
     /// - Parameters:
     /// - Path: a string contains the path to the file from which we load an array.
-    func loadFile(from path: String = "todoitems.json", closure: @escaping (FileCacheError) -> Void) {
+    func loadFile(from path: String = "todoitems.json",
+                  completion: @escaping (Result<[ToDoItem], FileCacheError>) -> Void) {
         // Check if a file with the path exists.
         guard let documentDirectory = FileManager.default.urls(for: .documentDirectory,
                                                                in: .userDomainMask).first else {
-            closure(FileCacheError.fileNotFound)
+            completion(.failure(FileCacheError.fileNotFound))
             return
         }
         // Because we don't want to store repeatable elements.
@@ -86,7 +89,7 @@ final class FileCache {
             guard let data = try
                     JSONSerialization.jsonObject(with: jsonData, options: []) as? [Any] else {
                 print("Can't parse a json string")
-                closure(FileCacheError.canNotRead)
+                completion(.failure(.canNotRead))
                 return
             }
             for item in data {
@@ -96,7 +99,8 @@ final class FileCache {
                 toDoItems.append(toDoItem)
             }
         } catch {
-            closure(FileCacheError.canNotRead)
+            completion(.failure(.canNotRead))
         }
+        completion(.success(toDoItems))
     }
 }
