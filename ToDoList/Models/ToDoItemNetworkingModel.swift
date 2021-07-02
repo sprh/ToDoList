@@ -30,7 +30,7 @@ struct ToDoItemNetworkingModel: Codable {
         self.text = try container.decode(String.self, forKey: .text)
         self.importance = try container.decode(String.self, forKey: .importance)
         self.done = try container.decode(Bool.self, forKey: .done)
-        self.deadline = try container.decode(Int.self, forKey: .deadline)
+        self.deadline = try container.decode(Int?.self, forKey: .deadline)
         self.createdAt = try container.decode(Int.self, forKey: .createdAt)
         self.updatedAt = try container.decode(Int.self, forKey: .updatedAt)
     }
@@ -53,10 +53,9 @@ struct ToDoItemNetworkingModel: Codable {
         try container.encode(createdAt, forKey: .createdAt)
         try container.encode(updatedAt, forKey: .updatedAt)
     }
-    func toJsonData() -> String? {
+    func toData() -> Data? {
         let jsonEncoder = JSONEncoder()
-        guard let json = try? jsonEncoder.encode(self) else {return nil}
-        return String(data: json, encoding: .utf8)
+        return try? jsonEncoder.encode(self)
     }
     func toToDoItem() -> ToDoItem {
         return ToDoItem(id: id,

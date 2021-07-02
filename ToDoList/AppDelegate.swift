@@ -22,7 +22,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        window?.rootViewController = navigationController
 //        window?.makeKeyAndVisible()
         let networking = DefaultNetworkingService()
-        networking.postToDoItem(ToDoItem(), completion: { result in
+        let toDoItem = ToDoItem(id: "6",
+                                text: "111",
+                                importance: .basic,
+                                deadline: nil, color: "",
+                                done: false,
+                                updatedAt: Int(Date().timeIntervalSince1970),
+                                createdAt: Int(Date().timeIntervalSince1970),
+                                isDirty: false)
+        networking.postToDoItem(toDoItem, completion: { result in
+            print(result)
         })
         return true
     }

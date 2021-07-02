@@ -44,40 +44,43 @@ class DefaultNetworkingService: NetworkingService {
             completion(.failure(NetworkError.incorrectUrl)); return
         }
         let networkingModel = ToDoItemNetworkingModel(toDoItem)
-        guard let networkingModelData = networkingModel.toJsonData() else {
-            completion(.failure(NetworkError.canNotSerializeItem)); return
-        }
         var urlRequest = URLRequest(url: url)
         urlRequest.setValue(token, forHTTPHeaderField: "Authorization")
-        let array = [networkingModel.toJsonData()]
-        let json = try? JSONSerialization.data(withJSONObject: array, options: .prettyPrinted)
-        urlRequest.httpBody = json
+        urlRequest.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
         urlRequest.httpMethod = "POST"
+        urlRequest.httpBody = networkingModel.toData()
         let task = self.session.dataTask(with: urlRequest) { data, response, error in
             if let error = error {
                 completion(.failure(error))
             } else if let data = data,
                       let toDoItemNetworkModel = try? JSONDecoder().decode(ToDoItemNetworkingModel.self, from: data) {
                 completion(.success(toDoItemNetworkModel.toToDoItem()))
-            } else if let response = response as? HTTPURLResponse {
-                completion(.failure(self.findResponseError(response.statusCode)))
-            } else {
-                completion(.failure(NetworkError.unknownError))
             }
+            else {
+                print(data)
+            }
+            
+            
+            
+//            else if let response = response as? HTTPURLResponse {
+//                completion(.failure(self.findResponseError(response.statusCode)))
+//            } else {
+//                completion(.failure(NetworkError.unknownError))
+//            }
         }
         queue.async {
             task.resume()
         }
     }
-    
     func putToDoItem(_ toDoItem: ToDoItem, completion: @escaping (Result<ToDoItem, Error>) -> Void) {
-        let networkingModel = ToDoItemNetworkingModel(toDoItem)
         guard let url = URL(string: "https://d5dps3h13rv6902lp5c8.apigw.yandexcloud.net/tasks/\(toDoItem.id)") else {
             completion(.failure(NetworkError.incorrectUrl)); return
         }
         var urlRequest = URLRequest(url: url)
+        let networkingModel = ToDoItemNetworkingModel(toDoItem)
         urlRequest.setValue(token, forHTTPHeaderField: "Authorization")
-//        urlRequest.httpBody = networkingModel.toJsonData()
+        urlRequest.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+//        urlRequest.httpBody = networkingModel.getData()
         urlRequest.httpMethod = "PUT"
         let task = self.session.dataTask(with: urlRequest) { data, response, error in
             if let error = error {
@@ -138,7 +141,3 @@ class DefaultNetworkingService: NetworkingService {
         }
     }
 }
-
-//
-//let toDoItemNetworkModel = try? JSONDecoder().decode(ToDoItemNetworkingModel.self, from: data) {
-// let toDoItem = toDoItemNetworkModel.toToDoItem()
