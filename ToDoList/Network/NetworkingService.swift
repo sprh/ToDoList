@@ -11,9 +11,9 @@ protocol NetworkingService {
     /// Get all to do items.
     func getToDoItems(completion: @escaping (Result<[ToDoItem], Error>) -> Void)
     /// Add a new to do item.
-    func postToDoItem(toDoItem: ToDoItem, completion: @escaping (Result<ToDoItem, Error>) -> Void)
+    func postToDoItem(_ toDoItem: ToDoItem, completion: @escaping (Result<ToDoItem, Error>) -> Void)
     /// Update a to do item.
-    func putToDoItem(toDoItem: ToDoItem, completion: @escaping (Result<ToDoItem, Error>) -> Void)
+    func putToDoItem(_ toDoItem: ToDoItem, completion: @escaping (Result<ToDoItem, Error>) -> Void)
     /// Delete a to do item.
     func deleteToDoItem(id: String, completion: @escaping (Result<ToDoItem, Error>) -> Void)
     /// Update, add or delete several to do items.

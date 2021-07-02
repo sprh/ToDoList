@@ -22,8 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        window?.rootViewController = navigationController
 //        window?.makeKeyAndVisible()
         let networking = DefaultNetworkingService()
-        networking.getToDoItems(completion: { result in
-            
+        networking.postToDoItem(ToDoItem(), completion: { result in
         })
         return true
     }

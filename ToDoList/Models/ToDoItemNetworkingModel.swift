@@ -15,7 +15,7 @@ struct ToDoItemNetworkingModel: Codable {
     let deadline: Int?
     let createdAt: Int
     let updatedAt: Int
-    public init(toDoItem: ToDoItem) {
+    public init(_ toDoItem: ToDoItem) {
         id = toDoItem.id
         text = toDoItem.text
         importance = toDoItem.importance.rawValue
@@ -42,5 +42,31 @@ struct ToDoItemNetworkingModel: Codable {
         case deadline
         case createdAt = "created_at"
         case updatedAt = "updated_at"
+    }
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
+        try container.encode(text, forKey: .text)
+        try container.encode(importance, forKey: .importance)
+        try container.encode(done, forKey: .done)
+        try container.encode(deadline, forKey: .deadline)
+        try container.encode(createdAt, forKey: .createdAt)
+        try container.encode(updatedAt, forKey: .updatedAt)
+    }
+    func toJsonData() -> String? {
+        let jsonEncoder = JSONEncoder()
+        guard let json = try? jsonEncoder.encode(self) else {return nil}
+        return String(data: json, encoding: .utf8)
+    }
+    func toToDoItem() -> ToDoItem {
+        return ToDoItem(id: id,
+                        text: text,
+                        importance: Importance.init(rawValue: importance),
+                        deadline: deadline,
+                        color: "",
+                        done: done,
+                        updatedAt: updatedAt,
+                        createdAt: createdAt,
+                        isDirty: false)
     }
 }
