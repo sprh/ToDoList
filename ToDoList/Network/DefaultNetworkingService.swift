@@ -56,17 +56,11 @@ class DefaultNetworkingService: NetworkingService {
                       let toDoItemNetworkModel = try? JSONDecoder().decode(ToDoItemNetworkingModel.self, from: data) {
                 completion(.success(toDoItemNetworkModel.toToDoItem()))
             }
-            else {
-                print(data)
+            else if let response = response as? HTTPURLResponse {
+                completion(.failure(self.findResponseError(response.statusCode)))
+            } else {
+                completion(.failure(NetworkError.unknownError))
             }
-            
-            
-            
-//            else if let response = response as? HTTPURLResponse {
-//                completion(.failure(self.findResponseError(response.statusCode)))
-//            } else {
-//                completion(.failure(NetworkError.unknownError))
-//            }
         }
         queue.async {
             task.resume()
@@ -80,7 +74,7 @@ class DefaultNetworkingService: NetworkingService {
         let networkingModel = ToDoItemNetworkingModel(toDoItem)
         urlRequest.setValue(token, forHTTPHeaderField: "Authorization")
         urlRequest.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-//        urlRequest.httpBody = networkingModel.getData()
+        urlRequest.httpBody = networkingModel.toData()
         urlRequest.httpMethod = "PUT"
         let task = self.session.dataTask(with: urlRequest) { data, response, error in
             if let error = error {
@@ -105,7 +99,7 @@ class DefaultNetworkingService: NetworkingService {
         }
         var urlRequest = URLRequest(url: url)
         urlRequest.setValue(token, forHTTPHeaderField: "Authorization")
-        urlRequest.httpMethod = "Delete"
+        urlRequest.httpMethod = "DELETE"
         let task = self.session.dataTask(with: urlRequest) { data, response, error in
             if let error = error {
                 completion(.failure(error))

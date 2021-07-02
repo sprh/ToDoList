@@ -22,15 +22,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        window?.rootViewController = navigationController
 //        window?.makeKeyAndVisible()
         let networking = DefaultNetworkingService()
-        let toDoItem = ToDoItem(id: "6",
-                                text: "111",
+        let toDoItem = ToDoItem(id: "iddd",
+                                text: "test",
                                 importance: .basic,
-                                deadline: nil, color: "",
+                                deadline: nil, color: "test",
                                 done: false,
                                 updatedAt: Int(Date().timeIntervalSince1970),
                                 createdAt: Int(Date().timeIntervalSince1970),
                                 isDirty: false)
-        networking.postToDoItem(toDoItem, completion: { result in
+        networking.deleteToDoItem(id: "iddd", completion: { result in
             print(result)
         })
         return true
