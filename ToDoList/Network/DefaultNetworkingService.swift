@@ -48,7 +48,7 @@ class DefaultNetworkingService: NetworkingService {
         urlRequest.setValue(token, forHTTPHeaderField: "Authorization")
         urlRequest.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
         urlRequest.httpMethod = "POST"
-        urlRequest.httpBody = networkingModel.toData()
+        urlRequest.httpBody = try? JSONEncoder().encode(networkingModel)
         let task = self.session.dataTask(with: urlRequest) { data, response, error in
             if let error = error {
                 completion(.failure(error))
@@ -74,7 +74,7 @@ class DefaultNetworkingService: NetworkingService {
         let networkingModel = ToDoItemNetworkingModel(toDoItem)
         urlRequest.setValue(token, forHTTPHeaderField: "Authorization")
         urlRequest.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        urlRequest.httpBody = networkingModel.toData()
+        urlRequest.httpBody = try? JSONEncoder().encode(networkingModel)
         urlRequest.httpMethod = "PUT"
         let task = self.session.dataTask(with: urlRequest) { data, response, error in
             if let error = error {
@@ -92,7 +92,6 @@ class DefaultNetworkingService: NetworkingService {
             task.resume()
         }
     }
-    
     func deleteToDoItem(id: String, completion: @escaping (Result<ToDoItem, Error>) -> Void) {
         guard let url = URL(string: "https://d5dps3h13rv6902lp5c8.apigw.yandexcloud.net/tasks/\(id)") else {
             completion(.failure(NetworkError.incorrectUrl)); return
@@ -117,12 +116,35 @@ class DefaultNetworkingService: NetworkingService {
         }
     }
     
-    func putToDoItems(addOrUpdateItems: [ToDoItem], deleteIds: [String], completion: @escaping (Result<ToDoItem, Error>) -> Void) {
-//        let request =
-//            [{
-//            "deleted": deleteIds,
-//            other: addOrUpdateItems
-//            }]
+    func putToDoItems(addOrUpdateItems: [ToDoItem], deleteIds: [String], completion: @escaping (Result<[ToDoItem], Error>) -> Void) {
+        guard let url = URL(string: "https://d5dps3h13rv6902lp5c8.apigw.yandexcloud.net/tasks/") else {
+            completion(.failure(NetworkError.incorrectUrl)); return
+        }
+        var urlRequest = URLRequest(url: url)
+        urlRequest.setValue(token, forHTTPHeaderField: "Authorization")
+        urlRequest.httpMethod = "PUT"
+        let toDoModels = addOrUpdateItems.map({ToDoItemNetworkingModel($0).toJsonArray()})
+        let request: [String: Any] = ["deleted": deleteIds,
+                                      "other": toDoModels]
+        let data = try? JSONSerialization.data(withJSONObject: request, options: [])
+        urlRequest.httpBody = data
+        urlRequest.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        let task = self.session.dataTask(with: urlRequest) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+            } else if let data = data,
+                      let toDoItemNetworkModels = try? JSONDecoder().decode([ToDoItemNetworkingModel].self, from: data) {
+                let toDoItems = toDoItemNetworkModels.map({$0.toToDoItem()})
+                completion(.success(toDoItems))
+            } else if let response = response as? HTTPURLResponse {
+                completion(.failure(self.findResponseError(response.statusCode)))
+            } else {
+                completion(.failure(NetworkError.unknownError))
+            }
+        }
+        queue.async {
+            task.resume()
+        }
     }
     func findResponseError(_ statusCode: Int) -> NetworkError {
         switch statusCode {

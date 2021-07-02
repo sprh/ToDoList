@@ -18,5 +18,5 @@ protocol NetworkingService {
     func deleteToDoItem(id: String, completion: @escaping (Result<ToDoItem, Error>) -> Void)
     /// Update, add or delete several to do items.
     func putToDoItems(addOrUpdateItems: [ToDoItem], deleteIds: [String],
-                      completion: @escaping (Result<ToDoItem, Error>) -> Void)
+                      completion: @escaping (Result<[ToDoItem], Error>) -> Void)
 }

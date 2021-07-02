@@ -53,9 +53,14 @@ struct ToDoItemNetworkingModel: Codable {
         try container.encode(createdAt, forKey: .createdAt)
         try container.encode(updatedAt, forKey: .updatedAt)
     }
-    func toData() -> Data? {
-        let jsonEncoder = JSONEncoder()
-        return try? jsonEncoder.encode(self)
+    func toJsonArray() -> [String: Any] {
+        return ["id" : id,
+                "text": text,
+                "importance": importance,
+                "done": done,
+                "deadline": deadline,
+                "created_at": createdAt,
+                "updated_at": updatedAt]
     }
     func toToDoItem() -> ToDoItem {
         return ToDoItem(id: id,
