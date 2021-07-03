@@ -46,5 +46,8 @@ class ToDoViewController: UIViewController {
         model.loadData { [weak self] in
             self?.tableView.reloadData()
         }
+        model.loadFromServer { [weak self] in
+            self?.tableView.reloadData()
+        }
     }
 }

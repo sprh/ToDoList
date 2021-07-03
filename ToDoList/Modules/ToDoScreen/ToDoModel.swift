@@ -32,7 +32,7 @@ class ToDoModel {
         }
     }
     public func deleteToDoItem(id: String) {
-        toDoService.delete(id, queue: .main) { _ in
+        toDoService.delete(id, queue: .main) { [weak self] _ in
         }
     }
     public func addToDoItem(toDoItem: ToDoItem) {
@@ -43,7 +43,12 @@ class ToDoModel {
         return toDoService.getToDoItems(withDone: true).filter({$0.done}).count
     }
     public func loadData(completion: @escaping () -> Void) {
-        toDoService.loadItems(queue: .main) {_ in 
+        toDoService.loadFromFile(queue: .main) {_ in
+            completion()
+        }
+    }
+    public func loadFromServer(completion: @escaping () -> Void) {
+        toDoService.loadFromServer(queue: .main) { _ in
             completion()
         }
     }

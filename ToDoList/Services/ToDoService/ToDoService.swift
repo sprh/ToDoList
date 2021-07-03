@@ -10,7 +10,7 @@ import Foundation
 class ToDoService {
     let fileCache: FileCache
     let networkingService: DefaultNetworkingService
-    private let itemsQueue = DispatchQueue(label: "ToDOSerbice", attributes: [.concurrent])
+    private let itemsQueue = DispatchQueue(label: "ToDoService", attributes: [.concurrent])
     init(fileCache: FileCache, networkingService: DefaultNetworkingService) {
         self.fileCache = fileCache
         self.networkingService = networkingService
@@ -31,6 +31,16 @@ class ToDoService {
             case let .success(item):
                 self?.replaceAndSave(item: item, queue: queue, completion: completion)
             case let .failure(error):
+                let dirtyItem = ToDoItem(id: item.id,
+                                         text: item.text,
+                                         importance: item.importance,
+                                         deadline: item.deadline,
+                                         color: item.color,
+                                         done: item.done,
+                                         updatedAt: item.updatedAt,
+                                         createdAt: item.createdAt,
+                                         isDirty: true)
+                self?.fileCache.add(item: dirtyItem)
                 queue.async {
                     completion(.failure(error))
                 }
@@ -40,6 +50,7 @@ class ToDoService {
     func delete(_ id: String, queue: DispatchQueue, completion: @escaping (Result<ToDoItem, Error>) -> Void) {
         fileCache.delete(with: id)
         networkingService.delete(id) { [weak self] result in
+            print(result)
             switch result {
             case let .success(item):
                 completion(.success(item))
@@ -56,6 +67,16 @@ class ToDoService {
             case let .success(item):
                 self?.replaceAndSave(item: item, queue: queue, completion: completion)
             case let .failure(error):
+                let dirtyItem = ToDoItem(id: item.id,
+                                         text: item.text,
+                                         importance: item.importance,
+                                         deadline: item.deadline,
+                                         color: item.color,
+                                         done: item.done,
+                                         updatedAt: item.updatedAt,
+                                         createdAt: item.createdAt,
+                                         isDirty: true)
+                self?.fileCache.add(item: dirtyItem)
                 completion(.failure(error))
             }
         }
@@ -76,8 +97,26 @@ class ToDoService {
             }
         }
     }
-    func merge(items: [ToDoItem], completion: @escaping () -> Void) {
-        fileCache.reloadItems(toDoItems: items, completion: completion)
+    func merge(items: [ToDoItem], completion: @escaping ([ToDoItem]) -> Void) {
+        itemsQueue.async { [weak self] in
+            guard let self = self else {return}
+            let cacheItems = self.fileCache.toDoItems
+            var newItems: [ToDoItem] = []
+            for item in items {
+                if let cacheItem = cacheItems.first(where: {$0.id == item.id}) {
+                   if let cacheUpdatedAt = cacheItem.updatedAt,
+                      let itemUpdatedAt = item.updatedAt,
+                      cacheUpdatedAt < itemUpdatedAt {
+                        newItems.append(item)
+                   } else {
+                    newItems.append(cacheItem)
+                   }
+                } else {
+                    newItems.append(item)
+                }
+            }
+            completion(newItems)
+        }
     }
     func replace(item: ToDoItem, completion: @escaping () -> Void) {
         itemsQueue.async(flags: [.barrier]) { [weak self] in
@@ -93,15 +132,17 @@ class ToDoService {
         }
         completion()
     }
-    func loadItems(queue: DispatchQueue, completion: @escaping (Result<[ToDoItem], Error>) -> Void) {
+    func loadFromServer(queue: DispatchQueue, completion: @escaping (Result<[ToDoItem], Error>) -> Void) {
         networkingService.getAll { [weak self] result in
             switch result {
             case let .success(items):
-                self?.merge(items: items) {
+                self?.merge(items: items) { items in
                     queue.async {
-                        completion(.success(items))
+                        self?.fileCache.reloadItems(toDoItems: items) {
+                            completion(.success(items))
+                        }
                     }
-            }
+                }
             case .failure(_):
                 self?.loadFromFile(queue: queue, completion: completion)
             }
