@@ -10,7 +10,7 @@ import Foundation
 class FileCacheService: FileCacheServiceProtocol {
     let queue = DispatchQueue(label: "com.ToDoList.FileCacheQueue")
     let fileCache = FileCache()
-    func saveFile(fileName: String, completion: @escaping (Result<[ToDoItem], FileCacheError>) -> Void) {
+    func saveFile(fileName: String, completion: @escaping (Result<Void, FileCacheError>) -> Void) {
         queue.async { [weak self] in
             self?.fileCache.saveFile(to: fileName, completion: completion)
         }

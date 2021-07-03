@@ -23,6 +23,13 @@ final class FileCache {
         }
         toDoItems[index] = toDoItem
     }
+    func addTombstone(tombstone: Tombstone) {
+        tombstones.append(tombstone)
+    }
+    func deleteTombstone(id: String) {
+        guard let index = tombstones.firstIndex(where: {$0.id == id}) else { return }
+        tombstones.remove(at: index)
+    }
     /// Delete an element from the array by its id.
     /// - Parameters:
     /// - id: an identifire of the item.
@@ -37,7 +44,7 @@ final class FileCache {
     /// - Parameters:
     /// - Path: a string contains the path to the file in which we save an array.
     func saveFile(to path: String = "todoitems.json",
-                  completion: @escaping (Result<[ToDoItem], FileCacheError>) -> Void) {
+                  completion: @escaping (Result<Void, FileCacheError>) -> Void) {
         guard let documentDirectory = FileManager.default.urls(for: .documentDirectory,
                                                                in: .userDomainMask).first else {
             completion(.failure(.fileNotFound))
@@ -51,7 +58,7 @@ final class FileCache {
         } catch {
             completion(.failure(.canNotWrite))
         }
-        completion(.success(toDoItems))
+        completion(.success(()))
     }
     /// Load an array of objects from the file.
     /// - Parameters:
@@ -86,5 +93,8 @@ final class FileCache {
             completion(.failure(.canNotRead))
         }
         completion(.success(toDoItems))
+    }
+    func getDirties() -> [ToDoItem] {
+        return toDoItems.filter({$0.isDirty})
     }
 }

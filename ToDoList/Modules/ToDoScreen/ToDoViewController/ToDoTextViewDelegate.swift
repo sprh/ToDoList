@@ -25,7 +25,7 @@ extension ToDoViewController: UITextViewDelegate {
             let toDoItem = ToDoItem(text: textView.text,
                                     color: "",
                                     done: false,
-                                    updatedAt: Int(Date().timeIntervalSince1970),
+                                    updatedAt: nil,
                                     createdAt: Int(Date().timeIntervalSince1970))
             textView.text = ""
             model.addToDoItem(toDoItem: toDoItem)

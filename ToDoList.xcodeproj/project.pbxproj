@@ -22,6 +22,8 @@
 		E30E6DFF2676701B008A55BF /* ColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30E6DFE2676701B008A55BF /* ColorView.swift */; };
 		E3169E23267E6439001C4FEE /* ToDoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3169E22267E6439001C4FEE /* ToDoCell.swift */; };
 		E3169E3F267F6355001C4FEE /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3169E3E267F6355001C4FEE /* NavigationBar.swift */; };
+		E3194CC7268FA45C00CB91FA /* ToDoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3194CC6268FA45C00CB91FA /* ToDoService.swift */; };
+		E3194CC9268FA46A00CB91FA /* ToDoProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3194CC8268FA46A00CB91FA /* ToDoProtocol.swift */; };
 		E31F460F268F20E000CF2652 /* Tombstone.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31F460E268F20E000CF2652 /* Tombstone.swift */; };
 		E31F4611268F2F3700CF2652 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31F4610268F2F3700CF2652 /* NetworkError.swift */; };
 		E33611112686187D00BE31CB /* NewToDoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33611102686187D00BE31CB /* NewToDoCell.swift */; };
@@ -99,6 +101,8 @@
 		E30E6DFE2676701B008A55BF /* ColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorView.swift; sourceTree = "<group>"; };
 		E3169E22267E6439001C4FEE /* ToDoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoCell.swift; sourceTree = "<group>"; };
 		E3169E3E267F6355001C4FEE /* NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
+		E3194CC6268FA45C00CB91FA /* ToDoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoService.swift; sourceTree = "<group>"; };
+		E3194CC8268FA46A00CB91FA /* ToDoProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoProtocol.swift; sourceTree = "<group>"; };
 		E31F460E268F20E000CF2652 /* Tombstone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tombstone.swift; sourceTree = "<group>"; };
 		E31F4610268F2F3700CF2652 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		E33611102686187D00BE31CB /* NewToDoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewToDoCell.swift; sourceTree = "<group>"; };
@@ -211,8 +215,7 @@
 		E30540B9266A960F008C2083 /* ToDoList */ = {
 			isa = PBXGroup;
 			children = (
-				E3804D97268F07FD00957844 /* FileCache */,
-				E3CD75182688F21E00FF2093 /* Network */,
+				E3194CC4268FA42E00CB91FA /* Services */,
 				E3925EA52676893C00BF26BA /* Classes */,
 				E3DB43B9266FF838003A2736 /* Models */,
 				E3984478266A9B15000D1B31 /* Extensions */,
@@ -270,6 +273,25 @@
 				E33611102686187D00BE31CB /* NewToDoCell.swift */,
 			);
 			path = ToDoCollectionView;
+			sourceTree = "<group>";
+		};
+		E3194CC4268FA42E00CB91FA /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				E3194CC5268FA43D00CB91FA /* ToDoService */,
+				E3CD75182688F21E00FF2093 /* Network */,
+				E3804D97268F07FD00957844 /* FileCache */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E3194CC5268FA43D00CB91FA /* ToDoService */ = {
+			isa = PBXGroup;
+			children = (
+				E3194CC6268FA45C00CB91FA /* ToDoService.swift */,
+				E3194CC8268FA46A00CB91FA /* ToDoProtocol.swift */,
+			);
+			path = ToDoService;
 			sourceTree = "<group>";
 		};
 		E37C9FAA268779860045336D /* NewToDoViewController */ = {
@@ -667,6 +689,7 @@
 				E3925EAD26768DEC00BF26BA /* DatePicker.swift in Sources */,
 				E30540FB266A96BD008C2083 /* AboutModel.swift in Sources */,
 				E3DB44382674B6E8003A2736 /* NewToDoModel.swift in Sources */,
+				E3194CC9268FA46A00CB91FA /* ToDoProtocol.swift in Sources */,
 				E37C9FB626877A550045336D /* NewToDoWorkingWithData.swift in Sources */,
 				E37C9FBB26877A7A0045336D /* NewToDoTextViewDelegate.swift in Sources */,
 				E3CD751D2688F22B00FF2093 /* DefaultNetworkingService.swift in Sources */,
@@ -682,6 +705,7 @@
 				E3DB442A2672B932003A2736 /* FontExtension.swift in Sources */,
 				E398447A266A9B29000D1B31 /* ColorExtension.swift in Sources */,
 				E3804D9D268F080500957844 /* FileCacheService.swift in Sources */,
+				E3194CC7268FA45C00CB91FA /* ToDoService.swift in Sources */,
 				E3169E3F267F6355001C4FEE /* NavigationBar.swift in Sources */,
 				E31F4611268F2F3700CF2652 /* NetworkError.swift in Sources */,
 			);

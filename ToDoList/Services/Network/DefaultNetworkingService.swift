@@ -8,14 +8,14 @@
 import Foundation
 
 class DefaultNetworkingService: NetworkingService {
-    let queue = DispatchQueue(label: "com.ToDoList.NetworkQueue")
+    let queue = DispatchQueue(label: "NetworkQueue", attributes: [.concurrent])
     let token = "Bearer Mjg5OTU2MDA0ODA2MDAxNDA2NA"
     var session: URLSession = {
         let session = URLSession(configuration: .default)
         session.configuration.timeoutIntervalForRequest = 30.0
         return session
     }()
-    func getToDoItems(completion: @escaping (Result<[ToDoItem], Error>) -> Void) {
+    func getAll(completion: @escaping (Result<[ToDoItem], Error>) -> Void) {
         guard let url = URL(string: "https://d5dps3h13rv6902lp5c8.apigw.yandexcloud.net/tasks/") else {
             completion(.failure(NetworkError.incorrectUrl)); return
         }
@@ -35,11 +35,11 @@ class DefaultNetworkingService: NetworkingService {
                 completion(.failure(NetworkError.unknownError))
             }
         }
-        queue.async {
+        queue.asyncAfter(deadline: .now() + 10.0) {
             task.resume()
         }
     }
-    func postToDoItem(_ toDoItem: ToDoItem, completion: @escaping (Result<ToDoItem, Error>) -> Void) {
+    func create(_ toDoItem: ToDoItem, completion: @escaping (Result<ToDoItem, Error>) -> Void) {
         guard let url = URL(string: "https://d5dps3h13rv6902lp5c8.apigw.yandexcloud.net/tasks/") else {
             completion(.failure(NetworkError.incorrectUrl)); return
         }
@@ -55,18 +55,17 @@ class DefaultNetworkingService: NetworkingService {
             } else if let data = data,
                       let toDoItemNetworkModel = try? JSONDecoder().decode(ToDoItemNetworkingModel.self, from: data) {
                 completion(.success(toDoItemNetworkModel.toToDoItem()))
-            }
-            else if let response = response as? HTTPURLResponse {
+            } else if let response = response as? HTTPURLResponse {
                 completion(.failure(self.findResponseError(response.statusCode)))
             } else {
                 completion(.failure(NetworkError.unknownError))
             }
         }
-        queue.async {
+        queue.asyncAfter(deadline: .now() + 10.0) {
             task.resume()
         }
     }
-    func putToDoItem(_ toDoItem: ToDoItem, completion: @escaping (Result<ToDoItem, Error>) -> Void) {
+    func update(_ toDoItem: ToDoItem, completion: @escaping (Result<ToDoItem, Error>) -> Void) {
         guard let url = URL(string: "https://d5dps3h13rv6902lp5c8.apigw.yandexcloud.net/tasks/\(toDoItem.id)") else {
             completion(.failure(NetworkError.incorrectUrl)); return
         }
@@ -88,11 +87,11 @@ class DefaultNetworkingService: NetworkingService {
                 completion(.failure(NetworkError.unknownError))
             }
         }
-        queue.async {
+        queue.asyncAfter(deadline: .now() + 10.0) {
             task.resume()
         }
     }
-    func deleteToDoItem(id: String, completion: @escaping (Result<ToDoItem, Error>) -> Void) {
+    func delete(_ id: String, completion: @escaping (Result<ToDoItem, Error>) -> Void) {
         guard let url = URL(string: "https://d5dps3h13rv6902lp5c8.apigw.yandexcloud.net/tasks/\(id)") else {
             completion(.failure(NetworkError.incorrectUrl)); return
         }
@@ -111,12 +110,12 @@ class DefaultNetworkingService: NetworkingService {
                 completion(.failure(NetworkError.unknownError))
             }
         }
-        queue.async {
+        queue.asyncAfter(deadline: .now() + 10.0) {
             task.resume()
         }
     }
-    
-    func putToDoItems(addOrUpdateItems: [ToDoItem], deleteIds: [String], completion: @escaping (Result<[ToDoItem], Error>) -> Void) {
+    func putAll(addOrUpdateItems: [ToDoItem], deleteIds: [String],
+                      completion: @escaping (Result<[ToDoItem], Error>) -> Void) {
         guard let url = URL(string: "https://d5dps3h13rv6902lp5c8.apigw.yandexcloud.net/tasks/") else {
             completion(.failure(NetworkError.incorrectUrl)); return
         }
@@ -133,7 +132,7 @@ class DefaultNetworkingService: NetworkingService {
             if let error = error {
                 completion(.failure(error))
             } else if let data = data,
-                      let toDoItemNetworkModels = try? JSONDecoder().decode([ToDoItemNetworkingModel].self, from: data) {
+                    let toDoItemNetworkModels = try? JSONDecoder().decode([ToDoItemNetworkingModel].self, from: data) {
                 let toDoItems = toDoItemNetworkModels.map({$0.toToDoItem()})
                 completion(.success(toDoItems))
             } else if let response = response as? HTTPURLResponse {
@@ -142,7 +141,7 @@ class DefaultNetworkingService: NetworkingService {
                 completion(.failure(NetworkError.unknownError))
             }
         }
-        queue.async {
+        queue.asyncAfter(deadline: .now() + 10.0) {
             task.resume()
         }
     }

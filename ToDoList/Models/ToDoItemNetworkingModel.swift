@@ -14,7 +14,7 @@ struct ToDoItemNetworkingModel: Codable {
     let done: Bool
     let deadline: Int?
     let createdAt: Int
-    let updatedAt: Int
+    let updatedAt: Int?
     public init(_ toDoItem: ToDoItem) {
         id = toDoItem.id
         text = toDoItem.text
@@ -32,7 +32,7 @@ struct ToDoItemNetworkingModel: Codable {
         self.done = try container.decode(Bool.self, forKey: .done)
         self.deadline = try container.decode(Int?.self, forKey: .deadline)
         self.createdAt = try container.decode(Int.self, forKey: .createdAt)
-        self.updatedAt = try container.decode(Int.self, forKey: .updatedAt)
+        self.updatedAt = try container.decode(Int?.self, forKey: .updatedAt)
     }
     enum CodingKeys: String, CodingKey {
         case id
@@ -53,8 +53,8 @@ struct ToDoItemNetworkingModel: Codable {
         try container.encode(createdAt, forKey: .createdAt)
         try container.encode(updatedAt, forKey: .updatedAt)
     }
-    func toJsonArray() -> [String: Any] {
-        return ["id" : id,
+    func toJsonArray() -> [String: Any?] {
+        return ["id": id,
                 "text": text,
                 "importance": importance,
                 "done": done,

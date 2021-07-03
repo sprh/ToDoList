@@ -25,7 +25,7 @@ final class NewToDoModel {
                                    deadline: deadlineSince1970,
                                    color: color,
                                    done: toDoItem.done,
-                                   updatedAt: Int(Date().timeIntervalSince1970),
+                                   updatedAt: indexPath == nil ? nil: Int(Date().timeIntervalSince1970),
                                    createdAt: indexPath == nil ? Int(Date().timeIntervalSince1970) : toDoItem.createdAt)
         toDoItem = newToDoItem
         fileCache.add(item: newToDoItem)

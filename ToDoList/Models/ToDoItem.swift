@@ -18,7 +18,7 @@ struct ToDoItem {
     var done: Bool
     var color: String
     var createdAt: Int
-    var updatedAt: Int
+    var updatedAt: Int?
     var isDirty: Bool
     /// - Parameters:
     ///     - id: An unique user id. Default value is UUID().uuidString
@@ -31,7 +31,7 @@ struct ToDoItem {
          deadline: Int? = nil,
          color: String = "",
          done: Bool = false,
-         updatedAt: Int,
+         updatedAt: Int?,
          createdAt: Int = Int(Date().timeIntervalSince1970),
          isDirty: Bool = false) {
         self.id = id ?? UUID().uuidString
@@ -41,7 +41,6 @@ struct ToDoItem {
         self.color = color
         self.done = done
         self.createdAt = createdAt
-        self.updatedAt = updatedAt
         self.isDirty = isDirty
     }
     init() {
@@ -67,7 +66,6 @@ extension ToDoItem {
                                    "text": text,
                                    "color": color,
                                    "createdAt": createdAt,
-                                   "updatedAt": updatedAt,
                                    "isDirty": isDirty,
                                    "done": done]
         if importance != .basic {
@@ -75,6 +73,9 @@ extension ToDoItem {
         }
         if deadline != nil {
             data["deadline"] = deadline
+        }
+        if updatedAt != nil {
+            data["updatedAt"] = updatedAt
         }
         return data
     }
@@ -97,7 +98,7 @@ extension ToDoItem {
         let color = data.keys.contains("color") ? data["color"] as? String : "#%06x"
         let done = data.keys.contains("done") ? data["done"] as? Bool : false
         let createdAt = data.keys.contains("createdAt") ? data["createdAt"] as? Int : -1
-        let updatedAt = data.keys.contains("updatedAt") ? data["updatedAt"] as? Int : -1
+        let updatedAt = data.keys.contains("updatedAt") ? data["updatedAt"] as? Int : nil
         let isDirty = data.keys.contains("isDirty") ? data["isDirty"] as? Bool : false
         return ToDoItem(id: id,
                         text: text,
