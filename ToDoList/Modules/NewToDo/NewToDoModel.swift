@@ -27,7 +27,6 @@ final class NewToDoModel {
                                    done: toDoItem.done,
                                    updatedAt: indexPath == nil ? nil: Int(Date().timeIntervalSince1970),
                                    createdAt: indexPath == nil ? Int(Date().timeIntervalSince1970) : toDoItem.createdAt)
-        toDoItem = newToDoItem
         guard let indexPath = indexPath else {
             toDoService.create(newToDoItem, queue: .main) { [weak self] _ in
             }

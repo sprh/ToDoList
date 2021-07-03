@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ToDoService {
+final class ToDoService {
     let fileCache: FileCache
     let networkingService: DefaultNetworkingService
     private let itemsQueue = DispatchQueue(label: "ToDoService", attributes: [.concurrent])
@@ -24,7 +24,7 @@ class ToDoService {
         }
         return fileCache.toDoItems.filter({!$0.done})
     }
-    func update(_ item: ToDoItem, queue: DispatchQueue, completion: @escaping (Result<ToDoItem, Error>) -> Void) {
+    func update(_ item: ToDoItem, queue: DispatchQueue, completion: @escaping (Result<Void, Error>) -> Void) {
         fileCache.add(item: item)
         networkingService.update(item) { [weak self] result in
             switch result {
@@ -47,20 +47,20 @@ class ToDoService {
             }
         }
     }
-    func delete(_ id: String, queue: DispatchQueue, completion: @escaping (Result<ToDoItem, Error>) -> Void) {
+    func delete(_ id: String, queue: DispatchQueue, completion: @escaping (Result<Void, Error>) -> Void) {
         fileCache.delete(with: id)
         networkingService.delete(id) { [weak self] result in
             print(result)
             switch result {
-            case let .success(item):
-                completion(.success(item))
+            case .success(_):
+                completion(.success(()))
             case let .failure(error):
                 self?.fileCache.addTombstone(tombstone: Tombstone(id: id))
                 completion(.failure(error))
             }
         }
     }
-    func create(_ item: ToDoItem, queue: DispatchQueue, completion: @escaping (Result<ToDoItem, Error>) -> Void) {
+    func create(_ item: ToDoItem, queue: DispatchQueue, completion: @escaping (Result<Void, Error>) -> Void) {
         fileCache.add(item: item)
         networkingService.create(item) { [weak self] result in
             switch result {
@@ -81,7 +81,7 @@ class ToDoService {
             }
         }
     }
-    func replaceAndSave(item: ToDoItem, queue: DispatchQueue, completion: @escaping (Result<ToDoItem, Error>) -> Void) {
+    func replaceAndSave(item: ToDoItem, queue: DispatchQueue, completion: @escaping (Result<Void, Error>) -> Void) {
         replace(item: item) { [weak self] in
             self?.fileCache.saveFile {result in
                 switch result {
@@ -91,7 +91,7 @@ class ToDoService {
                     }
                 case .success():
                     queue.async {
-                        completion(.success(item))
+                        completion(.success(()))
                     }
                 }
             }
@@ -154,5 +154,35 @@ class ToDoService {
                 completion(result)
             }
         }
+    }
+    func synchronize(item: ToDoItem?, idToDelete: String?, queue: DispatchQueue,
+                     completion: @escaping (Result<Void, Error>) -> Void) {
+        var dirties = fileCache.getDirties()
+        var tombstones = fileCache.tombstones.map({$0.id})
+        if let item = item {
+            dirties.append(item)
+        }
+        if let id = idToDelete {
+            tombstones.append(id)
+        }
+        networkingService.putAll(addOrUpdateItems: dirties,
+                                 deleteIds: tombstones) { [weak self] result in
+            switch result {
+            case let .failure(error):
+                queue.async {
+                    completion(.failure(error))
+                }
+            case let .success(items):
+                queue.async {
+                    self?.fileCache.clearTombstones()
+                    self?.fileCache.reloadItems(toDoItems: items) {
+                        completion(.success(()))
+                    }
+                }
+            }
+        }
+    }
+    private func needToSynchronize() -> Bool {
+        return fileCache.getDirties().count != 0 || fileCache.tombstones.count != 0
     }
 }

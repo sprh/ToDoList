@@ -27,8 +27,9 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) as? ToDoCell else { return }
-        let newToDoModel = NewToDoModel(toDoItem: cell.toDoItem, toDoService: model.toDoService, indexPath: indexPath)
+        guard let cell = tableView.cellForRow(at: indexPath) as? ToDoCell,
+              let toDoItem = model.toDoService.getToDoItem(id: cell.toDoItem.id) else { return }
+        let newToDoModel = NewToDoModel(toDoItem: toDoItem, toDoService: model.toDoService, indexPath: indexPath)
         newToDoModel.delegate = self
         let newToDoViewController = NewToDoViewController(model: newToDoModel)
         let newToDoNavigationController = UINavigationController(rootViewController: newToDoViewController)

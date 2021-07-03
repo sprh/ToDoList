@@ -22,7 +22,7 @@ final class FileCache {
             return
         }
         toDoItems[index] = toDoItem
-        saveFile() { _ in
+        saveFile { _ in
         }
     }
     func addTombstone(tombstone: Tombstone) {
@@ -38,7 +38,7 @@ final class FileCache {
     func delete(with id: String) {
         guard let index = toDoItems.firstIndex(where: {$0.id == id}) else { return }
         toDoItems.remove(at: index)
-        saveFile() { _ in
+        saveFile { _ in
         }
     }
     func get(with id: String) -> ToDoItem? {
@@ -103,5 +103,8 @@ final class FileCache {
     }
     func reloadItems(toDoItems: [ToDoItem], completion: @escaping () -> Void) {
         self.toDoItems = toDoItems
+    }
+    func clearTombstones() {
+        tombstones.removeAll()
     }
 }
