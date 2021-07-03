@@ -9,8 +9,7 @@ import UIKit
 
 extension ToDoViewController {
     @objc func addButtonClick() {
-        let newToDoModel = NewToDoModel(toDoItem: ToDoItem(),
-                                        fileCache: model.fileCache, indexPath: nil)
+        let newToDoModel = NewToDoModel(toDoItem: ToDoItem(), toDoService: model.toDoService, indexPath: nil)
         newToDoModel.delegate = self
         let newToDoViewController = NewToDoViewController(model: newToDoModel)
         let newToDoNavigationController = UINavigationController(rootViewController: newToDoViewController)

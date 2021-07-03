@@ -44,10 +44,10 @@ final class FileCache {
     /// - Parameters:
     /// - Path: a string contains the path to the file in which we save an array.
     func saveFile(to path: String = "todoitems.json",
-                  completion: @escaping (Result<Void, FileCacheError>) -> Void) {
+                  completion: @escaping (Result<Void, Error>) -> Void) {
         guard let documentDirectory = FileManager.default.urls(for: .documentDirectory,
                                                                in: .userDomainMask).first else {
-            completion(.failure(.fileNotFound))
+            completion(.failure(FileCacheError.fileNotFound))
             return
         }
         let jsonArray = toDoItems.map { $0.json }
@@ -56,7 +56,7 @@ final class FileCache {
             let json = try JSONSerialization.data(withJSONObject: jsonArray, options: .prettyPrinted)
             try json.write(to: url, options: [])
         } catch {
-            completion(.failure(.canNotWrite))
+            completion(.failure(FileCacheError.canNotWrite))
         }
         completion(.success(()))
     }
@@ -64,7 +64,7 @@ final class FileCache {
     /// - Parameters:
     /// - Path: a string contains the path to the file from which we load an array.
     func loadFile(from path: String = "todoitems.json",
-                  completion: @escaping (Result<[ToDoItem], FileCacheError>) -> Void) {
+                  completion: @escaping (Result<[ToDoItem], Error>) -> Void) {
         // Check if a file with the path exists.
         guard let documentDirectory = FileManager.default.urls(for: .documentDirectory,
                                                                in: .userDomainMask).first else {
@@ -80,7 +80,7 @@ final class FileCache {
             guard let data = try
                     JSONSerialization.jsonObject(with: jsonData, options: []) as? [Any] else {
                 print("Can't parse a json string")
-                completion(.failure(.canNotRead))
+                completion(.failure(FileCacheError.canNotRead))
                 return
             }
             for item in data {
@@ -90,11 +90,14 @@ final class FileCache {
                 toDoItems.append(toDoItem)
             }
         } catch {
-            completion(.failure(.canNotRead))
+            completion(.failure(FileCacheError.canNotRead))
         }
         completion(.success(toDoItems))
     }
     func getDirties() -> [ToDoItem] {
         return toDoItems.filter({$0.isDirty})
+    }
+    func reloadItems(toDoItems: [ToDoItem], completion: @escaping () -> Void) {
+        self.toDoItems = toDoItems
     }
 }

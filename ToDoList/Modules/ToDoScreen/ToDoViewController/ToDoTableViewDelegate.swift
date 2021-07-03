@@ -9,10 +9,10 @@ import UIKit
 
 extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (doneShown ? model.toDoItemsCount() : model.notDoneToDoItemsCount()) + 1
+        return model.toDoItemsCount(doneShown: doneShown) + 1
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let lastSectionIndex = doneShown ? model.toDoItemsCount() : model.notDoneToDoItemsCount()
+        let lastSectionIndex = model.toDoItemsCount(doneShown: doneShown)
         if indexPath.row == lastSectionIndex {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(NewToDoCell.self)") as? NewToDoCell else {
                 return UITableViewCell() }
@@ -28,7 +28,7 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? ToDoCell else { return }
-        let newToDoModel = NewToDoModel(toDoItem: cell.toDoItem, fileCache: model.fileCache, indexPath: indexPath)
+        let newToDoModel = NewToDoModel(toDoItem: cell.toDoItem, toDoService: model.toDoService, indexPath: indexPath)
         newToDoModel.delegate = self
         let newToDoViewController = NewToDoViewController(model: newToDoModel)
         let newToDoNavigationController = UINavigationController(rootViewController: newToDoViewController)
@@ -91,13 +91,12 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
     }
     func showLabelSetText() {
         showLabel.text = "\("Done".localized)" +
-            "— \(model.toDoItemsCount() - model.notDoneToDoItemsCount())"
+            "— \(model.getDoneItemsCount())"
     }
     func tableViewAddNew() {
         self.tableView.performBatchUpdates({
-        self.tableView.insertRows(at:
-                                    [IndexPath(row: self.doneShown ? self.model.toDoItemsCount() - 1 :
-                                                self.model.notDoneToDoItemsCount() - 1, section: 0)], with: .fade)
+        self.tableView.insertRows(at: [IndexPath(row: model.toDoItemsCount(doneShown: doneShown) - 1, section: 0)],
+                                  with: .fade)
         }, completion: nil)
     }
     func tableViewReloadOldCell(at indexPath: IndexPath) {
@@ -134,7 +133,7 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
               let cell = tableView.cellForRow(at: indexPath) as? ToDoCell else {
             return UIViewController()
         }
-        let model = NewToDoModel(toDoItem: cell.toDoItem, fileCache: model.fileCache, indexPath: indexPath)
+        let model = NewToDoModel(toDoItem: cell.toDoItem, toDoService: model.toDoService, indexPath: indexPath)
         model.delegate = self
         let destinationVc = NewToDoViewController(model: model)
         return destinationVc

@@ -35,7 +35,7 @@ class DefaultNetworkingService: NetworkingService {
                 completion(.failure(NetworkError.unknownError))
             }
         }
-        queue.asyncAfter(deadline: .now() + 10.0) {
+        queue.async {
             task.resume()
         }
     }
@@ -61,7 +61,7 @@ class DefaultNetworkingService: NetworkingService {
                 completion(.failure(NetworkError.unknownError))
             }
         }
-        queue.asyncAfter(deadline: .now() + 10.0) {
+        queue.async {
             task.resume()
         }
     }
@@ -87,7 +87,7 @@ class DefaultNetworkingService: NetworkingService {
                 completion(.failure(NetworkError.unknownError))
             }
         }
-        queue.asyncAfter(deadline: .now() + 10.0) {
+        queue.async {
             task.resume()
         }
     }
@@ -110,12 +110,12 @@ class DefaultNetworkingService: NetworkingService {
                 completion(.failure(NetworkError.unknownError))
             }
         }
-        queue.asyncAfter(deadline: .now() + 10.0) {
+        queue.async {
             task.resume()
         }
     }
     func putAll(addOrUpdateItems: [ToDoItem], deleteIds: [String],
-                      completion: @escaping (Result<[ToDoItem], Error>) -> Void) {
+                completion: @escaping (Result<[ToDoItem], Error>) -> Void) {
         guard let url = URL(string: "https://d5dps3h13rv6902lp5c8.apigw.yandexcloud.net/tasks/") else {
             completion(.failure(NetworkError.incorrectUrl)); return
         }
@@ -141,7 +141,7 @@ class DefaultNetworkingService: NetworkingService {
                 completion(.failure(NetworkError.unknownError))
             }
         }
-        queue.asyncAfter(deadline: .now() + 10.0) {
+        queue.async {
             task.resume()
         }
     }

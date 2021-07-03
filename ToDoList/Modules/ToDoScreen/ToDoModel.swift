@@ -8,25 +8,19 @@
 import Foundation
 
 class ToDoModel {
-    let fileCache = FileCache()
+    let toDoService: ToDoService
+    public init(toDoService: ToDoService) {
+        self.toDoService = toDoService
+    }
     public func getToDoItem(at index: Int, doneShown: Bool) -> ToDoItem {
-        if doneShown {
-            return index >= fileCache.toDoItems.count ? ToDoItem() : fileCache.toDoItems[index]
-        } else {
-            return index >= notDoneToDoItems().count ? ToDoItem() : notDoneToDoItems()[index]
-        }
+        let toDoItems = toDoService.getToDoItems(withDone: doneShown)
+        return index >= toDoItems.count ? ToDoItem() : toDoItems[index]
     }
-    public func toDoItemsCount() -> Int {
-        return fileCache.toDoItems.count
-    }
-    public func notDoneToDoItems() -> [ToDoItem] {
-        return fileCache.toDoItems.compactMap({ $0.done ? nil : $0})
-    }
-    public func notDoneToDoItemsCount() -> Int {
-        return notDoneToDoItems().count
+    public func toDoItemsCount(doneShown: Bool) -> Int {
+        return toDoService.getToDoItems(withDone: doneShown).count
     }
     public func updateToDoItemDone(id: String) {
-        guard let item = fileCache.get(with: id) else { return }
+        guard let item = toDoService.getToDoItem(id: id) else { return }
         let newItem = ToDoItem(id: id,
                                text: item.text,
                                importance: item.importance,
@@ -34,12 +28,23 @@ class ToDoModel {
                                color: item.color,
                                done: !item.done,
                                updatedAt: Int(Date().timeIntervalSince1970))
-        fileCache.add(item: newItem)
+        toDoService.update(newItem, queue: .main) { _ in
+        }
     }
     public func deleteToDoItem(id: String) {
-        fileCache.delete(with: id)
+        toDoService.delete(id, queue: .main) { _ in
+        }
     }
     public func addToDoItem(toDoItem: ToDoItem) {
-        fileCache.add(item: toDoItem)
+        toDoService.create(toDoItem, queue: .main) { _ in
+        }
+    }
+    public func getDoneItemsCount() -> Int {
+        return toDoService.getToDoItems(withDone: true).filter({$0.done}).count
+    }
+    public func loadData(completion: @escaping () -> Void) {
+        toDoService.loadItems(queue: .main) {_ in 
+            completion()
+        }
     }
 }

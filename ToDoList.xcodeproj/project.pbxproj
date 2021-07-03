@@ -322,6 +322,7 @@
 		E3804D97268F07FD00957844 /* FileCache */ = {
 			isa = PBXGroup;
 			children = (
+				E34A3907267BE04100546DAF /* FileCacheError.swift */,
 				E3804D99268F080500957844 /* FileCache.swift */,
 				E3804D9A268F080500957844 /* FileCacheService.swift */,
 				E3804D98268F080500957844 /* FileCacheServiceProtocol.swift */,
@@ -367,7 +368,6 @@
 				E3804D9E268F0B9200957844 /* ToDoItemNetworkingModel.swift */,
 				E3DB43BA266FF84B003A2736 /* ToDoItem.swift */,
 				E3DB43C2266FF88C003A2736 /* Importance.swift */,
-				E34A3907267BE04100546DAF /* FileCacheError.swift */,
 				E31F460E268F20E000CF2652 /* Tombstone.swift */,
 			);
 			path = Models;

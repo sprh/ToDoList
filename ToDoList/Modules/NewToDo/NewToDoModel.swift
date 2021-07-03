@@ -8,13 +8,13 @@
 import Foundation
 
 final class NewToDoModel {
-    private(set) var toDoItem: ToDoItem!
-    private(set) var fileCache: FileCache!
+    private(set) var toDoItem: ToDoItem
+    private(set) var toDoService: ToDoService
     weak var delegate: NewToDoDelegate?
     private(set) var indexPath: IndexPath?
-    public init(toDoItem: ToDoItem, fileCache: FileCache, indexPath: IndexPath?) {
+    public init(toDoItem: ToDoItem, toDoService: ToDoService, indexPath: IndexPath?) {
         self.toDoItem = toDoItem
-        self.fileCache = fileCache
+        self.toDoService = toDoService
         self.indexPath = indexPath
     }
     func save(text: String, importance: String, deadline: Date?, color: String) {
@@ -28,17 +28,21 @@ final class NewToDoModel {
                                    updatedAt: indexPath == nil ? nil: Int(Date().timeIntervalSince1970),
                                    createdAt: indexPath == nil ? Int(Date().timeIntervalSince1970) : toDoItem.createdAt)
         toDoItem = newToDoItem
-        fileCache.add(item: newToDoItem)
-        guard let indexPath = self.indexPath else {
+        guard let indexPath = indexPath else {
+            toDoService.create(newToDoItem, queue: .main) { [weak self] _ in
+            }
             delegate?.add()
             return
         }
+        toDoService.update(newToDoItem, queue: .main, completion: { [weak self] _ in
+        })
         delegate?.update(indexPath: indexPath)
     }
     func delete() {
-        fileCache.delete(with: toDoItem.id)
-        guard let indexPath = self.indexPath else { return }
+        guard let indexPath = indexPath else { return }
         delegate?.delete(indexPath: indexPath)
+        toDoService.delete(toDoItem.id, queue: .main, completion: { [weak self] _ in
+        })
     }
     var toDoItemIsNew: Bool {
         indexPath == nil

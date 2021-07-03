@@ -32,6 +32,7 @@ class ToDoViewController: UIViewController {
         hideKeyboardWhenTappedAround()
         keyboardWillShow(tableView)
         keyboardWillHide(tableView)
+        loadData()
     }
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
@@ -40,5 +41,10 @@ class ToDoViewController: UIViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         self.tableView.layoutIfNeeded()
+    }
+    func loadData() {
+        model.loadData { [weak self] in
+            self?.tableView.reloadData()
+        }
     }
 }
