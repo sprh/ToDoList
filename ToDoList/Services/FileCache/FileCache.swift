@@ -22,8 +22,6 @@ final class FileCache {
             return
         }
         toDoItems[index] = toDoItem
-        saveFile { _ in
-        }
     }
     func addTombstone(tombstone: Tombstone) {
         tombstones.append(tombstone)
@@ -38,8 +36,6 @@ final class FileCache {
     func delete(with id: String) {
         guard let index = toDoItems.firstIndex(where: {$0.id == id}) else { return }
         toDoItems.remove(at: index)
-        saveFile { _ in
-        }
     }
     func get(with id: String) -> ToDoItem? {
         return toDoItems.first(where: {$0.id == id})
@@ -47,7 +43,7 @@ final class FileCache {
     /// Save an array of objects to the file.
     /// - Parameters:
     /// - Path: a string contains the path to the file in which we save an array.
-    func saveFile(to path: String = "todoitems.json",
+    func saveFile(_ items: [ToDoItem], to path: String,
                   completion: @escaping (Result<Void, Error>) -> Void) {
         guard let documentDirectory = FileManager.default.urls(for: .documentDirectory,
                                                                in: .userDomainMask).first else {
@@ -67,7 +63,7 @@ final class FileCache {
     /// Load an array of objects from the file.
     /// - Parameters:
     /// - Path: a string contains the path to the file from which we load an array.
-    func loadFile(from path: String = "todoitems.json",
+    func loadFile(from path: String,
                   completion: @escaping (Result<[ToDoItem], Error>) -> Void) {
         // Check if a file with the path exists.
         guard let documentDirectory = FileManager.default.urls(for: .documentDirectory,

@@ -9,10 +9,10 @@ import UIKit
 
 extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return model.toDoItemsCount(doneShown: doneShown) + 1
+        return toDoItemsCount(doneShown: doneShown) + 1
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let lastSectionIndex = model.toDoItemsCount(doneShown: doneShown)
+        let lastSectionIndex = toDoItemsCount(doneShown: doneShown)
         if indexPath.row == lastSectionIndex {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(NewToDoCell.self)") as? NewToDoCell else {
                 return UITableViewCell() }
@@ -21,15 +21,15 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(ToDoCell.self)") as? ToDoCell else {
             return UITableViewCell() }
-            let toDoItem = model.getToDoItem(at: indexPath.row, doneShown: doneShown)
+            let toDoItem = getToDoItem(at: indexPath.row, doneShown: doneShown)
             cell.loadData(toDoItem: toDoItem)
             return cell
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? ToDoCell,
-              let toDoItem = model.toDoService.getToDoItem(id: cell.toDoItem.id) else { return }
-        let newToDoModel = NewToDoModel(toDoItem: toDoItem, toDoService: model.toDoService, indexPath: indexPath)
+              let toDoItem = toDoService.getToDoItem(id: cell.toDoItem.id) else { return }
+        let newToDoModel = NewToDoModel(toDoItem: toDoItem, toDoService: toDoService, indexPath: indexPath)
         newToDoModel.delegate = self
         let newToDoViewController = NewToDoViewController(model: newToDoModel)
         let newToDoNavigationController = UINavigationController(rootViewController: newToDoViewController)
@@ -67,9 +67,7 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
             UIContextualAction(style: .normal, title: "",
                 handler: {(_: UIContextualAction, _: UIView, success: (Bool) -> Void) in
                   guard let cell = tableView.cellForRow(at: indexPath) as? ToDoCell else { success(false); return }
-                  self.model.deleteToDoItem(id: cell.toDoItem.id)
-                  self.showLabelSetText()
-                  self.tableViewDeleteOldCell(at: indexPath)
+                    self.deleteToDoItem(id: cell.toDoItem.id, index: indexPath)
                 })
         trashAction.image = .trash
         trashAction.backgroundColor = .red
@@ -82,7 +80,7 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
             handler: {(_: UIContextualAction, _: UIView, success: (Bool) -> Void) in
             guard let cell = tableView.cellForRow(at: indexPath) as? ToDoCell else { success(false); return }
             cell.doneChanged()
-            self.model.updateToDoItemDone(id: cell.toDoItem.id)
+            self.updateToDoItemDone(id: cell.toDoItem.id, indexPath: indexPath)
             self.showLabelSetText()
             success(true)
         })
@@ -92,11 +90,11 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
     }
     func showLabelSetText() {
         showLabel.text = "\("Done".localized)" +
-            "— \(model.getDoneItemsCount())"
+            "— \(getDoneItemsCount())"
     }
     func tableViewAddNew() {
         self.tableView.performBatchUpdates({
-        self.tableView.insertRows(at: [IndexPath(row: model.toDoItemsCount(doneShown: doneShown) - 1, section: 0)],
+        self.tableView.insertRows(at: [IndexPath(row: toDoItemsCount(doneShown: doneShown) - 1, section: 0)],
                                   with: .fade)
         }, completion: nil)
     }
@@ -134,7 +132,7 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
               let cell = tableView.cellForRow(at: indexPath) as? ToDoCell else {
             return UIViewController()
         }
-        let model = NewToDoModel(toDoItem: cell.toDoItem, toDoService: model.toDoService, indexPath: indexPath)
+        let model = NewToDoModel(toDoItem: cell.toDoItem, toDoService: toDoService, indexPath: indexPath)
         model.delegate = self
         let destinationVc = NewToDoViewController(model: model)
         return destinationVc

@@ -9,12 +9,10 @@ import Foundation
 
 final class NewToDoModel {
     private(set) var toDoItem: ToDoItem
-    private(set) var toDoService: ToDoService
     weak var delegate: NewToDoDelegate?
     private(set) var indexPath: IndexPath?
     public init(toDoItem: ToDoItem, toDoService: ToDoService, indexPath: IndexPath?) {
         self.toDoItem = toDoItem
-        self.toDoService = toDoService
         self.indexPath = indexPath
     }
     func save(text: String, importance: String, deadline: Date?, color: String) {
@@ -28,20 +26,14 @@ final class NewToDoModel {
                                    updatedAt: indexPath == nil ? nil: Int(Date().timeIntervalSince1970),
                                    createdAt: indexPath == nil ? Int(Date().timeIntervalSince1970) : toDoItem.createdAt)
         guard let indexPath = indexPath else {
-            toDoService.create(newToDoItem, queue: .main) { [weak self] _ in
-            }
-            delegate?.add()
+            delegate?.addToDoItem(toDoItem: newToDoItem)
             return
         }
-        toDoService.update(newToDoItem, queue: .main, completion: { [weak self] _ in
-        })
-        delegate?.update(indexPath: indexPath)
+        delegate?.updateToDoItem(toDoItem: newToDoItem, indexPath: indexPath)
     }
     func delete() {
         guard let indexPath = indexPath else { return }
-        delegate?.delete(indexPath: indexPath)
-        toDoService.delete(toDoItem.id, queue: .main, completion: { [weak self] _ in
-        })
+        delegate?.deleteToDoItem(id: toDoItem.id, index: indexPath)
     }
     var toDoItemIsNew: Bool {
         indexPath == nil

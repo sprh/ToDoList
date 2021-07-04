@@ -28,8 +28,8 @@ extension ToDoViewController: UITextViewDelegate {
                                     updatedAt: nil,
                                     createdAt: Int(Date().timeIntervalSince1970))
             textView.text = ""
-            model.addToDoItem(toDoItem: toDoItem)
-            tableView.reloadData() }
+            addToDoItem(toDoItem: toDoItem)
+        }
         return false
     }
 }

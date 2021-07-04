@@ -8,7 +8,7 @@
 import Foundation
 
 protocol NewToDoDelegate: AnyObject {
-    func delete(indexPath: IndexPath)
-    func update(indexPath: IndexPath)
-    func add()
+    func deleteToDoItem(id: String, index: IndexPath)
+    func updateToDoItem(toDoItem: ToDoItem, indexPath: IndexPath)
+    func addToDoItem(toDoItem: ToDoItem)
 }

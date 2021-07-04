@@ -16,11 +16,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow()
         let navigationController = UINavigationController()
-        let fileCache = FileCache()
+        let fileCache = FileCacheService()
         let networkingService = DefaultNetworkingService()
-        let toDoService = ToDoService(fileCache: fileCache, networkingService: networkingService)
-        let model = ToDoModel(toDoService: toDoService)
-        let viewController = ToDoViewController(model: model)
+        let toDoService = ToDoService(fileCacheService: fileCache, networkingService: networkingService)
+        let viewController = ToDoViewController(toDoService: toDoService)
         navigationController.pushViewController(viewController, animated: true)
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()

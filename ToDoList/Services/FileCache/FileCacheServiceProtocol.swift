@@ -8,6 +8,6 @@
 import UIKit
 
 protocol FileCacheServiceProtocol {
-    func saveFile(fileName: String, completion: @escaping (Result<Void, Error>) -> Void)
+    func saveFile(items: [ToDoItem], fileName: String, completion: @escaping (Result<Void, Error>) -> Void)
     func loadFile(fileName: String, completion: @escaping (Result<[ToDoItem], Error>) -> Void)
 }

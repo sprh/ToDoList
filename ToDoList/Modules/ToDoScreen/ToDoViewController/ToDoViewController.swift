@@ -9,16 +9,18 @@ import Foundation
 import UIKit
 
 class ToDoViewController: UIViewController {
-    let model: ToDoModel!
+    let toDoService: ToDoService
     let addButton = UIButton()
-    let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height:
-                                                UIScreen.main.bounds.height), style: .insetGrouped)
+    let tableView = UITableView(frame: CGRect(x: 0, y: 0,
+                                              width: UIScreen.main.bounds.width,
+                                              height: UIScreen.main.bounds.height),
+                                              style: .insetGrouped)
     var doneShown: Bool = false
     let showButton = UIButton()
     let showLabel = UILabel()
     var indexPath: IndexPath?
-    public init(model: ToDoModel) {
-        self.model = model
+    public init(toDoService: ToDoService) {
+        self.toDoService = toDoService
         super.init(nibName: nil, bundle: nil)
     }
     required init?(coder: NSCoder) {
@@ -43,10 +45,7 @@ class ToDoViewController: UIViewController {
         self.tableView.layoutIfNeeded()
     }
     func loadData() {
-        model.loadData { [weak self] in
-            self?.tableView.reloadData()
-        }
-        model.loadFromServer { [weak self] in
+        toDoService.loadData(queue: .main) { [weak self] _ in
             self?.tableView.reloadData()
         }
     }
