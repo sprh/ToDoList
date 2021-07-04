@@ -14,7 +14,7 @@ class NewToDoViewController: UIViewController {
     var textBottomAnchorConstraint = NSLayoutConstraint()
     var importanceAndDateStack = UIStackView()
     var deadlineSwitch = UISwitch()
-    var segmentedControl = UISegmentedControl(items: ["low", "basin", "important"])
+    var segmentedControl = UISegmentedControl(items: ["low", "basic", "important"])
     var deleteButton = UIButton()
     var cancelButton: UIBarButtonItem?
     var saveButton: UIBarButtonItem?
@@ -29,7 +29,7 @@ class NewToDoViewController: UIViewController {
     let colorSlider = UISlider()
     let colorView = ColorView()
     let scrollView = UIScrollView()
-    let importanceAsArray = ["low", "basin", "important"]
+    let importanceAsArray = ["low", "basic", "important"]
     init(model: NewToDoModel) {
         self.model = model
         super.init(nibName: nil, bundle: nil)

@@ -19,6 +19,7 @@ class ToDoViewController: UIViewController {
     let showButton = UIButton()
     let showLabel = UILabel()
     var indexPath: IndexPath?
+    var items: [ToDoItem] = []
     public init(toDoService: ToDoService) {
         self.toDoService = toDoService
         super.init(nibName: nil, bundle: nil)
@@ -45,8 +46,16 @@ class ToDoViewController: UIViewController {
         self.tableView.layoutIfNeeded()
     }
     func loadData() {
-        toDoService.loadData(queue: .main) { [weak self] _ in
-            self?.tableView.reloadData()
+        toDoService.loadData(queue: .main) { [weak self] result in
+            switch result {
+            case .failure(_):
+                break
+            case let .success(items):
+                self?.toDoService.merge(newItems: items, queue: .main) { result in
+                    self?.items = result
+                    self?.tableView.reloadData()
+                }
+            }
         }
     }
 }

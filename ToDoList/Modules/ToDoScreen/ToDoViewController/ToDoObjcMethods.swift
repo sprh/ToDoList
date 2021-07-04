@@ -16,7 +16,8 @@ extension ToDoViewController {
         self.present(newToDoNavigationController, animated: true, completion: nil)
     }
     @objc func showButtonClick() {
-        doneShown = !doneShown
+        doneShown.toggle()
+        doneChanged(withDone: doneShown)
         tableView.reloadData()
     }
     @objc func doneButtonClick(indexPath: IndexPath) {

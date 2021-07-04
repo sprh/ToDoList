@@ -9,11 +9,10 @@ import Foundation
 
 extension ToDoViewController: NewToDoDelegate {
     public func getToDoItem(at index: Int, doneShown: Bool) -> ToDoItem {
-        let toDoItems = toDoService.getToDoItems(withDone: doneShown)
-        return index >= toDoItems.count ? ToDoItem() : toDoItems[index]
+        return index >= items.count ? ToDoItem() : items[index]
     }
-    public func toDoItemsCount(doneShown: Bool) -> Int {
-        return toDoService.getToDoItems(withDone: doneShown).count
+    public func toDoItemsCount() -> Int {
+        return items.count
     }
     public func updateToDoItem(toDoItem: ToDoItem, indexPath: IndexPath) {
         toDoService.update(toDoItem, queue: .main) { [weak self] _ in
@@ -21,7 +20,8 @@ extension ToDoViewController: NewToDoDelegate {
         }
     }
     public func updateToDoItemDone(id: String, indexPath: IndexPath) {
-        guard let item = toDoService.getToDoItem(id: id) else { return }
+        guard let index = items.firstIndex(where: {$0.id == id}) else { return }
+        let item = items[index]
         let newItem = ToDoItem(id: id,
                                text: item.text,
                                importance: item.importance,
@@ -29,19 +29,26 @@ extension ToDoViewController: NewToDoDelegate {
                                color: item.color,
                                done: !item.done,
                                updatedAt: Int(Date().timeIntervalSince1970))
+        items[index] = newItem
         updateToDoItem(toDoItem: newItem, indexPath: indexPath)
     }
-    public func deleteToDoItem(id: String, index: IndexPath) {
-        toDoService.delete(id, queue: .main) { [weak self] result in
-            self?.tableViewDeleteOldCell(at: index)
+    public func deleteToDoItem(id: String, indexPath: IndexPath) {
+        guard let index = items.firstIndex(where: {$0.id == id}) else { return }
+        items.remove(at: index)
+        tableViewDeleteOldCell(at: indexPath)
+        toDoService.delete(id, queue: .main) { _ in
         }
     }
     public func addToDoItem(toDoItem: ToDoItem) {
-        toDoService.create(toDoItem, queue: .main) { [weak self] result in
-            self?.tableViewAddNew()
+        items.append(toDoItem)
+        tableViewAddNew()
+        toDoService.create(toDoItem, queue: .main) { _ in
         }
     }
     public func getDoneItemsCount() -> Int {
-        return toDoService.getToDoItems(withDone: true).filter({$0.done}).count
+        return items.filter({$0.done}).count
+    }
+    public func doneChanged(withDone: Bool) {
+        items = toDoService.getToDoItems(withDone: withDone)
     }
 }

@@ -125,8 +125,10 @@ final class ToDoService {
                 }
             }
             self.items = items
-            queue.async {
-                completion(items)
+            self.fileCacheService.saveFile(items: items) { _ in
+                queue.async {
+                    completion(items)
+                }
             }
         }
     }
@@ -135,12 +137,8 @@ final class ToDoService {
             guard let self = self else {return}
             switch result {
             case let .success(items):
-                self.merge(newItems: items, queue: queue) { items in
-                    self.fileCacheService.saveFile(items: items) { _ in
-                        queue.async {
-                            completion(.success(items))
-                        }
-                    }
+                queue.async {
+                    completion(.success(items))
                 }
             case .failure(_):
                 self.loadFromFile(queue: queue, completion: completion)
@@ -148,7 +146,13 @@ final class ToDoService {
         }
     }
     func loadFromFile(queue: DispatchQueue, completion: @escaping (Result<[ToDoItem], Error>) -> Void) {
-        fileCacheService.loadFile { result in
+        fileCacheService.loadFile { [weak self] result in
+            switch result {
+            case .failure(_):
+                self?.items = []
+            case let .success(items):
+                self?.items = items
+            }
             queue.async {
                 completion(result)
             }

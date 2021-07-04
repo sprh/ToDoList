@@ -9,10 +9,10 @@ import UIKit
 
 extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return toDoItemsCount(doneShown: doneShown) + 1
+        return toDoItemsCount() + 1
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let lastSectionIndex = toDoItemsCount(doneShown: doneShown)
+        let lastSectionIndex = toDoItemsCount()
         if indexPath.row == lastSectionIndex {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(NewToDoCell.self)") as? NewToDoCell else {
                 return UITableViewCell() }
@@ -67,7 +67,7 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
             UIContextualAction(style: .normal, title: "",
                 handler: {(_: UIContextualAction, _: UIView, success: (Bool) -> Void) in
                   guard let cell = tableView.cellForRow(at: indexPath) as? ToDoCell else { success(false); return }
-                    self.deleteToDoItem(id: cell.toDoItem.id, index: indexPath)
+                    self.deleteToDoItem(id: cell.toDoItem.id, indexPath: indexPath)
                 })
         trashAction.image = .trash
         trashAction.backgroundColor = .red
@@ -94,7 +94,7 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
     }
     func tableViewAddNew() {
         self.tableView.performBatchUpdates({
-        self.tableView.insertRows(at: [IndexPath(row: toDoItemsCount(doneShown: doneShown) - 1, section: 0)],
+        self.tableView.insertRows(at: [IndexPath(row: toDoItemsCount() - 1, section: 0)],
                                   with: .fade)
         }, completion: nil)
     }

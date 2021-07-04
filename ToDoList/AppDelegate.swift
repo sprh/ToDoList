@@ -19,10 +19,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let fileCache = FileCacheService()
         let networkingService = DefaultNetworkingService()
         let toDoService = ToDoService(fileCacheService: fileCache, networkingService: networkingService)
-        let viewController = ToDoViewController(toDoService: toDoService)
-        navigationController.pushViewController(viewController, animated: true)
-        window?.rootViewController = navigationController
-        window?.makeKeyAndVisible()
+        toDoService.loadFromFile(queue: .main) { [weak self] _ in
+            let viewController = ToDoViewController(toDoService: toDoService)
+            navigationController.pushViewController(viewController, animated: true)
+            self?.window?.rootViewController = navigationController
+            self?.window?.makeKeyAndVisible()
+        }
         return true
     }
 }

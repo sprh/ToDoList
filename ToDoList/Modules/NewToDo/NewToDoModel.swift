@@ -33,7 +33,7 @@ final class NewToDoModel {
     }
     func delete() {
         guard let indexPath = indexPath else { return }
-        delegate?.deleteToDoItem(id: toDoItem.id, index: indexPath)
+        delegate?.deleteToDoItem(id: toDoItem.id, indexPath: indexPath)
     }
     var toDoItemIsNew: Bool {
         indexPath == nil
