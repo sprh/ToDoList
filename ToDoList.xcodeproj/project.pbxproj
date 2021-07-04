@@ -50,7 +50,7 @@
 		E3DB43BB266FF84B003A2736 /* ToDoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DB43BA266FF84B003A2736 /* ToDoItem.swift */; };
 		E3DB43C3266FF88C003A2736 /* Importance.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DB43C2266FF88C003A2736 /* Importance.swift */; };
 		E3DB44202672B7F7003A2736 /* ToDoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DB441F2672B7F7003A2736 /* ToDoViewController.swift */; };
-		E3DB44252672B816003A2736 /* ToDoViewControllerItemsWork.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DB44242672B816003A2736 /* ToDoViewControllerItemsWork.swift */; };
+		E3DB44252672B816003A2736 /* ToDoItemsWork.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DB44242672B816003A2736 /* ToDoItemsWork.swift */; };
 		E3DB442A2672B932003A2736 /* FontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DB44292672B932003A2736 /* FontExtension.swift */; };
 		E3DB44302674B6DE003A2736 /* NewToDoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DB442F2674B6DE003A2736 /* NewToDoViewController.swift */; };
 		E3DB44382674B6E8003A2736 /* NewToDoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DB44372674B6E8003A2736 /* NewToDoModel.swift */; };
@@ -130,7 +130,7 @@
 		E3DB43BA266FF84B003A2736 /* ToDoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItem.swift; sourceTree = "<group>"; };
 		E3DB43C2266FF88C003A2736 /* Importance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Importance.swift; sourceTree = "<group>"; };
 		E3DB441F2672B7F7003A2736 /* ToDoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoViewController.swift; sourceTree = "<group>"; };
-		E3DB44242672B816003A2736 /* ToDoViewControllerItemsWork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoViewControllerItemsWork.swift; sourceTree = "<group>"; };
+		E3DB44242672B816003A2736 /* ToDoItemsWork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItemsWork.swift; sourceTree = "<group>"; };
 		E3DB44292672B932003A2736 /* FontExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontExtension.swift; sourceTree = "<group>"; };
 		E3DB442F2674B6DE003A2736 /* NewToDoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewToDoViewController.swift; sourceTree = "<group>"; };
 		E3DB44372674B6E8003A2736 /* NewToDoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewToDoModel.swift; sourceTree = "<group>"; };
@@ -307,7 +307,7 @@
 		E37C9FD126877B920045336D /* ToDoViewController */ = {
 			isa = PBXGroup;
 			children = (
-				E3DB44242672B816003A2736 /* ToDoViewControllerItemsWork.swift */,
+				E3DB44242672B816003A2736 /* ToDoItemsWork.swift */,
 				E3DB441F2672B7F7003A2736 /* ToDoViewController.swift */,
 				E37C9FC226877AF10045336D /* ToDoAddSubviews.swift */,
 				E37C9FC726877B340045336D /* ToDoObjcMethods.swift */,
@@ -696,7 +696,7 @@
 				E37C9FDB26877BDE0045336D /* ToDoTextViewDelegate.swift in Sources */,
 				E37C9FCD26877B820045336D /* ToDoTableViewDelegate.swift in Sources */,
 				E33611112686187D00BE31CB /* NewToDoCell.swift in Sources */,
-				E3DB44252672B816003A2736 /* ToDoViewControllerItemsWork.swift in Sources */,
+				E3DB44252672B816003A2736 /* ToDoItemsWork.swift in Sources */,
 				E30E6DFF2676701B008A55BF /* ColorView.swift in Sources */,
 				E3DB442A2672B932003A2736 /* FontExtension.swift in Sources */,
 				E398447A266A9B29000D1B31 /* ColorExtension.swift in Sources */,

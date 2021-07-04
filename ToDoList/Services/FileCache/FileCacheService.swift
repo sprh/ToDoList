@@ -10,6 +10,8 @@ import Foundation
 class FileCacheService: FileCacheServiceProtocol {
     let queue = DispatchQueue(label: "com.ToDoList.FileCacheQueue")
     let fileCache = FileCache()
+    public init() {
+    }
     func saveFile(items: [ToDoItem], fileName: String = "todoitems.json",
                   completion: @escaping (Result<Void, Error>) -> Void) {
         queue.async { [weak self] in
@@ -25,7 +27,16 @@ class FileCacheService: FileCacheServiceProtocol {
     func addTombstone(tombstone: Tombstone) {
         fileCache.addTombstone(tombstone: tombstone)
     }
-    func removeTombstones() {
+    func clearTombstones() {
         fileCache.clearTombstones()
+    }
+    var dirties: [ToDoItem] {
+        return fileCache.toDoItems.filter({$0.isDirty})
+    }
+    var tombstones: [Tombstone] {
+        return fileCache.tombstones
+    }
+    func reloadItems(items: [ToDoItem]) {
+        fileCache.reloadItems(toDoItems: items)
     }
 }

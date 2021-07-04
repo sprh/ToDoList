@@ -94,10 +94,7 @@ final class FileCache {
         }
         completion(.success(toDoItems))
     }
-    func getDirties() -> [ToDoItem] {
-        return toDoItems.filter({$0.isDirty})
-    }
-    func reloadItems(toDoItems: [ToDoItem], completion: @escaping () -> Void) {
+    func reloadItems(toDoItems: [ToDoItem]) {
         self.toDoItems = toDoItems
     }
     func clearTombstones() {

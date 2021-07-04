@@ -19,7 +19,10 @@ class ToDoViewController: UIViewController {
     let showButton = UIButton()
     let showLabel = UILabel()
     var indexPath: IndexPath?
-    var items: [ToDoItem] = []
+    var allItems: [ToDoItem] = []
+    var items: [ToDoItem] {
+        return !doneShown ? allItems.filter({!$0.done}) : allItems
+    }
     public init(toDoService: ToDoService) {
         self.toDoService = toDoService
         super.init(nibName: nil, bundle: nil)
@@ -44,18 +47,5 @@ class ToDoViewController: UIViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         self.tableView.layoutIfNeeded()
-    }
-    func loadData() {
-        toDoService.loadData(queue: .main) { [weak self] result in
-            switch result {
-            case .failure(_):
-                break
-            case let .success(items):
-                self?.toDoService.merge(newItems: items, queue: .main) { result in
-                    self?.items = result
-                    self?.tableView.reloadData()
-                }
-            }
-        }
     }
 }

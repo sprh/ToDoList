@@ -158,41 +158,43 @@ final class ToDoService {
             }
         }
     }
-//    func synchronize(item: ToDoItem?, idToDelete: String?, queue: DispatchQueue,
-//                     completion: @escaping (Result<Void, Error>) -> Void) {
-//        if let item = item {
-//            let dirtyItem = ToDoItem(id: item.id,
-//                                     text: item.text,
-//                                     importance: item.importance,
-//                                     deadline: item.deadline,
-//                                     color: item.color,
-//                                     done: item.done,
-//                                     updatedAt: item.updatedAt,
-//                                     createdAt: item.createdAt,
-//                                     isDirty: true)
-//            fileCache.add(item: dirtyItem)
-//        }
-//        if let id = idToDelete {
-//            fileCache.addTombstone(tombstone: Tombstone(id: id))
-//        }
-//        networkingService.putAll(addOrUpdateItems: fileCache.getDirties(),
-//                                 deleteIds: fileCache.tombstones.map({$0.id})) { [weak self] result in
-//            switch result {
-//            case let .failure(error):
-//                queue.async {
-//                    completion(.failure(error))
-//                }
-//            case let .success(items):
-//                queue.async {
-//                    self?.fileCache.clearTombstones()
-//                    self?.fileCache.reloadItems(toDoItems: items) {
-//                        completion(.success(()))
-//                    }
-//                }
-//            }
-//        }
-//    }
-//    private func needToSynchronize() -> Bool {
-//        return fileCache.getDirties().count != 0 || fileCache.tombstones.count != 0
-//    }
+    func synchronize(item: ToDoItem?, idToDelete: String?, queue: DispatchQueue,
+                     completion: @escaping (Result<[ToDoItem], Error>) -> Void) {
+        var dirties = fileCacheService.dirties
+        var ids = fileCacheService.tombstones.map({$0.id})
+        if let item = item {
+            let dirtyItem = ToDoItem(id: item.id,
+                                     text: item.text,
+                                     importance: item.importance,
+                                     deadline: item.deadline,
+                                     color: item.color,
+                                     done: item.done,
+                                     updatedAt: item.updatedAt,
+                                     createdAt: item.createdAt,
+                                     isDirty: true)
+            dirties.append(dirtyItem)
+        }
+        if let id = idToDelete {
+            ids.append(id)
+        }
+        networkingService.putAll(addOrUpdateItems: dirties,
+                                 deleteIds: ids) { [weak self] result in
+            switch result {
+            case let .failure(error):
+                queue.async {
+                    completion(.failure(error))
+                }
+            case let .success(items):
+                self?.fileCacheService.clearTombstones()
+                self?.fileCacheService.reloadItems(items: items)
+                self?.items = items
+                queue.async {
+                    completion(.success(items))
+                }
+            }
+        }
+    }
+    func needToSynchronize() -> Bool {
+        return fileCacheService.dirties.count != 0 || fileCacheService.tombstones.count != 0
+    }
 }
