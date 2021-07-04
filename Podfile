@@ -7,6 +7,7 @@ target 'ToDoList' do
 
   pod 'SwiftLint'
   pod 'UITextView+Placeholder'
+  pod 'Models', :path => 'Models'
 
   target 'ToDoListTests' do
     inherit! :search_paths

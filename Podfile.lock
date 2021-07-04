@@ -1,8 +1,10 @@
 PODS:
+  - Models (0.1.0)
   - SwiftLint (0.42.0)
   - "UITextView+Placeholder (1.4.0)"
 
 DEPENDENCIES:
+  - Models (from `Models`)
   - SwiftLint
   - "UITextView+Placeholder"
 
@@ -11,10 +13,15 @@ SPEC REPOS:
     - SwiftLint
     - "UITextView+Placeholder"
 
+EXTERNAL SOURCES:
+  Models:
+    :path: Models
+
 SPEC CHECKSUMS:
+  Models: 29bf53d19217706ba4e859dca975191c72260a98
   SwiftLint: 4fa9579c63416865179bc416f0a92d55f009600d
   "UITextView+Placeholder": d7b0c400921f66523f3a85d74f774512e14f6502
 
-PODFILE CHECKSUM: 530c16eac9db712f55b6499bedca3f0304087841
+PODFILE CHECKSUM: d94e39ad59d6e3c287d36e98e7bdf3c93b66134a
 
 COCOAPODS: 1.10.1
