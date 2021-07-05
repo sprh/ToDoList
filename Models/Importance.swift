@@ -9,7 +9,7 @@ import Foundation
 
 /// A value that shows how important is the task.
 /// - Cases: unimportant, common important.
-enum Importance: String {
+public enum Importance: String {
     case low
     case basic
     case important

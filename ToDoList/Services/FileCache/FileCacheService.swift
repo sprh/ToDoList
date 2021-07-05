@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Models
 
 class FileCacheService: FileCacheServiceProtocol {
     let queue = DispatchQueue(label: "com.ToDoList.FileCacheQueue")

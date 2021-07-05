@@ -10,30 +10,30 @@ import UIKit
 
 /// An item of a to-do list structure.
 ///
-struct ToDoItem {
-    let id: String
-    let text: String
-    let importance: Importance
-    let deadline: Int?
-    var done: Bool
-    var color: String
-    var createdAt: Int
-    var updatedAt: Int?
-    var isDirty: Bool
+public struct ToDoItem {
+    public let id: String
+    public let text: String
+    public let importance: Importance
+    public let deadline: Int?
+    public var done: Bool
+    public var color: String
+    public var createdAt: Int
+    public var updatedAt: Int?
+    public var isDirty: Bool
     /// - Parameters:
     ///     - id: An unique user id. Default value is UUID().uuidString
     ///     - text: The current do to item description.
     ///     - importance: A value that shows the importance of the task. Default value is common..
     ///     - deadline: The task completeon date. An optional value of type Date.
-    init(id: String? = UUID().uuidString,
-         text: String,
-         importance: Importance? = .basic,
-         deadline: Int? = nil,
-         color: String = "",
-         done: Bool = false,
-         updatedAt: Int?,
-         createdAt: Int = Int(Date().timeIntervalSince1970),
-         isDirty: Bool = false) {
+    public init(id: String? = UUID().uuidString,
+                text: String,
+                importance: Importance? = .basic,
+                deadline: Int? = nil,
+                color: String = "",
+                done: Bool = false,
+                updatedAt: Int?,
+                createdAt: Int = Int(Date().timeIntervalSince1970),
+                isDirty: Bool = false) {
         self.id = id ?? UUID().uuidString
         self.text = text
         self.importance = importance ?? .basic
@@ -43,7 +43,7 @@ struct ToDoItem {
         self.createdAt = createdAt
         self.isDirty = isDirty
     }
-    init() {
+    public init() {
         self.id = UUID().uuidString
         self.text = ""
         self.importance = .basic
@@ -56,8 +56,7 @@ struct ToDoItem {
     }
 }
 
-extension ToDoItem {
-
+public extension ToDoItem {
     /// This property creates json string with the object data.
     /// - Returns:
     ///         - The current object as a json string.

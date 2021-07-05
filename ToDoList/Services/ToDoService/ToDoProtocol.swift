@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Models
 
 protocol ToDoProtocol {
     func create(_ item: ToDoItem, queue: DispatchQueue, completion: @escaping () -> Void)

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Models
 
 final class NewToDoModel {
     private(set) var toDoItem: ToDoItem

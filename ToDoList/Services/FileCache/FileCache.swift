@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Models
 
 final class FileCache {
     /// An array of to do items.

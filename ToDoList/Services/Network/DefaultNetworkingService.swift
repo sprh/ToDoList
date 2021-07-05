@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Models
 
 class DefaultNetworkingService: NetworkingService {
     let queue = DispatchQueue(label: "NetworkQueue", attributes: [.concurrent])

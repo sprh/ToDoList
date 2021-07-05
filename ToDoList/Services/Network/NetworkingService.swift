@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Models
 
 protocol NetworkingService {
     /// Get all to do items.
@@ -18,5 +19,5 @@ protocol NetworkingService {
     func delete(_ id: String, completion: @escaping (Result<ToDoItem, Error>) -> Void)
     /// Update, add or delete several to do items.
     func putAll(addOrUpdateItems: [ToDoItem], deleteIds: [String],
-                      completion: @escaping (Result<[ToDoItem], Error>) -> Void)
+                completion: @escaping (Result<[ToDoItem], Error>) -> Void)
 }

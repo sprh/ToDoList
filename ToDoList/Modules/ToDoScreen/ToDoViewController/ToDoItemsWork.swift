@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Models
 
 extension ToDoViewController: NewToDoDelegate {
     public func getToDoItem(at index: Int, doneShown: Bool) -> ToDoItem {

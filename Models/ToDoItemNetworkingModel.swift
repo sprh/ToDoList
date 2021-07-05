@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct ToDoItemNetworkingModel: Codable {
-    let id: String
-    let text: String
-    let importance: String
-    let done: Bool
-    let deadline: Int?
-    let createdAt: Int
-    let updatedAt: Int?
+public struct ToDoItemNetworkingModel: Codable {
+    public let id: String
+    public let text: String
+    public let importance: String
+    public let done: Bool
+    public let deadline: Int?
+    public let createdAt: Int
+    public let updatedAt: Int?
     public init(_ toDoItem: ToDoItem) {
         id = toDoItem.id
         text = toDoItem.text
@@ -43,7 +43,7 @@ struct ToDoItemNetworkingModel: Codable {
         case createdAt = "created_at"
         case updatedAt = "updated_at"
     }
-    func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
         try container.encode(text, forKey: .text)
@@ -53,7 +53,7 @@ struct ToDoItemNetworkingModel: Codable {
         try container.encode(createdAt, forKey: .createdAt)
         try container.encode(updatedAt, forKey: .updatedAt)
     }
-    func toJsonArray() -> [String: Any?] {
+    public func toJsonArray() -> [String: Any?] {
         return ["id": id,
                 "text": text,
                 "importance": importance,
@@ -62,7 +62,7 @@ struct ToDoItemNetworkingModel: Codable {
                 "created_at": createdAt,
                 "updated_at": updatedAt]
     }
-    func toToDoItem() -> ToDoItem {
+    public func toToDoItem() -> ToDoItem {
         return ToDoItem(id: id,
                         text: text,
                         importance: Importance.init(rawValue: importance),

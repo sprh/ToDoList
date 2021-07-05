@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Models
 
 protocol FileCacheServiceProtocol {
     func saveFile(items: [ToDoItem], fileName: String, completion: @escaping (Result<Void, Error>) -> Void)

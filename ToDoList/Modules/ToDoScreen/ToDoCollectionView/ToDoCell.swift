@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Models
 
 /// ToDoCell is a cell that contains information about a ToDoItem that already exists.
 class ToDoCell: UITableViewCell {

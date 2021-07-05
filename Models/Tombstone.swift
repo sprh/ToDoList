@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct Tombstone {
-    let id: String
-    let deletedAt: Int
+public struct Tombstone {
+    public let id: String
+    public let deletedAt: Int
     public init(id: String) {
         self.id = id
         deletedAt = Int(Date().timeIntervalSince1970)
