@@ -23,7 +23,7 @@ final class FileCache {
     let createdAt = Expression<Int>("createdAt")
     let updatedAt = Expression<Int?>("updatedAt")
     let isDirty = Expression<Bool>("isDirty")
-    let deletedAt = Expression<Int?>("deletedAt")
+    let deletedAt = Expression<Int>("deletedAt")
     let toDoItemsTable = Table("ToDoItems")
     let tombstonesTable = Table("Tombstones")
     var dbUrl: URL? {
@@ -79,7 +79,7 @@ final class FileCache {
             table.column(deletedAt)
         })
     }
-    func getAll() throws {
+    func getToDoItems() throws {
         guard let dbUrl = dbUrl else { return }
         let connection = try Connection(dbUrl.path)
         for item in try connection.prepare(toDoItemsTable) {
@@ -93,6 +93,15 @@ final class FileCache {
                                     createdAt: item[createdAt],
                                     isDirty: item[isDirty])
             toDoItems.append(toDoItem)
+        }
+    }
+    func getGetTombstones() throws {
+        guard let dbUrl = dbUrl else { return }
+        let connection = try Connection(dbUrl.path)
+        for item in try connection.prepare(tombstonesTable) {
+            let tombstone = Tombstone(id: item[id],
+                                     deletedAt: item[deletedAt])
+            tombstones.append(tombstone)
         }
     }
     func create(_ item: ToDoItem) throws {

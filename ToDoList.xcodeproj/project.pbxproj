@@ -27,7 +27,6 @@
 		E31F4611268F2F3700CF2652 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31F4610268F2F3700CF2652 /* NetworkError.swift */; };
 		E33611112686187D00BE31CB /* NewToDoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33611102686187D00BE31CB /* NewToDoCell.swift */; };
 		E348778E2698D5C300F60C81 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E348778D2698D5C300F60C81 /* FileManager.swift */; };
-		E34877902698DD0C00F60C81 /* FileCacheProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E348778F2698DD0C00F60C81 /* FileCacheProtocol.swift */; };
 		E34A3908267BE04100546DAF /* FileCacheError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34A3907267BE04100546DAF /* FileCacheError.swift */; };
 		E34EDB852685F64900C852B0 /* NewToDoDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34EDB842685F64900C852B0 /* NewToDoDelegate.swift */; };
 		E37C9FAC268779B60045336D /* NewToDoAddSubviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37C9FAB268779B60045336D /* NewToDoAddSubviews.swift */; };
@@ -103,7 +102,6 @@
 		E31F4610268F2F3700CF2652 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		E33611102686187D00BE31CB /* NewToDoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewToDoCell.swift; sourceTree = "<group>"; };
 		E348778D2698D5C300F60C81 /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
-		E348778F2698DD0C00F60C81 /* FileCacheProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCacheProtocol.swift; sourceTree = "<group>"; };
 		E34A3907267BE04100546DAF /* FileCacheError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCacheError.swift; sourceTree = "<group>"; };
 		E34EDB842685F64900C852B0 /* NewToDoDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewToDoDelegate.swift; sourceTree = "<group>"; };
 		E37C9FAB268779B60045336D /* NewToDoAddSubviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewToDoAddSubviews.swift; sourceTree = "<group>"; };
@@ -319,7 +317,6 @@
 				E3804D99268F080500957844 /* FileCache.swift */,
 				E3804D9A268F080500957844 /* FileCacheService.swift */,
 				E3804D98268F080500957844 /* FileCacheServiceProtocol.swift */,
-				E348778F2698DD0C00F60C81 /* FileCacheProtocol.swift */,
 			);
 			path = FileCache;
 			sourceTree = "<group>";
@@ -664,7 +661,6 @@
 				E3169E23267E6439001C4FEE /* ToDoCell.swift in Sources */,
 				E3CD751E2688F22B00FF2093 /* NetworkingService.swift in Sources */,
 				E30E6DF526766891008A55BF /* ViewController.swift in Sources */,
-				E34877902698DD0C00F60C81 /* FileCacheProtocol.swift in Sources */,
 				E3804D9B268F080500957844 /* FileCacheServiceProtocol.swift in Sources */,
 				E37C9FC826877B340045336D /* ToDoObjcMethods.swift in Sources */,
 				E3925EAD26768DEC00BF26BA /* DatePicker.swift in Sources */,

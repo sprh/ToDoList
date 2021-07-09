@@ -45,4 +45,42 @@ class FileCacheService: FileCacheServiceProtocol {
     func reloadItems(items: [ToDoItem]) {
         fileCache.reloadItems(toDoItems: items)
     }
+    func getToDoItems(completion: @escaping (Result<[ToDoItem], Error>) -> Void) {
+        queue.async { [weak self] in
+            guard let self = self else { return }
+            do {
+                try self.fileCache.getToDoItems()
+                completion(.success(self.fileCache.toDoItems))
+            } catch let error {
+                completion(.failure(error))
+            }
+        }
+    }
+    func getTombstones(completion: @escaping (Result<[Tombstone], Error>) -> Void) {
+        queue.async { [weak self] in
+            guard let self = self else { return }
+        }
+    }
+    func create(_ item: ToDoItem, completion: @escaping (Result<ToDoItem, Error>) -> Void) {
+        queue.async { [weak self] in
+            guard let self = self else { return }
+        }
+    }
+    
+    func create(_ item: Tombstone, completion: @escaping (Result<Tombstone, Error>) -> Void) {
+        queue.async { [weak self] in
+            guard let self = self else { return }
+        }
+    }
+    func update(_ item: ToDoItem, completion: @escaping (Result<ToDoItem, Error>) -> Void) {
+        queue.async { [weak self] in
+            guard let self = self else { return }
+        }
+    }
+    
+    func delete(_ item: ToDoItem, completion: @escaping (Result<ToDoItem, Error>) -> Void) {
+        queue.async { [weak self] in
+            guard let self = self else { return }
+        }
+    }
 }
