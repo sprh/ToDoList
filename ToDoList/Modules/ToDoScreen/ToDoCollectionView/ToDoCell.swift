@@ -42,7 +42,6 @@ class ToDoCell: UITableViewCell {
         doneButton.backgroundColor = .clear
         doneButton.translatesAutoresizingMaskIntoConstraints = false
         doneButton.clipsToBounds = true
-        doneButton.addTarget(self, action: #selector(doneChanged), for: .touchUpInside)
         contentView.addSubview(doneButton)
         NSLayoutConstraint.activate([
             doneButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),

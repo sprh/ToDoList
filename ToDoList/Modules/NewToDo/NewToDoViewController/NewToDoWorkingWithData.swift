@@ -18,7 +18,7 @@ extension NewToDoViewController {
             deadlinePicker.minimumDate = Date.init(timeIntervalSince1970: Double(deadline))
             deadlinePicker.date = Date.init(timeIntervalSince1970: Double(deadline))
         }
-        setupVisability()
+        setupVisibility()
         textViewDidChange(textView)
         let color = UIColor.colorWithHexString(hexString: model.toDoItem.color)
         textView.textColor = color

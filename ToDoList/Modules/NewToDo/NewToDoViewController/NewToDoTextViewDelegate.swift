@@ -13,9 +13,9 @@ extension NewToDoViewController: UITextViewDelegate {
         let textHeight = self.textView.sizeThatFits(self.textView.bounds.size).height + 20
         self.textBottomAnchorConstraint.constant = max(136, textHeight)
         scrollView.contentSize.height += textBottomAnchorConstraint.constant - oldConstraint
-        setupVisability()
+        setupVisibility()
     }
-    func setupVisability() {
+    func setupVisibility() {
         if textView.text.isEmpty || textView.text == "" {
             deleteButton.isEnabled = false
             saveButton?.isEnabled = false

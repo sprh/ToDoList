@@ -18,7 +18,6 @@ extension ToDoViewController {
     }
     @objc func showButtonClick() {
         doneShown.toggle()
-        doneChanged(withDone: doneShown)
         tableView.reloadData()
     }
     @objc func doneButtonClick(indexPath: IndexPath) {

@@ -13,20 +13,18 @@ extension ToDoViewController: NewToDoDelegate {
         return index >= items.count ? ToDoItem() : items[index]
     }
     public func toDoItemsCount() -> Int {
-        var items = items
-        if !doneShown {
-            items = items.filter({!$0.done})
-        }
         return items.count
     }
     public func updateToDoItem(toDoItem: ToDoItem, indexPath: IndexPath) {
+        guard let index = allItems.firstIndex(where: {$0.id == toDoItem.id}) else { return }
+        allItems[index] = toDoItem
         toDoService.update(toDoItem, queue: .main) { [weak self] _ in
             self?.tableViewReloadOldCell(at: indexPath)
         }
     }
     public func updateToDoItemDone(id: String, indexPath: IndexPath) {
-        guard let index = items.firstIndex(where: {$0.id == id}) else { return }
-        let item = items[index]
+        guard let index = allItems.firstIndex(where: {$0.id == id}) else { return }
+        let item = allItems[index]
         let newItem = ToDoItem(id: id,
                                text: item.text,
                                importance: item.importance,
@@ -35,38 +33,40 @@ extension ToDoViewController: NewToDoDelegate {
                                done: !item.done,
                                updatedAt: Int(Date().timeIntervalSince1970))
         allItems[index] = newItem
-        if toDoService.needToSynchronize() {
+        showLabelSetText()
+        if newItem.done, !doneShown {
+            tableViewDeleteOldCell(at: indexPath)
+            toDoService.update(newItem, queue: .main) { _ in
+            }
+        } else if toDoService.needToSynchronize() {
             synchronize(toDoItem: newItem, idToDelete: nil)
         } else {
             updateToDoItem(toDoItem: newItem, indexPath: indexPath)
         }
     }
     public func deleteToDoItem(id: String, indexPath: IndexPath) {
-        guard let index = items.firstIndex(where: {$0.id == id}) else { return }
+        guard let index = allItems.firstIndex(where: {$0.id == id}) else { return }
         allItems.remove(at: index)
+        showLabelSetText()
         tableViewDeleteOldCell(at: indexPath)
+        toDoService.delete(id, queue: .main) { _ in
+        }
         if toDoService.needToSynchronize() {
             synchronize(toDoItem: nil, idToDelete: id)
-        } else {
-            toDoService.delete(id, queue: .main) { _ in
-            }
         }
     }
     public func addToDoItem(toDoItem: ToDoItem) {
         allItems.append(toDoItem)
-        tableViewAddNew()
         if toDoService.needToSynchronize() {
             synchronize(toDoItem: toDoItem, idToDelete: nil)
         } else {
+            tableViewAddNew()
             toDoService.create(toDoItem, queue: .main) { _ in
             }
         }
     }
     public func getDoneItemsCount() -> Int {
-        return items.filter({$0.done}).count
-    }
-    public func doneChanged(withDone: Bool) {
-        allItems = toDoService.getToDoItems(withDone: withDone)
+        return allItems.filter({$0.done}).count
     }
     func loadData() {
         toDoService.loadData(queue: .main) { [weak self] result in
