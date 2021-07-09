@@ -1,6 +1,0 @@
-use_frameworks!
-target 'Models_Tests' do
-  pod 'Models', :path => '../'
-  
-  
-end
