@@ -27,8 +27,11 @@ class FileCacheService: FileCacheServiceProtocol {
             }
         }
     }
-    func addTombstone(tombstone: Tombstone) {
-        fileCache.addTombstone(tombstone: tombstone)
+    func addTombstone(tombstone: Tombstone, completion: @escaping (Result<Tombstone, Error>) -> Void) {
+        do {
+            try fileCache.create(tombstone)
+        } catch {
+        }
     }
     func clearTombstones() {
         fileCache.clearTombstones()

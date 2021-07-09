@@ -23,16 +23,17 @@ final class FileCache {
     let createdAt = Expression<Int>("createdAt")
     let updatedAt = Expression<Int?>("updatedAt")
     let isDirty = Expression<Bool>("isDirty")
+    let deletedAt = Expression<Int?>("deletedAt")
+    let toDoItemsTable = Table("ToDoItems")
+    let tombstonesTable = Table("Tombstones")
     var dbUrl: URL? {
         guard let documentDirectory = FileManager.default.urls(for: .documentDirectory,
                                                                in: .userDomainMask).first else {
-                return nil
-            }
+            return nil
+        }
         let path = documentDirectory.appendingPathComponent("ToDoList.sqlite3")
         return path
     }
-//    let tombstoneId = Expression<String>("id")
-    let deletedAt = Expression<String>("deletedAt")
     public init() {
         do {
             try createTables()
@@ -40,81 +41,17 @@ final class FileCache {
             print(":( \(error)")
         }
     }
-    /// Add an item to the array.
-    ///  - Parameters:
-    ///  - item: A new to do item.
-    ///
-    func add(item toDoItem: ToDoItem) {
-        guard let index = toDoItems.firstIndex(where: {$0.id == toDoItem.id}) else {
-            toDoItems.append(toDoItem)
-            return
-        }
-        toDoItems[index] = toDoItem
-    }
-    func addTombstone(tombstone: Tombstone) {
-        tombstones.append(tombstone)
-    }
-    func deleteTombstone(id: String) {
-        guard let index = tombstones.firstIndex(where: {$0.id == id}) else { return }
-        tombstones.remove(at: index)
-    }
-    /// Delete an element from the array by its id.
-    /// - Parameters:
-    /// - id: an identifire of the item.
-    func delete(with id: String) {
-        guard let index = toDoItems.firstIndex(where: {$0.id == id}) else { return }
-        toDoItems.remove(at: index)
-    }
-    func get(with id: String) -> ToDoItem? {
-        return toDoItems.first(where: {$0.id == id})
-    }
     /// Save an array of objects to the file.
     /// - Parameters:
     /// - Path: a string contains the path to the file in which we save an array.
     func saveFile(_ items: [ToDoItem], to path: String,
                   completion: @escaping (Result) -> Void) {
-        guard let documentDirectory = FileManager.default.urls(for: .documentDirectory,
-                                                               in: .userDomainMask).first else {
-            return
-        }
-        let jsonArray = toDoItems.map { $0.json }
-        let url = documentDirectory.appendingPathComponent(path)
-        do {
-            let json = try JSONSerialization.data(withJSONObject: jsonArray, options: .prettyPrinted)
-            try json.write(to: url, options: [])
-        } catch {
-            return
-        }
     }
     /// Load an array of objects from the file.
     /// - Parameters:
     /// - Path: a string contains the path to the file from which we load an array.
     func loadFile(from path: String,
                   completion: @escaping (Result) -> Void) {
-        // Check if a file with the path exists.
-        guard let documentDirectory = FileManager.default.urls(for: .documentDirectory,
-                                                               in: .userDomainMask).first else {
-            return
-        }
-        // Because we don't want to store repeatable elements.
-        toDoItems.removeAll()
-        let url = documentDirectory.appendingPathComponent(path)
-        do {
-            let json = try String(contentsOf: url, encoding: .utf8)
-            let jsonData = json.data(using: String.Encoding.utf8, allowLossyConversion: false)!
-            guard let data = try
-                    JSONSerialization.jsonObject(with: jsonData, options: []) as? [Any] else {
-                print("Can't parse a json string")
-                return
-            }
-            for item in data {
-                guard let toDoItem = ToDoItem.parse(json: item) else {
-                    continue
-                }
-                toDoItems.append(toDoItem)
-            }
-        } catch {
-        }
     }
     func reloadItems(toDoItems: [ToDoItem]) {
         self.toDoItems = toDoItems
@@ -125,11 +62,8 @@ final class FileCache {
     func createTables() throws {
         guard let dbUrl = dbUrl else { return }
         FileManager.createFileIfNotExists(with: dbUrl)
-        print(FileManager.default.fileExists(atPath: dbUrl.path))
         let connection = try Connection(dbUrl.path)
-        let toDoItems = Table("ToDoItems")
-        let tombstones = Table("Tombstones")
-        try connection.run(toDoItems.create(ifNotExists: true) { table in
+        try connection.run(toDoItemsTable.create(ifNotExists: true) { table in
             table.column(id, primaryKey: true)
             table.column(text)
             table.column(importance)
@@ -140,9 +74,63 @@ final class FileCache {
             table.column(updatedAt)
             table.column(isDirty)
         })
-        try connection.run(tombstones.create(ifNotExists: true) { table in
+        try connection.run(tombstonesTable.create(ifNotExists: true) { table in
             table.column(id, primaryKey: true)
             table.column(deletedAt)
         })
+    }
+    func getAll() throws {
+        guard let dbUrl = dbUrl else { return }
+        let connection = try Connection(dbUrl.path)
+        for item in try connection.prepare(toDoItemsTable) {
+            let toDoItem = ToDoItem(id: item[id],
+                                    text: item[text],
+                                    importance: Importance(rawValue: item[importance]),
+                                    deadline: item[deadline],
+                                    color: item[color],
+                                    done: item[done],
+                                    updatedAt: item[updatedAt],
+                                    createdAt: item[createdAt],
+                                    isDirty: item[isDirty])
+            toDoItems.append(toDoItem)
+        }
+    }
+    func create(_ item: ToDoItem) throws {
+        guard let dbUrl = dbUrl else { return }
+        let connection = try Connection(dbUrl.path)
+        try connection.run(toDoItemsTable.insert(id <- item.id,
+                                                 text <- item.text,
+                                                 importance <- item.importance.rawValue,
+                                                 deadline <- item.deadline,
+                                                 done <- item.done,
+                                                 color <- item.color,
+                                                 createdAt <- item.createdAt,
+                                                 updatedAt <- item.updatedAt,
+                                                 isDirty <- item.isDirty))
+    }
+    func create(_ item: Tombstone) throws {
+        guard let dbUrl = dbUrl else { return }
+        let connection = try Connection(dbUrl.path)
+        try connection.run(tombstonesTable.insert(id <- item.id,
+                                                  deletedAt <- item.deletedAt))
+    }
+    func update(_ item: ToDoItem) throws {
+        guard let dbUrl = dbUrl else { return }
+        let connection = try Connection(dbUrl.path)
+        let toDoItem = toDoItemsTable.filter(id == item.id)
+        try connection.run(toDoItem.update(text <- item.text,
+                                           importance <- item.importance.rawValue,
+                                           deadline <- item.deadline,
+                                           done <- item.done,
+                                           color <- item.color,
+                                           updatedAt <- item.updatedAt,
+                                           isDirty <- item.isDirty))
+    }
+    func delete(_ item: ToDoItem) throws {
+        guard let dbUrl = dbUrl else { return }
+        let connection = try Connection(dbUrl.path)
+        let toDoItem = toDoItemsTable.filter(id == item.id)
+        try connection.run(toDoItem.delete())
+        
     }
 }

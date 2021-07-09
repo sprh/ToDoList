@@ -62,7 +62,8 @@ final class ToDoService {
                     }
                 }
             case let .failure(error):
-                self.fileCacheService.addTombstone(tombstone: Tombstone(id: id))
+                self.fileCacheService.addTombstone(tombstone: Tombstone(id: id)) { _ in
+                }
                 queue.async {
                     completion(.failure(error))
                 }
