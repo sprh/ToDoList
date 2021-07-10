@@ -17,12 +17,12 @@ class FileCacheService: FileCacheServiceProtocol {
                   completion: @escaping (Result<Void, Error>) -> Void) {
         queue.async { [weak self] in
             self?.fileCache.saveFile()
-//            do {
-//                try self?.fileCache.saveFile()
-//                completion(.success(()))
-//            } catch let error {
-//                completion(.failure(error))
-//            }
+            //            do {
+            //                try self?.fileCache.saveFile()
+            //                completion(.success(()))
+            //            } catch let error {
+            //                completion(.failure(error))
+            //            }
         }
     }
     func loadFile(fileName: String = "todoitems.json",
@@ -42,21 +42,22 @@ class FileCacheService: FileCacheServiceProtocol {
             guard let self = self else { return }
             do {
                 try self.fileCache.create(tombstone)
+                try self.fileCache.deleteToDoItem(tombstone.id)
                 completion(.success(tombstone))
             } catch let error {
-            completion(.failure(error))
+                completion(.failure(error))
+            }
         }
-    }
     }
     func clearTombstones(completion: @escaping (Result<Void, Error>) -> Void) {
         queue.async { [weak self] in
             guard let self = self else {return}
             do {
                 try self.fileCache.clearTombstones()
-            completion(.success(()))
-        } catch let error {
-            completion(.failure(error))
-        }
+                completion(.success(()))
+            } catch let error {
+                completion(.failure(error))
+            }
         }
     }
     var dirties: [ToDoItem] {

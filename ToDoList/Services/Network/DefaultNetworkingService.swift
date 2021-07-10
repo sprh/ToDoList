@@ -38,6 +38,7 @@ class DefaultNetworkingService: NetworkingService {
         }
     }
     func update(_ toDoItem: ToDoItem, completion: @escaping (Result<ToDoItem, Error>) -> Void) {
+        print(toDoItem)
         guard var urlRequest = createURL(
                 path: "https://d5dps3h13rv6902lp5c8.apigw.yandexcloud.net/tasks/\(toDoItem.id)") else {
             completion(.failure(NetworkError.incorrectUrl)); return

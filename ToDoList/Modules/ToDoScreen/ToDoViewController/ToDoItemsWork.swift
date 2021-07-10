@@ -33,13 +33,13 @@ extension ToDoViewController: NewToDoDelegate {
                                done: !item.done,
                                updatedAt: Int(Date().timeIntervalSince1970))
         allItems[index] = newItem
+        toDoService.update(newItem, queue: .main) { _ in
+        }
         showLabelSetText()
         if newItem.done, !doneShown {
             tableViewDeleteOldCell(at: indexPath)
-            toDoService.update(newItem, queue: .main) { _ in
-            }
         } else if toDoService.needToSynchronize() {
-            synchronize(toDoItem: newItem, idToDelete: nil)
+            synchronize(allItems)
         } else {
             updateToDoItem(toDoItem: newItem, indexPath: indexPath)
         }
@@ -52,13 +52,13 @@ extension ToDoViewController: NewToDoDelegate {
         toDoService.delete(id, queue: .main) { _ in
         }
         if toDoService.needToSynchronize() {
-            synchronize(toDoItem: nil, idToDelete: id)
+            synchronize(allItems)
         }
     }
     public func addToDoItem(toDoItem: ToDoItem) {
         allItems.append(toDoItem)
         if toDoService.needToSynchronize() {
-            synchronize(toDoItem: toDoItem, idToDelete: nil)
+            synchronize(allItems)
         } else {
             tableViewAddNew()
             toDoService.create(toDoItem, queue: .main) { _ in
@@ -71,29 +71,25 @@ extension ToDoViewController: NewToDoDelegate {
     func loadData() {
         toDoService.loadData(queue: .main) { [weak self] result in
             switch result {
-            case .failure(_):
-                break
             case let .success(items):
                 self?.allItems = items
                 self?.tableView.reloadData()
-                self?.toDoService.merge(newItems: items, queue: .main) { result in
-                    self?.allItems = result
-                    self?.tableView.reloadData()
-                }
-            }
+            case .failure(_):
+                break
         }
     }
-    func synchronize(toDoItem: ToDoItem?, idToDelete: String?) {
-        toDoService.synchronize(item: toDoItem, idToDelete: idToDelete, queue: .main) { [weak self] result in
-            guard let self = self else {return}
+    }
+    func synchronize(_ items: [ToDoItem]) {
+        toDoService.synchronize(items, queue: .main) { [weak self] result in
+            guard let self = self else {
+                return
+            }
             switch result {
             case .failure(_):
                 break
-            case .success(_):
-                self.toDoService.merge(newItems: self.items, queue: .main) { result in
-                    self.allItems = result
+            case let .success(items):
+                    self.allItems = items
                     self.tableView.reloadData()
-                }
             }
         }
     }
