@@ -16,5 +16,6 @@ protocol FileCacheServiceProtocol {
     func create(_ item: ToDoItem, completion: @escaping (Result<ToDoItem, Error>) -> Void)
     func create(_ item: Tombstone, completion: @escaping (Result<Tombstone, Error>) -> Void)
     func update(_ item: ToDoItem, completion: @escaping (Result<ToDoItem, Error>) -> Void)
-    func delete(_ item: ToDoItem, completion: @escaping (Result<ToDoItem, Error>) -> Void)
+    func deleteToDoItem(_ id: String, completion: @escaping (Result<String, Error>) -> Void)
+    func deleteTombstone(_ id: String, completion: @escaping (Result<String, Error>) -> Void)
 }

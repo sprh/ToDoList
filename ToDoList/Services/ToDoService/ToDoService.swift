@@ -70,13 +70,13 @@ final class ToDoService {
             }
         }
     }
-    func create(_ item: ToDoItem, queue: DispatchQueue, completion: @escaping (Result<Void, Error>) -> Void) {
-        items.append(item)
+    func create(_ item: ToDoItem, queue: DispatchQueue, completion: @escaping (Result<ToDoItem, Error>) -> Void) {
         networkingService.create(item) { [weak self] result in
-            guard let self = self else {return}
+            guard let self = self else { return }
             switch result {
-            case let .success(item):
-                self.replaceAndSave(item: item, queue: queue, completion: completion)
+            case .success(_):
+                self.items.append(item)
+                self.fileCacheService.create(item, completion: completion)
             case .failure(_):
                 let dirtyItem = ToDoItem(id: item.id,
                                          text: item.text,
@@ -87,7 +87,8 @@ final class ToDoService {
                                          updatedAt: item.updatedAt,
                                          createdAt: item.createdAt,
                                          isDirty: true)
-                self.replaceAndSave(item: dirtyItem, queue: queue, completion: completion)
+                self.items.append(dirtyItem)
+                self.fileCacheService.create(dirtyItem, completion: completion)
             }
         }
     }
@@ -136,14 +137,13 @@ final class ToDoService {
     }
     func loadData(queue: DispatchQueue, completion: @escaping (Result<[ToDoItem], Error>) -> Void) {
         networkingService.getAll { [weak self] result in
-            guard let self = self else {return}
             switch result {
             case let .success(items):
                 queue.async {
                     completion(.success(items))
                 }
             case .failure(_):
-                self.loadFromFile(queue: queue, completion: completion)
+                self?.loadFromFile(queue: queue, completion: completion)
             }
         }
     }
@@ -187,11 +187,12 @@ final class ToDoService {
                     completion(.failure(error))
                 }
             case let .success(items):
-                self?.fileCacheService.clearTombstones()
-                self?.fileCacheService.reloadItems(items: items)
-                self?.items = items
-                queue.async {
-                    completion(.success(items))
+                self?.fileCacheService.clearTombstones { _ in
+                    self?.fileCacheService.reloadItems(items: items)
+                    self?.items = items
+                    queue.async {
+                        completion(.success(items))
+                    }
                 }
             }
         }

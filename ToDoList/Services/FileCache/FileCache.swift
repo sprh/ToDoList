@@ -44,19 +44,23 @@ final class FileCache {
     /// Save an array of objects to the file.
     /// - Parameters:
     /// - Path: a string contains the path to the file in which we save an array.
-    func saveFile(_ items: [ToDoItem], to path: String,
-                  completion: @escaping (Result) -> Void) {
+    func saveFile() {
+        // TODO: Save file
     }
     /// Load an array of objects from the file.
     /// - Parameters:
     /// - Path: a string contains the path to the file from which we load an array.
-    func loadFile(from path: String,
-                  completion: @escaping (Result) -> Void) {
+    func loadFile() throws {
+        try getToDoItems()
+        try getTombstones()
     }
     func reloadItems(toDoItems: [ToDoItem]) {
         self.toDoItems = toDoItems
     }
-    func clearTombstones() {
+    func clearTombstones() throws {
+        guard let dbUrl = dbUrl else { return }
+        let connection = try Connection(dbUrl.path)
+        try connection.run(tombstonesTable.delete())
         tombstones.removeAll()
     }
     func createTables() throws {
@@ -95,7 +99,7 @@ final class FileCache {
             toDoItems.append(toDoItem)
         }
     }
-    func getGetTombstones() throws {
+    func getTombstones() throws {
         guard let dbUrl = dbUrl else { return }
         let connection = try Connection(dbUrl.path)
         for item in try connection.prepare(tombstonesTable) {
@@ -135,11 +139,16 @@ final class FileCache {
                                            updatedAt <- item.updatedAt,
                                            isDirty <- item.isDirty))
     }
-    func delete(_ item: ToDoItem) throws {
+    func deleteToDoItem(_ id: String) throws {
         guard let dbUrl = dbUrl else { return }
         let connection = try Connection(dbUrl.path)
-        let toDoItem = toDoItemsTable.filter(id == item.id)
+        let toDoItem = toDoItemsTable.filter(self.id == id)
         try connection.run(toDoItem.delete())
-        
+    }
+    func deleteTombstone(_ id: String) throws {
+        guard let dbUrl = dbUrl else { return }
+        let connection = try Connection(dbUrl.path)
+        let tombstone = tombstonesTable.filter(self.id == id)
+        try connection.run(tombstone.delete())
     }
 }

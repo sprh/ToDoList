@@ -74,6 +74,8 @@ extension ToDoViewController: NewToDoDelegate {
             case .failure(_):
                 break
             case let .success(items):
+                self?.allItems = items
+                self?.tableView.reloadData()
                 self?.toDoService.merge(newItems: items, queue: .main) { result in
                     self?.allItems = result
                     self?.tableView.reloadData()

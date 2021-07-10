@@ -16,25 +16,48 @@ class FileCacheService: FileCacheServiceProtocol {
     func saveFile(items: [ToDoItem], fileName: String = "todoitems.json",
                   completion: @escaping (Result<Void, Error>) -> Void) {
         queue.async { [weak self] in
-            self?.fileCache.saveFile(items, to: fileName) { _ in
-            }
+            self?.fileCache.saveFile()
+//            do {
+//                try self?.fileCache.saveFile()
+//                completion(.success(()))
+//            } catch let error {
+//                completion(.failure(error))
+//            }
         }
     }
     func loadFile(fileName: String = "todoitems.json",
                   completion: @escaping (Result<[ToDoItem], Error>) -> Void) {
         queue.async { [weak self] in
-            self?.fileCache.loadFile(from: fileName) { _ in
+            guard let self = self else { return }
+            do {
+                try self.fileCache.loadFile()
+                completion(.success(self.fileCache.toDoItems))
+            } catch let error {
+                completion(.failure(error))
             }
         }
     }
     func addTombstone(tombstone: Tombstone, completion: @escaping (Result<Tombstone, Error>) -> Void) {
-        do {
-            try fileCache.create(tombstone)
-        } catch {
+        queue.async { [weak self] in
+            guard let self = self else { return }
+            do {
+                try self.fileCache.create(tombstone)
+                completion(.success(tombstone))
+            } catch let error {
+            completion(.failure(error))
         }
     }
-    func clearTombstones() {
-        fileCache.clearTombstones()
+    }
+    func clearTombstones(completion: @escaping (Result<Void, Error>) -> Void) {
+        queue.async { [weak self] in
+            guard let self = self else {return}
+            do {
+                try self.fileCache.clearTombstones()
+            completion(.success(()))
+        } catch let error {
+            completion(.failure(error))
+        }
+        }
     }
     var dirties: [ToDoItem] {
         return fileCache.toDoItems.filter({$0.isDirty})
@@ -59,28 +82,67 @@ class FileCacheService: FileCacheServiceProtocol {
     func getTombstones(completion: @escaping (Result<[Tombstone], Error>) -> Void) {
         queue.async { [weak self] in
             guard let self = self else { return }
+            do {
+                try self.fileCache.getTombstones()
+                completion(.success(self.fileCache.tombstones))
+            } catch let error {
+                completion(.failure(error))
+            }
         }
     }
     func create(_ item: ToDoItem, completion: @escaping (Result<ToDoItem, Error>) -> Void) {
         queue.async { [weak self] in
             guard let self = self else { return }
+            do {
+                try self.fileCache.create(item)
+                completion(.success(item))
+            } catch let error {
+                completion(.failure(error))
+            }
         }
     }
-    
     func create(_ item: Tombstone, completion: @escaping (Result<Tombstone, Error>) -> Void) {
         queue.async { [weak self] in
             guard let self = self else { return }
+            do {
+                try self.fileCache.create(item)
+                completion(.success(item))
+            } catch let error {
+                completion(.failure(error))
+            }
         }
     }
     func update(_ item: ToDoItem, completion: @escaping (Result<ToDoItem, Error>) -> Void) {
         queue.async { [weak self] in
             guard let self = self else { return }
+            do {
+                try self.fileCache.update(item)
+                completion(.success(item))
+            } catch let error {
+                completion(.failure(error))
+            }
         }
     }
-    
-    func delete(_ item: ToDoItem, completion: @escaping (Result<ToDoItem, Error>) -> Void) {
+    func deleteToDoItem(_ id: String, completion: @escaping (Result<String, Error>) -> Void) {
         queue.async { [weak self] in
             guard let self = self else { return }
+            do {
+                try self.fileCache.deleteToDoItem(id)
+                completion(.success(id))
+            } catch let error {
+                completion(.failure(error))
+            }
+        }
+    }
+    func deleteTombstone(_ id: String, completion: @escaping (Result<String, Error>) -> Void) {
+        queue.async { [weak self] in
+            guard let self = self else { return }
+            do {
+                try self.fileCache.deleteTombstone(id)
+                completion(.success(id))
+            } catch let error {
+                completion(.failure(error))
+            }
         }
     }
 }
