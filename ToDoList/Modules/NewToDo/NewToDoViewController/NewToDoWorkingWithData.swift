@@ -17,6 +17,7 @@ extension NewToDoViewController {
             deadlineSwitched()
             deadlinePicker.minimumDate = Date.init(timeIntervalSince1970: Double(deadline))
             deadlinePicker.date = Date.init(timeIntervalSince1970: Double(deadline))
+            dateButton.setTitle(deadlinePicker.formattedDate(), for: .normal)
         }
         setupVisibility()
         textViewDidChange(textView)

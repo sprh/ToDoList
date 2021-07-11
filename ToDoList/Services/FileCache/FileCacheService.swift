@@ -9,20 +9,20 @@ import Foundation
 import Models
 
 class FileCacheService: FileCacheServiceProtocol {
-    let queue = DispatchQueue(label: "com.ToDoList.FileCacheQueue")
+    let queue = DispatchQueue(label: "FileCacheQueue")
     let fileCache = FileCache()
     public init() {
     }
     func saveFile(items: [ToDoItem], fileName: String = "todoitems.json",
-                  completion: @escaping (Result<Void, Error>) -> Void) {
+                  completion: @escaping (Result<[ToDoItem], Error>) -> Void) {
         queue.async { [weak self] in
-            self?.fileCache.saveFile()
-            //            do {
-            //                try self?.fileCache.saveFile()
-            //                completion(.success(()))
-            //            } catch let error {
-            //                completion(.failure(error))
-            //            }
+            do {
+                try self?.fileCache.saveFile(items: items) { items in
+                    completion(.success(items))
+                }
+            } catch let error {
+                completion(.failure(error))
+            }
         }
     }
     func loadFile(fileName: String = "todoitems.json",
@@ -73,8 +73,9 @@ class FileCacheService: FileCacheServiceProtocol {
         queue.async { [weak self] in
             guard let self = self else { return }
             do {
-                try self.fileCache.getToDoItems()
-                completion(.success(self.fileCache.toDoItems))
+                try self.fileCache.getToDoItems { items in
+                    completion(.success(items))
+                }
             } catch let error {
                 completion(.failure(error))
             }
@@ -84,8 +85,9 @@ class FileCacheService: FileCacheServiceProtocol {
         queue.async { [weak self] in
             guard let self = self else { return }
             do {
-                try self.fileCache.getTombstones()
-                completion(.success(self.fileCache.tombstones))
+                try self.fileCache.getTombstones { tombstones in
+                    completion(.success(tombstones))
+                }
             } catch let error {
                 completion(.failure(error))
             }

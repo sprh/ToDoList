@@ -16,7 +16,8 @@ extension NewToDoViewController {
         let color = UIColor.hexStringFromColor(color: colorSlider.thumbTintColor ?? .red)
         model.save(text: textView.text,
                    importance: getImportance(),
-                   deadline: deadlineSwitch.isOn ?  deadlinePicker.date : nil, color: color)
+                   deadline: deadlineSwitch.isOn ?  deadlinePicker.date : nil,
+                   color: color)
         navigationController?.popViewController(animated: true)
         dismiss(animated: true, completion: nil)
     }
@@ -55,8 +56,9 @@ extension NewToDoViewController {
     }
     @objc func colorWasChanged() {
         let trackRect = colorSlider.trackRect(forBounds: colorSlider.bounds)
-        let thumbRect = colorSlider.thumbRect(forBounds: colorSlider.bounds, trackRect: trackRect, value:
-                                                colorSlider.value)
+        let thumbRect = colorSlider.thumbRect(forBounds: colorSlider.bounds,
+                                              trackRect: trackRect,
+                                              value: colorSlider.value)
         let thumbPoint = CGPoint(x: thumbRect.midX, y: thumbRect.midY)
         let color = colorView.getColor(from: thumbPoint)
         colorSlider.thumbTintColor = color

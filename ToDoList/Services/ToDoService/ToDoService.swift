@@ -49,15 +49,7 @@ final class ToDoService {
                     }
                 }
             case .failure(_):
-                let dirtyItem = ToDoItem(id: item.id,
-                                         text: item.text,
-                                         importance: item.importance,
-                                         deadline: item.deadline,
-                                         color: item.color,
-                                         done: item.done,
-                                         updatedAt: item.updatedAt,
-                                         createdAt: item.createdAt,
-                                         isDirty: true)
+                let dirtyItem = item.markAsDirty()
                 self.items[index] = dirtyItem
                 self.fileCacheService.update(dirtyItem) { result in
                     queue.async {
@@ -102,15 +94,7 @@ final class ToDoService {
                     }
                 }
             case .failure(_):
-                let dirtyItem = ToDoItem(id: item.id,
-                                         text: item.text,
-                                         importance: item.importance,
-                                         deadline: item.deadline,
-                                         color: item.color,
-                                         done: item.done,
-                                         updatedAt: item.updatedAt,
-                                         createdAt: item.createdAt,
-                                         isDirty: true)
+                let dirtyItem = item.markAsDirty()
                 self.items.append(dirtyItem)
                 self.fileCacheService.create(dirtyItem, completion: completion)
             }
@@ -146,13 +130,14 @@ final class ToDoService {
                 resultItems.append(oldItem)
             }
         }
-        networkingService.putAll(addOrUpdateItems: addedOrUpdatedItems, deleteIds: deletedItems) { result in
+        networkingService.putAll(addOrUpdateItems: addedOrUpdatedItems, deleteIds: deletedItems) { [weak self] result in
             switch result {
             case .failure(_):
                 queue.async {
                     completion(resultItems)
                 }
             case let .success(items):
+                self?.fileCacheService.saveFile(items: items) { _ in }
                 queue.async {
                     completion(items)
                 }

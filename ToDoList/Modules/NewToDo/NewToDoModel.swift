@@ -17,7 +17,7 @@ final class NewToDoModel {
         self.indexPath = indexPath
     }
     func save(text: String, importance: String, deadline: Date?, color: String) {
-        let deadlineSince1970: Int? = (deadline != nil) ? Int(Date().timeIntervalSince(deadline!)) : nil
+        let deadlineSince1970: Int? = (deadline != nil) ? Int(deadline!.timeIntervalSince1970) : nil
         let newToDoItem = ToDoItem(id: toDoItem.id,
                                    text: text,
                                    importance: Importance.init(rawValue: importance),

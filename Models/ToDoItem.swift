@@ -57,56 +57,26 @@ public struct ToDoItem {
 }
 
 public extension ToDoItem {
-    /// This property creates json string with the object data.
-    /// - Returns:
-    ///         - The current object as a json string.
-    var json: Any {
-        var data: [String: Any] = ["id": id,
-                                   "text": text,
-                                   "color": color,
-                                   "createdAt": createdAt,
-                                   "isDirty": isDirty,
-                                   "done": done]
-        if importance != .basic {
-            data["importance"] = importance.rawValue
-        }
-        if deadline != nil {
-            data["deadline"] = deadline
-        }
-        if updatedAt != nil {
-            data["updatedAt"] = updatedAt
-        }
-        return data
-    }
-    /// To do item from a  json string parsing.
-    ///
-    /// - Parameters:
-    ///         - json: A json string with data.
-    /// - Returns:
-    ///         - A to do item, loaded from json string.
-    ///
-    static func parse(json: Any) -> ToDoItem? {
-        guard let data = json as? [String: Any] else { return nil }
-        guard data.keys.contains("id"), data.keys.contains("text"),
-              let id = data["id"] as? String, let text = data["text"] as? String else {
-            return nil
-        }
-        let importanceString = data.keys.contains("importance") ? data["importance"] as? String: "basic"
-        let importance = Importance(rawValue: importanceString ?? "common")
-        let deadline = data.keys.contains("deadline") ? data["deadline"] as? Int : nil
-        let color = data.keys.contains("color") ? data["color"] as? String : "#%06x"
-        let done = data.keys.contains("done") ? data["done"] as? Bool : false
-        let createdAt = data.keys.contains("createdAt") ? data["createdAt"] as? Int : -1
-        let updatedAt = data.keys.contains("updatedAt") ? data["updatedAt"] as? Int : nil
-        let isDirty = data.keys.contains("isDirty") ? data["isDirty"] as? Bool : false
+    func markAsDirty() -> ToDoItem {
         return ToDoItem(id: id,
                         text: text,
                         importance: importance,
                         deadline: deadline,
-                        color: color ?? "#%06x",
-                        done: done ?? false,
-                        updatedAt: updatedAt ?? -1,
-                        createdAt: createdAt ?? -1,
-                        isDirty: isDirty ?? false)
+                        color: color,
+                        done: done,
+                        updatedAt: (Int)(Date().timeIntervalSince1970),
+                        createdAt: createdAt,
+                        isDirty: true)
+    }
+    public init(_ networkingModel: ToDoItemNetworkingModel) {
+        id = networkingModel.id
+        text = networkingModel.text
+        importance = Importance.init(rawValue: networkingModel.importance) ?? .basic
+        deadline = networkingModel.deadline
+        color = "#000000"
+        done = networkingModel.done
+        createdAt = networkingModel.createdAt
+        updatedAt = networkingModel.updatedAt
+        isDirty = false
     }
 }

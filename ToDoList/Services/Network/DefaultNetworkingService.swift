@@ -38,7 +38,6 @@ class DefaultNetworkingService: NetworkingService {
         }
     }
     func update(_ toDoItem: ToDoItem, completion: @escaping (Result<ToDoItem, Error>) -> Void) {
-        print(toDoItem)
         guard var urlRequest = createURL(
                 path: "https://d5dps3h13rv6902lp5c8.apigw.yandexcloud.net/tasks/\(toDoItem.id)") else {
             completion(.failure(NetworkError.incorrectUrl)); return
@@ -67,7 +66,7 @@ class DefaultNetworkingService: NetworkingService {
             completion(.failure(NetworkError.incorrectUrl)); return
         }
         urlRequest.httpMethod = "PUT"
-        let toDoModels = addOrUpdateItems.map({ToDoItemNetworkingModel($0).toJsonArray()})
+        let toDoModels = addOrUpdateItems.map({ToDoItemNetworkingModel($0).json})
         let request: [String: Any] = ["deleted": deleteIds,
                                       "other": toDoModels]
         let data = try? JSONSerialization.data(withJSONObject: request, options: [])
@@ -93,7 +92,7 @@ class DefaultNetworkingService: NetworkingService {
                 completion(.failure(error))
             } else if response != nil, let data = data,
                     let toDoItemNetworkModels = try? JSONDecoder().decode([ToDoItemNetworkingModel].self, from: data) {
-                let toDoItems = toDoItemNetworkModels.map({$0.toToDoItem()})
+                let toDoItems = toDoItemNetworkModels.map({ToDoItem($0)})
                 completion(.success(toDoItems))
             } else if let response = response as? HTTPURLResponse {
                 completion(.failure(self.findResponseError(response.statusCode)))
@@ -110,7 +109,7 @@ class DefaultNetworkingService: NetworkingService {
                 completion(.failure(error))
             } else if let data = data,
                       let toDoItemNetworkModel = try? JSONDecoder().decode(ToDoItemNetworkingModel.self, from: data) {
-                completion(.success(toDoItemNetworkModel.toToDoItem()))
+                completion(.success(ToDoItem(toDoItemNetworkModel)))
             } else if let response = response as? HTTPURLResponse {
                 completion(.failure(self.findResponseError(response.statusCode)))
             } else {

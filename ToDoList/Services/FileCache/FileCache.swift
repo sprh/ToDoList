@@ -41,18 +41,30 @@ final class FileCache {
             print(":( \(error)")
         }
     }
-    /// Save an array of objects to the file.
-    /// - Parameters:
-    /// - Path: a string contains the path to the file in which we save an array.
-    func saveFile() {
-        // TODO: Save file
+    func saveFile(items: [ToDoItem], completion: ([ToDoItem]) -> Void) throws {
+        guard let dbUrl = dbUrl else { return }
+        var dbItems: [ToDoItem] = []
+        try getToDoItems { items in
+            dbItems = items
+        }
+        let connection = try Connection(dbUrl.path)
+        let itemsIds = items.map({$0.id})
+        let dbItemsIds = dbItems.map({$0.id})
+        let itemsToDelete = toDoItemsTable.filter(!itemsIds.contains(id))
+        let itemsToAdd = items.filter({!dbItemsIds.contains($0.id)})
+        try connection.run(itemsToDelete.delete())
+        for item in itemsToAdd {
+            try create(item)
+        }
+        completion(items)
     }
-    /// Load an array of objects from the file.
-    /// - Parameters:
-    /// - Path: a string contains the path to the file from which we load an array.
     func loadFile() throws {
-        try getToDoItems()
-        try getTombstones()
+        try getToDoItems { [weak self] items in
+            self?.toDoItems = items
+        }
+        try getTombstones { [weak self] items in
+            self?.tombstones = items
+        }
     }
     func reloadItems(toDoItems: [ToDoItem]) {
         self.toDoItems = toDoItems
@@ -83,9 +95,11 @@ final class FileCache {
             table.column(deletedAt)
         })
     }
-    func getToDoItems() throws {
+    func getToDoItems(completion: ([ToDoItem]) -> Void) throws {
         guard let dbUrl = dbUrl else { return }
+        toDoItems.removeAll()
         let connection = try Connection(dbUrl.path)
+        var items: [ToDoItem] = []
         for item in try connection.prepare(toDoItemsTable) {
             let toDoItem = ToDoItem(id: item[id],
                                     text: item[text],
@@ -96,17 +110,20 @@ final class FileCache {
                                     updatedAt: item[updatedAt],
                                     createdAt: item[createdAt],
                                     isDirty: item[isDirty])
-            toDoItems.append(toDoItem)
+            items.append(toDoItem)
         }
+        completion(items)
     }
-    func getTombstones() throws {
+    func getTombstones(completion: ([Tombstone]) -> Void) throws {
         guard let dbUrl = dbUrl else { return }
         let connection = try Connection(dbUrl.path)
+        var tombstones: [Tombstone] = []
         for item in try connection.prepare(tombstonesTable) {
             let tombstone = Tombstone(id: item[id],
                                      deletedAt: item[deletedAt])
             tombstones.append(tombstone)
         }
+        completion(tombstones)
     }
     func create(_ item: ToDoItem) throws {
         guard let dbUrl = dbUrl else { return }

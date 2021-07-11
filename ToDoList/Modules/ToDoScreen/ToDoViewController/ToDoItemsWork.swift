@@ -74,7 +74,6 @@ extension ToDoViewController: NewToDoDelegate {
             switch result {
             case let .success(items):
                 self.toDoService.merge(addedItems: self.allItems, oldItems: items, queue: .main) { result in
-                    print("load data")
                     self.allItems = result
                     self.tableView.reloadData()
                     completion()
@@ -98,9 +97,7 @@ extension ToDoViewController: NewToDoDelegate {
     }
     func synchronize(_ items: [ToDoItem]) {
         toDoService.synchronize(items, queue: .main) { [weak self] result in
-            guard let self = self else {
-                return
-            }
+            guard let self = self else { return }
             switch result {
             case .failure(_):
                 break
