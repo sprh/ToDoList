@@ -13,11 +13,11 @@ class FileCacheService: FileCacheServiceProtocol {
     let fileCache = FileCache()
     public init() {
     }
-    func saveFile(items: [ToDoItem], fileName: String = "todoitems.json",
-                  completion: @escaping (Result<[ToDoItem], Error>) -> Void) {
+    func save(items: [ToDoItem], fileName: String = "todoitems.json",
+              completion: @escaping (Result<[ToDoItem], Error>) -> Void) {
         queue.async { [weak self] in
             do {
-                try self?.fileCache.saveFile(items: items) { items in
+                try self?.fileCache.save(items: items) { items in
                     completion(.success(items))
                 }
             } catch let error {
@@ -25,12 +25,12 @@ class FileCacheService: FileCacheServiceProtocol {
             }
         }
     }
-    func loadFile(fileName: String = "todoitems.json",
-                  completion: @escaping (Result<[ToDoItem], Error>) -> Void) {
+    func load(fileName: String = "todoitems.json",
+              completion: @escaping (Result<[ToDoItem], Error>) -> Void) {
         queue.async { [weak self] in
             guard let self = self else { return }
             do {
-                try self.fileCache.loadFile()
+                try self.fileCache.load()
                 completion(.success(self.fileCache.toDoItems))
             } catch let error {
                 completion(.failure(error))

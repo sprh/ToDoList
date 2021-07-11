@@ -84,7 +84,7 @@ extension ToDoViewController: NewToDoDelegate {
         }
     }
     func loadFromFile(completion: @escaping () -> Void) {
-        toDoService.loadFromFile(queue: .main) { [weak self] result in
+        toDoService.loadFromDataBase(queue: .main) { [weak self] result in
             switch result {
             case .failure(_):
                 completion()

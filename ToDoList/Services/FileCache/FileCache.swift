@@ -41,7 +41,7 @@ final class FileCache {
             print(":( \(error)")
         }
     }
-    func saveFile(items: [ToDoItem], completion: ([ToDoItem]) -> Void) throws {
+    func save(items: [ToDoItem], completion: ([ToDoItem]) -> Void) throws {
         guard let dbUrl = dbUrl else { return }
         var dbItems: [ToDoItem] = []
         try getToDoItems { items in
@@ -58,7 +58,7 @@ final class FileCache {
         }
         completion(items)
     }
-    func loadFile() throws {
+    func load() throws {
         try getToDoItems { [weak self] items in
             self?.toDoItems = items
         }

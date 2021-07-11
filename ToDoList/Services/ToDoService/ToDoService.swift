@@ -16,7 +16,7 @@ final class ToDoService {
     init(fileCacheService: FileCacheService, networkingService: DefaultNetworkingService) {
         self.fileCacheService = fileCacheService
         self.networkingService = networkingService
-        loadFromFile(queue: itemsQueue) { result in
+        loadFromDataBase(queue: itemsQueue) { result in
             switch result {
             case .failure(_):
                 break
@@ -137,7 +137,7 @@ final class ToDoService {
                     completion(resultItems)
                 }
             case let .success(items):
-                self?.fileCacheService.saveFile(items: items) { _ in }
+                self?.fileCacheService.save(items: items) { _ in }
                 queue.async {
                     completion(items)
                 }
@@ -158,8 +158,8 @@ final class ToDoService {
             }
         }
     }
-    func loadFromFile(queue: DispatchQueue, completion: @escaping (Result<[ToDoItem], Error>) -> Void) {
-        fileCacheService.loadFile { [weak self] result in
+    func loadFromDataBase(queue: DispatchQueue, completion: @escaping (Result<[ToDoItem], Error>) -> Void) {
+        fileCacheService.load { [weak self] result in
             switch result {
             case .failure(_):
                 self?.items = []
