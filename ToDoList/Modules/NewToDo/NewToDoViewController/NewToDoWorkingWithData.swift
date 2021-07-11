@@ -21,16 +21,15 @@ extension NewToDoViewController {
         }
         setupVisibility()
         textViewDidChange(textView)
-        let color = UIColor.colorWithHexString(hexString: model.toDoItem.color)
-        var hue: CGFloat = 0
-        var saturation: CGFloat = 1.0
-        var brightness: CGFloat = 1.0
-        var alpha: CGFloat = 1.0
-        color.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
-        colorSlider.value = Float(hue)
-        textView.textColor = color
-        textView.tintColor = color
-        colorSlider.thumbTintColor = color
+        if let hexString = model.toDoItem.color {
+            let color = UIColor.colorWithHexString(hexString: hexString)
+            colorSlider.value = colorView.getValue(color: color)
+            textView.textColor = color
+            textView.tintColor = color
+            colorSlider.thumbTintColor = color
+        } else {
+            // TODO: Create a normal button & mark it as selected.
+        }
     }
     func getImportance() -> String {
         let index = segmentedControl.selectedSegmentIndex

@@ -16,7 +16,7 @@ public struct ToDoItem {
     public let importance: Importance
     public let deadline: Int?
     public var done: Bool
-    public var color: String
+    public var color: String?
     public var createdAt: Int
     public var updatedAt: Int?
     public var isDirty: Bool
@@ -29,7 +29,7 @@ public struct ToDoItem {
                 text: String,
                 importance: Importance? = .basic,
                 deadline: Int? = nil,
-                color: String = "",
+                color: String? = nil,
                 done: Bool = false,
                 updatedAt: Int?,
                 createdAt: Int = Int(Date().timeIntervalSince1970),

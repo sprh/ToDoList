@@ -20,13 +20,24 @@ public class ColorView: UIView {
     public override func draw(_ rect: CGRect) {
         self.clipsToBounds = true
         guard let context = UIGraphicsGetCurrentContext() else { return }
-        let elementSize: CGFloat = 1.0
+        let elementSize: CGFloat = 0.5
         let height = frame.height
-        let width = frame.size.width
-        for abscissa: CGFloat in stride(from: 0.0 ,to: width, by: elementSize) {
+        let width = frame.size.width / 0.89
+        for abscissa: CGFloat in stride(from: 0.0, to: width, by: elementSize) {
             let color = UIColor(hue: abscissa / width, saturation: 1.0, brightness: 1.0, alpha: 1.0)
             context.setFillColor(color.cgColor)
             context.fill(CGRect(x: abscissa, y: 0, width: elementSize, height: height))
         }
+    }
+    public func getColor(value: Float) -> UIColor {
+        return UIColor(hue: CGFloat(value * 0.89), saturation: 1.0, brightness: 1.0, alpha: 1.0)
+    }
+    public func getValue(color : UIColor) -> Float {
+        var hue: CGFloat = 0
+        var saturation: CGFloat = 1.0
+        var brightness: CGFloat = 1.0
+        var alpha: CGFloat = 1.0
+        color.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
+        return Float(hue * 0.89)
     }
 }

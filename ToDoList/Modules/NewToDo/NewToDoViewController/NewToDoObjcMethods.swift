@@ -55,7 +55,7 @@ extension NewToDoViewController {
         dateButton.setTitle(deadlinePicker.formattedDate(), for: .normal)
     }
     @objc func colorWasChanged() {
-        let color = UIColor(hue: CGFloat(colorSlider.value), saturation: 1.0, brightness: 1.0, alpha: 1.0)
+        let color = colorView.getColor(value: colorSlider.value)
         colorSlider.thumbTintColor = color
         textView.textColor = color
         textView.tintColor = color
@@ -76,5 +76,10 @@ extension NewToDoViewController {
         importanceAndDateStack.isHidden = false
         deleteButton.isHidden = false
         setScrollViewContentSize()
+    }
+    @objc func resetColor() {
+        let color = UIColor.text
+        textView.textColor = color
+        textView.tintColor = color
     }
 }

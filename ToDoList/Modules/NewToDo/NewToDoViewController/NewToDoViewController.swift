@@ -30,6 +30,7 @@ class NewToDoViewController: UIViewController {
     let colorView = ColorView()
     let scrollView = UIScrollView()
     let importanceAsArray = ["low", "basic", "important"]
+    let standartColorButton = UIButton()
     init(model: NewToDoModel) {
         self.model = model
         super.init(nibName: nil, bundle: nil)

@@ -41,7 +41,7 @@ extension NewToDoViewController {
         NSLayoutConstraint.activate([
             colorStack.topAnchor.constraint(equalTo: textView.bottomAnchor, constant: 10),
             colorStack.leadingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            colorStack.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            colorStack.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor, constant: -50),
             colorStack.bottomAnchor.constraint(equalTo: textView.bottomAnchor, constant: colorSlider.bounds.height + 10)
         ])
         colorView.translatesAutoresizingMaskIntoConstraints = false
@@ -49,7 +49,7 @@ extension NewToDoViewController {
         colorStack.addSubview(colorView)
         NSLayoutConstraint.activate([
             colorView.leadingAnchor.constraint(equalTo: colorStack.leadingAnchor, constant: 16),
-            colorView.trailingAnchor.constraint(equalTo: colorStack.trailingAnchor, constant: -16),
+            colorView.trailingAnchor.constraint(equalTo: colorStack.trailingAnchor, constant: -45),
             colorView.topAnchor.constraint(equalTo: colorStack.topAnchor, constant: 8),
             colorView.bottomAnchor.constraint(equalTo: colorStack.topAnchor,
                                               constant: colorSlider.bounds.height - 8)
@@ -57,13 +57,23 @@ extension NewToDoViewController {
         colorSlider.translatesAutoresizingMaskIntoConstraints = false
         colorSlider.minimumTrackTintColor = .clear
         colorSlider.maximumTrackTintColor = .clear
+        colorSlider.layer.borderColor = UIColor.blue.cgColor
         colorStack.addSubview(colorSlider)
         NSLayoutConstraint.activate([
             colorSlider.leadingAnchor.constraint(equalTo: colorStack.leadingAnchor, constant: 11),
-            colorSlider.trailingAnchor.constraint(equalTo: colorStack.trailingAnchor, constant: -11),
+            colorSlider.trailingAnchor.constraint(equalTo: colorStack.trailingAnchor, constant: -45),
             colorSlider.centerYAnchor.constraint(equalTo: colorView.centerYAnchor)
         ])
         colorSlider.addTarget(self, action: #selector(colorWasChanged), for: .valueChanged)
+        standartColorButton.translatesAutoresizingMaskIntoConstraints = false
+        standartColorButton.setTitle("Standart".localized, for: .normal)
+        standartColorButton.setTitleColor(.text, for: .normal)
+        colorStack.addSubview(standartColorButton)
+        NSLayoutConstraint.activate([
+            standartColorButton.leadingAnchor.constraint(equalTo: colorView.trailingAnchor, constant: 10),
+            standartColorButton.centerYAnchor.constraint(equalTo: colorView.centerYAnchor)
+        ])
+        standartColorButton.addTarget(self, action: #selector(resetColor), for: .touchUpInside)
         colorWasChanged()
     }
     private func setupTextField() {

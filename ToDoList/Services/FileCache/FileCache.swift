@@ -19,7 +19,7 @@ final class FileCache {
     let importance = Expression<String>("importance")
     let deadline = Expression<Int?>("deadline")
     let done = Expression<Bool>("done")
-    let color = Expression<String>("color")
+    let color = Expression<String?>("color")
     let createdAt = Expression<Int>("createdAt")
     let updatedAt = Expression<Int?>("updatedAt")
     let isDirty = Expression<Bool>("isDirty")
