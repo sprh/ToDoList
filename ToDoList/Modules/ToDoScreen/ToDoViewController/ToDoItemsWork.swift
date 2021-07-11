@@ -68,16 +68,33 @@ extension ToDoViewController: NewToDoDelegate {
     public func getDoneItemsCount() -> Int {
         return allItems.filter({$0.done}).count
     }
-    func loadData() {
+    func loadData(completion: @escaping () -> Void) {
         toDoService.loadData(queue: .main) { [weak self] result in
+            guard let self = self else { return }
             switch result {
+            case let .success(items):
+                self.toDoService.merge(addedItems: self.allItems, oldItems: items, queue: .main) { result in
+                    print("load data")
+                    self.allItems = result
+                    self.tableView.reloadData()
+                    completion()
+                }
+            case .failure(_):
+                completion()
+            }
+        }
+    }
+    func loadFromFile(completion: @escaping () -> Void) {
+        toDoService.loadFromFile(queue: .main) { [weak self] result in
+            switch result {
+            case .failure(_):
+                completion()
             case let .success(items):
                 self?.allItems = items
                 self?.tableView.reloadData()
-            case .failure(_):
-                break
+                completion()
+            }
         }
-    }
     }
     func synchronize(_ items: [ToDoItem]) {
         toDoService.synchronize(items, queue: .main) { [weak self] result in
@@ -88,8 +105,8 @@ extension ToDoViewController: NewToDoDelegate {
             case .failure(_):
                 break
             case let .success(items):
-                    self.allItems = items
-                    self.tableView.reloadData()
+                self.allItems = items
+                self.tableView.reloadData()
             }
         }
     }

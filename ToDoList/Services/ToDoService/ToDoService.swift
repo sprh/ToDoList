@@ -116,45 +116,60 @@ final class ToDoService {
             }
         }
     }
-    func merge(newItems: [ToDoItem], queue: DispatchQueue, completion: @escaping ([String], [ToDoItem]) -> Void) {
+    func merge(addedItems: [ToDoItem],
+               oldItems: [ToDoItem],
+               queue: DispatchQueue,
+               completion: @escaping ([ToDoItem]) -> Void) {
+        var resultItems: [ToDoItem] = []
         var deletedItems: [String] = []
         var addedOrUpdatedItems: [ToDoItem] = []
-        itemsQueue.async { [weak self] in
-            guard let self = self else {return}
-            let oldItems = self.items
-            var items: [ToDoItem] = []
-            let tombstones = self.fileCacheService.tombstones.map({$0.id})
-            for newItem in newItems {
-                if tombstones.contains(newItem.id) {
-                    deletedItems.append(newItem.id)
-                } else if let oldItem = oldItems.first(where: {$0.id == newItem.id}) {
-                    if let oldUpdate = oldItem.updatedAt,
-                       let newUpdate = newItem.updatedAt,
-                       oldUpdate <= newUpdate {
-                        items.append(newItem)
-                    } else {
-                        addedOrUpdatedItems.append(oldItem)
-                        items.append(oldItem)
-                    }
+        let tombstones = fileCacheService.tombstones.map({$0.id})
+        for item in addedItems {
+            if let oldItem = oldItems.first(where: {$0.id == item.id}) {
+                if let oldUpdate = oldItem.updatedAt,
+                   let addedUpdate = item.updatedAt,
+                   oldUpdate >= addedUpdate {
+                    resultItems.append(oldItem)
                 } else {
-                    items.append(newItem)
+                    resultItems.append(item)
+                    addedOrUpdatedItems.append(item)
                 }
+            } else {
+                resultItems.append(item)
+                addedOrUpdatedItems.append(item)
             }
-            self.items = items
-            queue.async {
-                completion(deletedItems, addedOrUpdatedItems)
+        }
+        for oldItem in oldItems {
+            if tombstones.contains(oldItem.id) {
+                deletedItems.append(oldItem.id)
+            } else if !resultItems.contains(where: {$0.id == oldItem.id}) {
+                resultItems.append(oldItem)
+            }
+        }
+        networkingService.putAll(addOrUpdateItems: addedOrUpdatedItems, deleteIds: deletedItems) { result in
+            switch result {
+            case .failure(_):
+                queue.async {
+                    completion(resultItems)
+                }
+            case let .success(items):
+                queue.async {
+                    completion(items)
+                }
             }
         }
     }
     func loadData(queue: DispatchQueue, completion: @escaping (Result<[ToDoItem], Error>) -> Void) {
-        networkingService.getAll { [weak self] result in
+        networkingService.getAll { result in
             switch result {
             case .success(_):
                 queue.async {
                     completion(result)
                 }
             case .failure(_):
-                self?.loadFromFile(queue: queue, completion: completion)
+                queue.async {
+                    completion(result)
+                }
             }
         }
     }
@@ -173,18 +188,17 @@ final class ToDoService {
     }
     func synchronize(_ items: [ToDoItem], queue: DispatchQueue,
                      completion: @escaping (Result<[ToDoItem], Error>) -> Void) {
-        merge(newItems: items, queue: itemsQueue) { [weak self] idsToDelete, dirties in
-            self?.networkingService.putAll(addOrUpdateItems: dirties, deleteIds: idsToDelete) { result in
-                switch result {
-                case .failure(_):
+        networkingService.getAll { [weak self] result in
+            guard let self = self else {return}
+            switch result {
+            case .failure(_):
+                queue.async {
+                    completion(result)
+                }
+            case let .success(networkItems):
+                self.merge(addedItems: items, oldItems: networkItems, queue: self.itemsQueue) { mergedItems in
                     queue.async {
-                        completion(result)
-                    }
-                case let .success(items):
-                    self?.items = items
-                    self?.fileCacheService.clearTombstones { _ in}
-                    queue.async {
-                        completion(.success(items))
+                        completion(.success(mergedItems))
                     }
                 }
             }

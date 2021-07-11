@@ -38,7 +38,9 @@ class ToDoViewController: UIViewController {
         hideKeyboardWhenTappedAround()
         keyboardWillShow(tableView)
         keyboardWillHide(tableView)
-        loadData()
+        loadFromFile { [weak self] in
+            self?.loadData { }
+        }
     }
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
