@@ -118,13 +118,7 @@ class ToDoCell: UITableViewCell {
 
 extension ToDoCell {
     @objc func doneChanged() {
-        toDoItem = ToDoItem(id: toDoItem.id,
-                            text: toDoItem.text,
-                            importance: toDoItem.importance,
-                            deadline: toDoItem.deadline,
-                            color: toDoItem.color,
-                            done: !toDoItem.done,
-                            updatedAt: Int(Date().timeIntervalSince1970))
+        toDoItem = toDoItem.changeDone()
         setDataToCell()
     }
 }

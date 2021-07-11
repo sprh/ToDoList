@@ -54,10 +54,7 @@ public struct ToDoItem {
         self.updatedAt = Int(Date().timeIntervalSince1970)
         self.isDirty = false
     }
-}
-
-public extension ToDoItem {
-    func markAsDirty() -> ToDoItem {
+    public func markAsDirty() -> ToDoItem {
         return ToDoItem(id: id,
                         text: text,
                         importance: importance,
@@ -68,6 +65,20 @@ public extension ToDoItem {
                         createdAt: createdAt,
                         isDirty: true)
     }
+    public func changeDone() -> ToDoItem {
+        return ToDoItem(id: id,
+                        text: text,
+                        importance: importance,
+                        deadline: deadline,
+                        color: color,
+                        done: true,
+                        updatedAt: (Int)(Date().timeIntervalSince1970),
+                        createdAt: createdAt,
+                        isDirty: isDirty)
+    }
+}
+
+public extension ToDoItem {
     public init(_ networkingModel: ToDoItemNetworkingModel) {
         id = networkingModel.id
         text = networkingModel.text

@@ -55,12 +55,7 @@ extension NewToDoViewController {
         dateButton.setTitle(deadlinePicker.formattedDate(), for: .normal)
     }
     @objc func colorWasChanged() {
-        let trackRect = colorSlider.trackRect(forBounds: colorSlider.bounds)
-        let thumbRect = colorSlider.thumbRect(forBounds: colorSlider.bounds,
-                                              trackRect: trackRect,
-                                              value: colorSlider.value)
-        let thumbPoint = CGPoint(x: thumbRect.midX, y: thumbRect.midY)
-        let color = colorView.getColor(from: thumbPoint)
+        let color = UIColor(hue: CGFloat(colorSlider.value), saturation: 1.0, brightness: 1.0, alpha: 1.0)
         colorSlider.thumbTintColor = color
         textView.textColor = color
         textView.tintColor = color

@@ -23,7 +23,7 @@ final class FileCache {
     let createdAt = Expression<Int>("createdAt")
     let updatedAt = Expression<Int?>("updatedAt")
     let isDirty = Expression<Bool>("isDirty")
-    let deletedAt = Expression<Int>("deletedAt")
+    let deletedAt = Expression<Int?>("deletedAt")
     let toDoItemsTable = Table("ToDoItems")
     let tombstonesTable = Table("Tombstones")
     var dbUrl: URL? {
@@ -120,7 +120,7 @@ final class FileCache {
         var tombstones: [Tombstone] = []
         for item in try connection.prepare(tombstonesTable) {
             let tombstone = Tombstone(id: item[id],
-                                     deletedAt: item[deletedAt])
+                                      deletedAt: item[deletedAt] ?? Int(Date().timeIntervalSince1970))
             tombstones.append(tombstone)
         }
         completion(tombstones)
