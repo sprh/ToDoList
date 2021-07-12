@@ -17,7 +17,7 @@ extension NewToDoViewController {
         model.save(text: textView.text,
                    importance: getImportance(),
                    deadline: deadlineSwitch.isOn ?  deadlinePicker.date : nil,
-                   color: color)
+                   color: standartColor ? nil : color)
         navigationController?.popViewController(animated: true)
         dismiss(animated: true, completion: nil)
     }
@@ -55,10 +55,13 @@ extension NewToDoViewController {
         dateButton.setTitle(deadlinePicker.formattedDate(), for: .normal)
     }
     @objc func colorWasChanged() {
+        standartColor = false
         let color = colorView.getColor(value: colorSlider.value)
         colorSlider.thumbTintColor = color
         textView.textColor = color
         textView.tintColor = color
+        colorView.layer.borderColor = UIColor.text.cgColor
+        standartColorButton.layer.borderColor = UIColor.clear.cgColor
     }
     @objc func hideFieldsInLandscape() {
         let orientation = UIDevice.current.orientation
@@ -78,8 +81,11 @@ extension NewToDoViewController {
         setScrollViewContentSize()
     }
     @objc func resetColor() {
+        standartColor = true
         let color = UIColor.text
         textView.textColor = color
         textView.tintColor = color
+        standartColorButton.layer.borderColor = UIColor.textGray.cgColor
+        colorView.layer.borderColor = UIColor.clear.cgColor
     }
 }

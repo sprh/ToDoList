@@ -31,6 +31,7 @@ class NewToDoViewController: UIViewController {
     let scrollView = UIScrollView()
     let importanceAsArray = ["low", "basic", "important"]
     let standartColorButton = UIButton()
+    var standartColor: Bool = false
     init(model: NewToDoModel) {
         self.model = model
         super.init(nibName: nil, bundle: nil)
@@ -73,12 +74,5 @@ class NewToDoViewController: UIViewController {
                                                 UIColor.textGray], for: .normal)
         saveButton?.isEnabled = false
         loadData()
-    }
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        if self.traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
-            colorView.layoutIfNeeded()
-            colorWasChanged()
-        }
     }
 }

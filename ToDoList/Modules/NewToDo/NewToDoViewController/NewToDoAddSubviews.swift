@@ -34,22 +34,23 @@ extension NewToDoViewController {
         ])
     }
     private func addColorStack() {
+        let height = colorSlider.bounds.height
         colorStack.translatesAutoresizingMaskIntoConstraints = false
         colorStack.backgroundColor = .clear
-        colorStack.layer.cornerRadius = 16
         scrollView.addSubview(colorStack)
         NSLayoutConstraint.activate([
             colorStack.topAnchor.constraint(equalTo: textView.bottomAnchor, constant: 10),
             colorStack.leadingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            colorStack.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor, constant: -50),
+            colorStack.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             colorStack.bottomAnchor.constraint(equalTo: textView.bottomAnchor, constant: colorSlider.bounds.height + 10)
         ])
         colorView.translatesAutoresizingMaskIntoConstraints = false
         colorView.backgroundColor?.withAlphaComponent(0.5)
+        colorView.layer.borderWidth = 2
         colorStack.addSubview(colorView)
         NSLayoutConstraint.activate([
             colorView.leadingAnchor.constraint(equalTo: colorStack.leadingAnchor, constant: 16),
-            colorView.trailingAnchor.constraint(equalTo: colorStack.trailingAnchor, constant: -45),
+            colorView.trailingAnchor.constraint(equalTo: colorStack.trailingAnchor, constant: -height - 10),
             colorView.topAnchor.constraint(equalTo: colorStack.topAnchor, constant: 8),
             colorView.bottomAnchor.constraint(equalTo: colorStack.topAnchor,
                                               constant: colorSlider.bounds.height - 8)
@@ -61,20 +62,22 @@ extension NewToDoViewController {
         colorStack.addSubview(colorSlider)
         NSLayoutConstraint.activate([
             colorSlider.leadingAnchor.constraint(equalTo: colorStack.leadingAnchor, constant: 11),
-            colorSlider.trailingAnchor.constraint(equalTo: colorStack.trailingAnchor, constant: -45),
+            colorSlider.trailingAnchor.constraint(equalTo: colorStack.trailingAnchor, constant: -height - 10),
             colorSlider.centerYAnchor.constraint(equalTo: colorView.centerYAnchor)
         ])
         colorSlider.addTarget(self, action: #selector(colorWasChanged), for: .valueChanged)
         standartColorButton.translatesAutoresizingMaskIntoConstraints = false
-        standartColorButton.setTitle("Standart".localized, for: .normal)
-        standartColorButton.setTitleColor(.text, for: .normal)
+        standartColorButton.backgroundColor = .text
         colorStack.addSubview(standartColorButton)
+        standartColorButton.layer.cornerRadius = height / 2
+        standartColorButton.layer.borderWidth = 2
         NSLayoutConstraint.activate([
             standartColorButton.leadingAnchor.constraint(equalTo: colorView.trailingAnchor, constant: 10),
+            standartColorButton.trailingAnchor.constraint(equalTo: colorView.trailingAnchor, constant: 10 + height),
             standartColorButton.centerYAnchor.constraint(equalTo: colorView.centerYAnchor)
         ])
         standartColorButton.addTarget(self, action: #selector(resetColor), for: .touchUpInside)
-        colorWasChanged()
+        resetColor()
     }
     private func setupTextField() {
         textBottomAnchorConstraint = textView.bottomAnchor.constraint(equalTo: scrollView.topAnchor,
@@ -102,14 +105,14 @@ extension NewToDoViewController {
         importanceAndDateStack.backgroundColor = .subviewsBackgtound
         importanceAndDateStack.layer.cornerRadius = 16
         stackBottomConstraint = importanceAndDateStack.bottomAnchor.constraint(equalTo:
-                                                 colorStack.bottomAnchor, constant: 128.5)
+                                colorStack.bottomAnchor, constant: 128.5)
         scrollView.addSubview(importanceAndDateStack)
         NSLayoutConstraint.activate([
             importanceAndDateStack.topAnchor.constraint(equalTo: colorStack.bottomAnchor, constant: 16),
             importanceAndDateStack.leadingAnchor.constraint(equalTo:
-                    scrollView.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            scrollView.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             importanceAndDateStack.trailingAnchor.constraint(equalTo:
-                    scrollView.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            scrollView.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             stackBottomConstraint
         ])
         setupImportanceStack()

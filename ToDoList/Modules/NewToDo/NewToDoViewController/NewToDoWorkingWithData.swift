@@ -21,14 +21,13 @@ extension NewToDoViewController {
         }
         setupVisibility()
         textViewDidChange(textView)
+        colorWasChanged()
         if let hexString = model.toDoItem.color {
             let color = UIColor.colorWithHexString(hexString: hexString)
             colorSlider.value = colorView.getValue(color: color)
-            textView.textColor = color
-            textView.tintColor = color
-            colorSlider.thumbTintColor = color
+            colorWasChanged()
         } else {
-            // TODO: Create a normal button & mark it as selected.
+            resetColor()
         }
     }
     func getImportance() -> String {
