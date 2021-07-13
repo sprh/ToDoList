@@ -51,6 +51,12 @@
 		E3DB442A2672B932003A2736 /* FontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DB44292672B932003A2736 /* FontExtension.swift */; };
 		E3DB44302674B6DE003A2736 /* NewToDoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DB442F2674B6DE003A2736 /* NewToDoViewController.swift */; };
 		E3DB44382674B6E8003A2736 /* NewToDoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DB44372674B6E8003A2736 /* NewToDoModel.swift */; };
+		E3F237D4269DF1DE00DF66D4 /* ItemsListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F237D3269DF1DE00DF66D4 /* ItemsListPresenter.swift */; };
+		E3F237D6269DF1EB00DF66D4 /* ItemsListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F237D5269DF1EB00DF66D4 /* ItemsListModel.swift */; };
+		E3F237D8269DF1FC00DF66D4 /* ItemsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F237D7269DF1FC00DF66D4 /* ItemsListView.swift */; };
+		E3F237DA269DF35800DF66D4 /* ItemsListViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F237D9269DF35800DF66D4 /* ItemsListViewDelegate.swift */; };
+		E3F237DE269DF71C00DF66D4 /* ItemsListInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F237DD269DF71C00DF66D4 /* ItemsListInterface.swift */; };
+		E3F237E0269DF8E700DF66D4 /* ItemsListGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F237DF269DF8E700DF66D4 /* ItemsListGraph.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -128,6 +134,12 @@
 		E3DB44292672B932003A2736 /* FontExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontExtension.swift; sourceTree = "<group>"; };
 		E3DB442F2674B6DE003A2736 /* NewToDoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewToDoViewController.swift; sourceTree = "<group>"; };
 		E3DB44372674B6E8003A2736 /* NewToDoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewToDoModel.swift; sourceTree = "<group>"; };
+		E3F237D3269DF1DE00DF66D4 /* ItemsListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsListPresenter.swift; sourceTree = "<group>"; };
+		E3F237D5269DF1EB00DF66D4 /* ItemsListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsListModel.swift; sourceTree = "<group>"; };
+		E3F237D7269DF1FC00DF66D4 /* ItemsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsListView.swift; sourceTree = "<group>"; };
+		E3F237D9269DF35800DF66D4 /* ItemsListViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsListViewDelegate.swift; sourceTree = "<group>"; };
+		E3F237DD269DF71C00DF66D4 /* ItemsListInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsListInterface.swift; sourceTree = "<group>"; };
+		E3F237DF269DF8E700DF66D4 /* ItemsListGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsListGraph.swift; sourceTree = "<group>"; };
 		E792E91359C5F2677CF83B76 /* Pods-ToDoListTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ToDoListTests.release.xcconfig"; path = "Target Support Files/Pods-ToDoListTests/Pods-ToDoListTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -241,6 +253,7 @@
 		E30540F3266A9691008C2083 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				E3F237D2269DF1CD00DF66D4 /* ItemsList */,
 				E3DB442E2674B6B4003A2736 /* NewToDo */,
 				E3DB441E2672B77A003A2736 /* ToDoScreen */,
 				E30540F4266A969E008C2083 /* About */,
@@ -371,6 +384,19 @@
 				E34EDB842685F64900C852B0 /* NewToDoDelegate.swift */,
 			);
 			path = NewToDo;
+			sourceTree = "<group>";
+		};
+		E3F237D2269DF1CD00DF66D4 /* ItemsList */ = {
+			isa = PBXGroup;
+			children = (
+				E3F237D3269DF1DE00DF66D4 /* ItemsListPresenter.swift */,
+				E3F237D5269DF1EB00DF66D4 /* ItemsListModel.swift */,
+				E3F237D7269DF1FC00DF66D4 /* ItemsListView.swift */,
+				E3F237D9269DF35800DF66D4 /* ItemsListViewDelegate.swift */,
+				E3F237DD269DF71C00DF66D4 /* ItemsListInterface.swift */,
+				E3F237DF269DF8E700DF66D4 /* ItemsListGraph.swift */,
+			);
+			path = ItemsList;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -657,6 +683,7 @@
 				E37C9FB1268779CE0045336D /* NewToDoObjcMethods.swift in Sources */,
 				E30540BB266A960F008C2083 /* AppDelegate.swift in Sources */,
 				E37C9FAC268779B60045336D /* NewToDoAddSubviews.swift in Sources */,
+				E3F237D4269DF1DE00DF66D4 /* ItemsListPresenter.swift in Sources */,
 				E3804D9C268F080500957844 /* FileCache.swift in Sources */,
 				E3169E23267E6439001C4FEE /* ToDoCell.swift in Sources */,
 				E3CD751E2688F22B00FF2093 /* NetworkingService.swift in Sources */,
@@ -676,12 +703,17 @@
 				E34A3908267BE04100546DAF /* FileCacheError.swift in Sources */,
 				E37C9FDB26877BDE0045336D /* ToDoTextViewDelegate.swift in Sources */,
 				E37C9FCD26877B820045336D /* ToDoTableViewDelegate.swift in Sources */,
+				E3F237D8269DF1FC00DF66D4 /* ItemsListView.swift in Sources */,
+				E3F237E0269DF8E700DF66D4 /* ItemsListGraph.swift in Sources */,
 				E33611112686187D00BE31CB /* NewToDoCell.swift in Sources */,
+				E3F237DE269DF71C00DF66D4 /* ItemsListInterface.swift in Sources */,
 				E3DB44252672B816003A2736 /* ToDoItemsWork.swift in Sources */,
 				E30E6DFF2676701B008A55BF /* ColorView.swift in Sources */,
 				E3DB442A2672B932003A2736 /* FontExtension.swift in Sources */,
 				E398447A266A9B29000D1B31 /* ColorExtension.swift in Sources */,
+				E3F237DA269DF35800DF66D4 /* ItemsListViewDelegate.swift in Sources */,
 				E3804D9D268F080500957844 /* FileCacheService.swift in Sources */,
+				E3F237D6269DF1EB00DF66D4 /* ItemsListModel.swift in Sources */,
 				E3194CC7268FA45C00CB91FA /* ToDoService.swift in Sources */,
 				E3169E3F267F6355001C4FEE /* NavigationBar.swift in Sources */,
 				E31F4611268F2F3700CF2652 /* NetworkError.swift in Sources */,
