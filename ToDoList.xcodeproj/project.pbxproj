@@ -33,7 +33,6 @@
 		E37C9FB1268779CE0045336D /* NewToDoObjcMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37C9FB0268779CE0045336D /* NewToDoObjcMethods.swift */; };
 		E37C9FB626877A550045336D /* NewToDoWorkingWithData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37C9FB526877A550045336D /* NewToDoWorkingWithData.swift */; };
 		E37C9FBB26877A7A0045336D /* NewToDoTextViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37C9FBA26877A7A0045336D /* NewToDoTextViewDelegate.swift */; };
-		E37C9FC326877AF10045336D /* ToDoAddSubviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37C9FC226877AF10045336D /* ToDoAddSubviews.swift */; };
 		E37C9FC826877B340045336D /* ToDoObjcMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37C9FC726877B340045336D /* ToDoObjcMethods.swift */; };
 		E37C9FCD26877B820045336D /* ToDoTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37C9FCC26877B820045336D /* ToDoTableViewDelegate.swift */; };
 		E37C9FDB26877BDE0045336D /* ToDoTextViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37C9FDA26877BDE0045336D /* ToDoTextViewDelegate.swift */; };
@@ -55,7 +54,6 @@
 		E3F237D6269DF1EB00DF66D4 /* ItemsListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F237D5269DF1EB00DF66D4 /* ItemsListModel.swift */; };
 		E3F237D8269DF1FC00DF66D4 /* ItemsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F237D7269DF1FC00DF66D4 /* ItemsListView.swift */; };
 		E3F237DA269DF35800DF66D4 /* ItemsListViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F237D9269DF35800DF66D4 /* ItemsListViewDelegate.swift */; };
-		E3F237DE269DF71C00DF66D4 /* ItemsListInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F237DD269DF71C00DF66D4 /* ItemsListInterface.swift */; };
 		E3F237E0269DF8E700DF66D4 /* ItemsListGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F237DF269DF8E700DF66D4 /* ItemsListGraph.swift */; };
 /* End PBXBuildFile section */
 
@@ -114,7 +112,6 @@
 		E37C9FB0268779CE0045336D /* NewToDoObjcMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewToDoObjcMethods.swift; sourceTree = "<group>"; };
 		E37C9FB526877A550045336D /* NewToDoWorkingWithData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewToDoWorkingWithData.swift; sourceTree = "<group>"; };
 		E37C9FBA26877A7A0045336D /* NewToDoTextViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewToDoTextViewDelegate.swift; sourceTree = "<group>"; };
-		E37C9FC226877AF10045336D /* ToDoAddSubviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoAddSubviews.swift; sourceTree = "<group>"; };
 		E37C9FC726877B340045336D /* ToDoObjcMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoObjcMethods.swift; sourceTree = "<group>"; };
 		E37C9FCC26877B820045336D /* ToDoTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoTableViewDelegate.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		E37C9FDA26877BDE0045336D /* ToDoTextViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoTextViewDelegate.swift; sourceTree = "<group>"; };
@@ -138,7 +135,6 @@
 		E3F237D5269DF1EB00DF66D4 /* ItemsListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsListModel.swift; sourceTree = "<group>"; };
 		E3F237D7269DF1FC00DF66D4 /* ItemsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsListView.swift; sourceTree = "<group>"; };
 		E3F237D9269DF35800DF66D4 /* ItemsListViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsListViewDelegate.swift; sourceTree = "<group>"; };
-		E3F237DD269DF71C00DF66D4 /* ItemsListInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsListInterface.swift; sourceTree = "<group>"; };
 		E3F237DF269DF8E700DF66D4 /* ItemsListGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsListGraph.swift; sourceTree = "<group>"; };
 		E792E91359C5F2677CF83B76 /* Pods-ToDoListTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ToDoListTests.release.xcconfig"; path = "Target Support Files/Pods-ToDoListTests/Pods-ToDoListTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -315,7 +311,6 @@
 			children = (
 				E3DB44242672B816003A2736 /* ToDoItemsWork.swift */,
 				E3DB441F2672B7F7003A2736 /* ToDoViewController.swift */,
-				E37C9FC226877AF10045336D /* ToDoAddSubviews.swift */,
 				E37C9FC726877B340045336D /* ToDoObjcMethods.swift */,
 				E37C9FCC26877B820045336D /* ToDoTableViewDelegate.swift */,
 				E37C9FDA26877BDE0045336D /* ToDoTextViewDelegate.swift */,
@@ -393,7 +388,6 @@
 				E3F237D5269DF1EB00DF66D4 /* ItemsListModel.swift */,
 				E3F237D7269DF1FC00DF66D4 /* ItemsListView.swift */,
 				E3F237D9269DF35800DF66D4 /* ItemsListViewDelegate.swift */,
-				E3F237DD269DF71C00DF66D4 /* ItemsListInterface.swift */,
 				E3F237DF269DF8E700DF66D4 /* ItemsListGraph.swift */,
 			);
 			path = ItemsList;
@@ -698,7 +692,6 @@
 				E37C9FB626877A550045336D /* NewToDoWorkingWithData.swift in Sources */,
 				E37C9FBB26877A7A0045336D /* NewToDoTextViewDelegate.swift in Sources */,
 				E3CD751D2688F22B00FF2093 /* DefaultNetworkingService.swift in Sources */,
-				E37C9FC326877AF10045336D /* ToDoAddSubviews.swift in Sources */,
 				E3984488266AA019000D1B31 /* ImageExtension.swift in Sources */,
 				E34A3908267BE04100546DAF /* FileCacheError.swift in Sources */,
 				E37C9FDB26877BDE0045336D /* ToDoTextViewDelegate.swift in Sources */,
@@ -706,7 +699,6 @@
 				E3F237D8269DF1FC00DF66D4 /* ItemsListView.swift in Sources */,
 				E3F237E0269DF8E700DF66D4 /* ItemsListGraph.swift in Sources */,
 				E33611112686187D00BE31CB /* NewToDoCell.swift in Sources */,
-				E3F237DE269DF71C00DF66D4 /* ItemsListInterface.swift in Sources */,
 				E3DB44252672B816003A2736 /* ToDoItemsWork.swift in Sources */,
 				E30E6DFF2676701B008A55BF /* ColorView.swift in Sources */,
 				E3DB442A2672B932003A2736 /* FontExtension.swift in Sources */,
@@ -825,7 +817,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -881,7 +873,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

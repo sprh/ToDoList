@@ -12,8 +12,8 @@ final class ItemsListGraph {
     let presenter: ItemsListPresenter
     let model: ItemsListModel
 
-    public init() {
-        model = ItemsListModel()
+    public init(toDoService: ToDoService) {
+        model = ItemsListModel(toDoService: toDoService)
         presenter = ItemsListPresenter(model: model)
         view = ItemsListView(presenter: presenter)
         presenter.viewDelegate = view

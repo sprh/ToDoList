@@ -12,19 +12,7 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
         return toDoItemsCount() + 1
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let lastSectionIndex = toDoItemsCount()
-        if indexPath.row == lastSectionIndex {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(NewToDoCell.self)") as? NewToDoCell else {
-                return UITableViewCell() }
-            cell.textView.delegate = self
-            return cell
-        } else {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(ToDoCell.self)") as? ToDoCell else {
-            return UITableViewCell() }
-            let toDoItem = getToDoItem(at: indexPath.row, doneShown: doneShown)
-            cell.loadData(toDoItem: toDoItem)
-            return cell
-        }
+    return UITableViewCell()
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? ToDoCell,
@@ -34,31 +22,6 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
         let newToDoViewController = NewToDoViewController(model: newToDoModel)
         let newToDoNavigationController = UINavigationController(rootViewController: newToDoViewController)
         self.present(newToDoNavigationController, animated: true, completion: nil)
-    }
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if section != 0 { return UIView() }
-        let view = UIView()
-        showLabelSetText()
-        showLabel.translatesAutoresizingMaskIntoConstraints = false
-        showLabel.textColor = .textGray
-        showLabel.font = .headkune
-        view.addSubview(showLabel)
-        NSLayoutConstraint.activate([
-            showLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            showLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 18),
-            showLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -18)
-        ])
-        showButton.setTitle(doneShown ? "Hide".localized : "Show".localized, for: .normal)
-        showButton.translatesAutoresizingMaskIntoConstraints = false
-        showButton.setTitleColor(.azure, for: .normal)
-        showButton.titleLabel?.font = .headkune
-        view.addSubview(showButton)
-        NSLayoutConstraint.activate([
-            showButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            showButton.centerYAnchor.constraint(equalTo: showLabel.centerYAnchor)
-        ])
-        showButton.addTarget(self, action: #selector(showButtonClick), for: .touchUpInside)
-        return view
     }
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt
                     indexPath: IndexPath) -> UISwipeActionsConfiguration? {

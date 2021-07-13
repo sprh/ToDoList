@@ -32,9 +32,6 @@ class ToDoViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupView()
-        addTableView()
-        addAddButton()
         hideKeyboardWhenTappedAround()
         keyboardWillShow(tableView)
         keyboardWillHide(tableView)

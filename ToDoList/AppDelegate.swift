@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let fileCache = FileCacheService()
         let networkingService = DefaultNetworkingService()
         let toDoService = ToDoService(fileCacheService: fileCache, networkingService: networkingService)
-        let graph = ItemsListGraph()
+        let graph = ItemsListGraph(toDoService: toDoService)
         let viewController = graph.view
         navigationController.pushViewController(viewController, animated: true)
         window?.rootViewController = navigationController
