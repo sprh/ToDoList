@@ -36,4 +36,20 @@ class ItemsListPresenter {
     func doneShownSettingWasChanged() {
         model.doneShown.toggle()
     }
+
+    func updateToDoItem(_ item: ToDoItem, indexPath: IndexPath) {
+        model.updateItem(item)
+    }
+    
+    func updateToDoItemDone(_ item: ToDoItem, indexPath: IndexPath) {
+        updateToDoItem(item.changeDone(), indexPath: indexPath)
+    }
+
+    func deleteItem(_ id: String, indexPath: IndexPath) {
+        model.deleteItem(id)
+    }
+    
+    func addItem(_ item: ToDoItem) {
+        model.updateItem(item)
+    }
 }

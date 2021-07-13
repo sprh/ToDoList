@@ -3,3 +3,5 @@ identifier_name:
     - id
 excluded:
     - Pods
+disabled_rules:
+- trailing_whitespace
