@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Models
 
 class ItemsListView: UIViewController {
     let presenter: ItemsListPresenter!
@@ -61,6 +62,7 @@ class ItemsListView: UIViewController {
         setupView()
         tableView.delegate = self
         tableView.dataSource = self
+        presenter.loadDataFromDataBase()
     }
 
     func setupView() {
@@ -106,20 +108,46 @@ class ItemsListView: UIViewController {
 }
 
 extension ItemsListView: ItemsListViewDelegate {
+    func reloadItems() {
+        if isViewLoaded {
+            tableView.reloadData()
+        }
+    }
+    
+    func addItem(_ item: ToDoItem) {
+        presenter.addItem(item)
+//        tableViewAddNew()
+    }
+    
+    func updateItem(_ item: ToDoItem, indexPath: IndexPath) {
+//        cell.doneChanged()
+        presenter.updateItemDone(item)
+//        if !presenter.doneShown, item.done {
+//            tableViewDeleteCell(at: indexPath)
+//        } else {
+//            tableViewReloadCell(at: indexPath)
+//        }
+//        setShowLabelText()
+    }
+    
+    func deleteItem(_ id: String, indexPath: IndexPath) {
+        presenter.deleteItem(id)
+        tableViewDeleteCell(at: indexPath)
+        setShowLabelText()
+    }
+    
 }
 
 extension ItemsListView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        presenter.getItemsCount()
+        presenter.getItemsCount() + 1
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let lastIndex = tableView.numberOfRows(inSection: 0)
+        let lastIndex = tableView.numberOfRows(inSection: 0) - 1
         if indexPath.row == lastIndex {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(NewToDoCell.self)") as? NewToDoCell else {
                 return UITableViewCell() }
-            // TODO: add methods to add an item from the last cell.
-//            cell.textView.delegate = self
             return cell
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(ToDoCell.self)") as? ToDoCell else {
@@ -152,6 +180,7 @@ extension ItemsListView: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         // TODO: show another view.
+        // Maybe here set a delegate
     }
 
     func tableView(_ tableView: UITableView,
@@ -161,9 +190,7 @@ extension ItemsListView: UITableViewDelegate, UITableViewDataSource {
             UIContextualAction(style: .normal, title: "",
             handler: {[weak self] (_: UIContextualAction, _: UIView, success: (Bool) -> Void) in
             guard let cell = tableView.cellForRow(at: indexPath) as? ToDoCell else { success(false); return }
-            print(cell)
-// TODO: Delete it self.deleteToDoItem(id: cell.toDoItem.id, indexPath: indexPath)
-            self?.tableViewDeleteOldCell(at: indexPath)
+            self?.deleteItem(cell.toDoItem.id, indexPath: indexPath)
         })
         trashAction.image = .trash
         trashAction.backgroundColor = .red
@@ -176,9 +203,10 @@ extension ItemsListView: UITableViewDelegate, UITableViewDataSource {
         let doneAction = UIContextualAction(style: .normal, title: "",
             handler: {[weak self] (_: UIContextualAction, _: UIView, success: (Bool) -> Void) in
             guard let cell = tableView.cellForRow(at: indexPath) as? ToDoCell else { success(false); return }
-            cell.doneChanged()
-// TODO:            self.updateToDoItemDone(id: cell.toDoItem.id, indexPath: indexPath)
-            self?.setShowLabelText()
+            self?.updateItem(cell.toDoItem.changeDone(), indexPath: indexPath)
+//            cell.doneChanged()
+//            self?.presenter.updateItemDone(cell.toDoItem)
+//            self?.setShowLabelText()
             success(true)
         })
         doneAction.image = .done
@@ -194,13 +222,13 @@ extension ItemsListView: UITableViewDelegate, UITableViewDataSource {
         }, completion: nil)
     }
 
-    func tableViewReloadOldCell(at indexPath: IndexPath) {
+    func tableViewReloadCell(at indexPath: IndexPath) {
         tableView.performBatchUpdates({
               tableView.reloadRows(at: [indexPath], with: .fade)
         }, completion: nil)
     }
 
-    func tableViewDeleteOldCell(at indexPath: IndexPath) {
+    func tableViewDeleteCell(at indexPath: IndexPath) {
         tableView.performBatchUpdates({
               tableView.deleteRows(at: [indexPath], with: .fade)
         }, completion: nil)
@@ -213,44 +241,3 @@ extension ItemsListView {
         tableView.reloadData()
     }
 }
-
-
-// How i recently did preview:
-// func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) ->
-//UIContextMenuConfiguration? {
-//    self.indexPath = indexPath
-//    if !(tableView.cellForRow(at: indexPath) is ToDoCell) {
-//        self.indexPath = nil
-//        return nil
-//    }
-//    let actionProvider: UIContextMenuActionProvider = { _ in
-//        let copyAction = UIAction(title: "Copy".localized) { _ in
-//                guard let cell = tableView.cellForRow(at: indexPath) as? ToDoCell else { return }
-//                let pasteboard = UIPasteboard.general
-//                pasteboard.string = cell.getCopy()
-//            }
-//        return UIMenu(title: "", children: [copyAction])
-//    }
-//
-//    return UIContextMenuConfiguration(identifier: "\(indexPath)" as NSCopying,
-//                                      previewProvider: makePreview, actionProvider: actionProvider)
-//}
-//func makePreview() -> UIViewController {
-//    guard let indexPath = indexPath,
-//          let cell = tableView.cellForRow(at: indexPath) as? ToDoCell else {
-//        return UIViewController()
-//    }
-//    let model = NewToDoModel(toDoItem: cell.toDoItem, toDoService: toDoService, indexPath: indexPath)
-//    model.delegate = self
-//    let destinationVc = NewToDoViewController(model: model)
-//    return destinationVc
-//}
-//func tableView(_ tableView: UITableView,
-//               willPerformPreviewActionForMenuWith configuration: UIContextMenuConfiguration,
-//               animator: UIContextMenuInteractionCommitAnimating) {
-//    DispatchQueue.main.async {
-//        let newToDoViewController = self.makePreview()
-//        let newToDoNavigationController = UINavigationController(rootViewController: newToDoViewController)
-//        self.present(newToDoNavigationController, animated: true, completion: nil)
-//    }
-//}

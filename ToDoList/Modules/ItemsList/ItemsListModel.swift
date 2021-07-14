@@ -12,7 +12,6 @@ public class ItemsListModel {
     let toDoService: ToDoService!
     var allItems: [ToDoItem] = []
     var doneShown: Bool = false
-    var indexPath: IndexPath?
     var items: [ToDoItem] {
         !doneShown ? allItems.filter({!$0.done}): allItems
     }
@@ -51,31 +50,12 @@ public class ItemsListModel {
         }
     }
     
-    func loadFromServer(completion: @escaping (Result<Void, Error>) -> Void) {
-        toDoService.loadData(queue: .main) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case let .success(items):
-                self.toDoService.merge(addedItems: self.allItems, oldItems: items, queue: .main) { result in
-                    self.allItems = result
-                    completion(.success(()))
-                }
-            case let .failure(error):
-                completion(.failure(error))
-            }
-        }
+    func loadFromServer(completion: @escaping (Result<[ToDoItem], Error>) -> Void) {
+        toDoService.loadData(queue: .main, completion: completion)
     }
 
-    func loadFromFile(completion: @escaping (Result<Void, Error>) -> Void) {
-        toDoService.loadFromDataBase(queue: .main) { [weak self] result in
-            switch result {
-            case let .success(items):
-                self?.allItems = items
-                completion(.success(()))
-            case let .failure(error):
-                completion(.failure(error))
-            }
-        }
+    func loadFromDataBase(completion: @escaping (Result<[ToDoItem], Error>) -> Void) {
+        toDoService.loadFromDataBase(queue: .main, completion: completion)
     }
 
     func synchronize(_ items: [ToDoItem], completion: @escaping (Result<Void, Error>) -> Void) {
@@ -89,5 +69,10 @@ public class ItemsListModel {
                 completion(.success(()))
             }
         }
+    }
+    
+    func merge(addedItems: [ToDoItem], oldItems: [ToDoItem],
+               queue: DispatchQueue, completion: @escaping ([ToDoItem]) -> Void) {
+        toDoService.merge(addedItems: addedItems, oldItems: oldItems, queue: queue, completion: completion)
     }
 }

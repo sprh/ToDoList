@@ -10,6 +10,7 @@ import Models
 
 /// ToDoCell is a cell that contains information about a ToDoItem that already exists.
 class ToDoCell: UITableViewCell {
+    weak var delegate: ItemsListView?
     lazy var toDoItem: ToDoItem = ToDoItem()
     let labelText = UILabel()
     var dateText = UILabel()
@@ -18,7 +19,7 @@ class ToDoCell: UITableViewCell {
     let arrow = UIImageView(frame: CGRect(x: 0, y: 0, width: 7, height: 12))
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        contentView.backgroundColor = .subviewsBackgtound
+        contentView.backgroundColor = .subviewsBackground
         selectionStyle = .none
         layer.cornerRadius = 16
     }

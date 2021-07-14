@@ -366,7 +366,6 @@
 			isa = PBXGroup;
 			children = (
 				E37C9FD126877B920045336D /* ToDoViewController */,
-				E3169E21267E6420001C4FEE /* ToDoCollectionView */,
 			);
 			path = ToDoScreen;
 			sourceTree = "<group>";
@@ -384,6 +383,7 @@
 		E3F237D2269DF1CD00DF66D4 /* ItemsList */ = {
 			isa = PBXGroup;
 			children = (
+				E3169E21267E6420001C4FEE /* ToDoCollectionView */,
 				E3F237D3269DF1DE00DF66D4 /* ItemsListPresenter.swift */,
 				E3F237D5269DF1EB00DF66D4 /* ItemsListModel.swift */,
 				E3F237D7269DF1FC00DF66D4 /* ItemsListView.swift */,
