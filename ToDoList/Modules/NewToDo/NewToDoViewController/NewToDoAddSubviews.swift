@@ -82,7 +82,7 @@ extension NewToDoViewController {
     private func setupTextField() {
         textBottomAnchorConstraint = textView.bottomAnchor.constraint(equalTo: scrollView.topAnchor,
                                                                       constant: 136)
-        textView.backgroundColor = .subviewsBackground
+//        textView.backgroundColor = .subviewsBackground
         textView.layer.cornerRadius = 16
         textView.placeholder = "What do you have to do?".localized
         textView.font = .body
@@ -102,7 +102,7 @@ extension NewToDoViewController {
     }
     private func setupStack() {
         importanceAndDateStack.translatesAutoresizingMaskIntoConstraints = false
-        importanceAndDateStack.backgroundColor = .subviewsBackground
+//        importanceAndDateStack.backgroundColor = .subviewsBackgtound
         importanceAndDateStack.layer.cornerRadius = 16
         stackBottomConstraint = importanceAndDateStack.bottomAnchor.constraint(equalTo:
                                 colorStack.bottomAnchor, constant: 128.5)
@@ -175,7 +175,7 @@ extension NewToDoViewController {
         deadlinePicker.translatesAutoresizingMaskIntoConstraints = false
         deadlinePicker.datePickerMode = .date
         deadlinePicker.preferredDatePickerStyle = .inline
-        deadlinePicker.backgroundColor = .subviewsBackground
+//        deadlinePicker.backgroundColor = .subviewsBackgtound
         deadlinePicker.tintColor = .azure
         deadlinePicker.minimumDate = Date()
         deadlinePicker.date = Calendar.current.date(byAdding: .day, value: 1, to: Date()) ?? Date()
@@ -201,7 +201,7 @@ extension NewToDoViewController {
     }
     private func setupDeleteButton() {
         deleteButton.setTitle("Delete".localized, for: .normal)
-        deleteButton.backgroundColor = .subviewsBackground
+//        deleteButton.backgroundColor = .subviewsBackgtound
         deleteButton.setTitleColor(.textGray, for: .normal)
         deleteButton.translatesAutoresizingMaskIntoConstraints = false
         deleteButton.layer.cornerRadius = 16
