@@ -8,7 +8,7 @@
 import Foundation
 import Models
 
-class ItemsListPresenter {
+final class ItemsListPresenter {
     private let model: ItemsListModel!
     
     var doneShown: Bool {

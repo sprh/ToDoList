@@ -26,6 +26,11 @@
 		E3194CC9268FA46A00CB91FA /* ToDoProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3194CC8268FA46A00CB91FA /* ToDoProtocol.swift */; };
 		E31F4611268F2F3700CF2652 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31F4610268F2F3700CF2652 /* NetworkError.swift */; };
 		E32DD9C4269ECC8600E2BFF1 /* ItemsListViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32DD9C3269ECC8600E2BFF1 /* ItemsListViewCellDelegate.swift */; };
+		E32DD9C7269EDA0E00E2BFF1 /* NewItemGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32DD9C6269EDA0E00E2BFF1 /* NewItemGraph.swift */; };
+		E32DD9CB269EDA6E00E2BFF1 /* NewItemsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32DD9CA269EDA6E00E2BFF1 /* NewItemsModel.swift */; };
+		E32DD9CD269EDA7800E2BFF1 /* NewItemPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32DD9CC269EDA7800E2BFF1 /* NewItemPresenter.swift */; };
+		E32DD9CF269EDA7E00E2BFF1 /* NewItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32DD9CE269EDA7E00E2BFF1 /* NewItemView.swift */; };
+		E32DD9D1269EDADD00E2BFF1 /* NewItemViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32DD9D0269EDADD00E2BFF1 /* NewItemViewDelegate.swift */; };
 		E33611112686187D00BE31CB /* NewToDoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33611102686187D00BE31CB /* NewToDoCell.swift */; };
 		E348778E2698D5C300F60C81 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E348778D2698D5C300F60C81 /* FileManager.swift */; };
 		E34A3908267BE04100546DAF /* FileCacheError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34A3907267BE04100546DAF /* FileCacheError.swift */; };
@@ -106,6 +111,11 @@
 		E3194CC8268FA46A00CB91FA /* ToDoProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoProtocol.swift; sourceTree = "<group>"; };
 		E31F4610268F2F3700CF2652 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		E32DD9C3269ECC8600E2BFF1 /* ItemsListViewCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsListViewCellDelegate.swift; sourceTree = "<group>"; };
+		E32DD9C6269EDA0E00E2BFF1 /* NewItemGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewItemGraph.swift; sourceTree = "<group>"; };
+		E32DD9CA269EDA6E00E2BFF1 /* NewItemsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewItemsModel.swift; sourceTree = "<group>"; };
+		E32DD9CC269EDA7800E2BFF1 /* NewItemPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewItemPresenter.swift; sourceTree = "<group>"; };
+		E32DD9CE269EDA7E00E2BFF1 /* NewItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewItemView.swift; sourceTree = "<group>"; };
+		E32DD9D0269EDADD00E2BFF1 /* NewItemViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewItemViewDelegate.swift; sourceTree = "<group>"; };
 		E33611102686187D00BE31CB /* NewToDoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewToDoCell.swift; sourceTree = "<group>"; };
 		E348778D2698D5C300F60C81 /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
 		E34A3907267BE04100546DAF /* FileCacheError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCacheError.swift; sourceTree = "<group>"; };
@@ -251,6 +261,7 @@
 		E30540F3266A9691008C2083 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				E32DD9C5269ED9FF00E2BFF1 /* NewItem */,
 				E3F237D2269DF1CD00DF66D4 /* ItemsList */,
 				E3DB442E2674B6B4003A2736 /* NewToDo */,
 				E3DB441E2672B77A003A2736 /* ToDoScreen */,
@@ -295,6 +306,18 @@
 				E3194CC8268FA46A00CB91FA /* ToDoProtocol.swift */,
 			);
 			path = ToDoService;
+			sourceTree = "<group>";
+		};
+		E32DD9C5269ED9FF00E2BFF1 /* NewItem */ = {
+			isa = PBXGroup;
+			children = (
+				E32DD9C6269EDA0E00E2BFF1 /* NewItemGraph.swift */,
+				E32DD9CA269EDA6E00E2BFF1 /* NewItemsModel.swift */,
+				E32DD9CC269EDA7800E2BFF1 /* NewItemPresenter.swift */,
+				E32DD9CE269EDA7E00E2BFF1 /* NewItemView.swift */,
+				E32DD9D0269EDADD00E2BFF1 /* NewItemViewDelegate.swift */,
+			);
+			path = NewItem;
 			sourceTree = "<group>";
 		};
 		E37C9FAA268779860045336D /* NewToDoViewController */ = {
@@ -674,12 +697,15 @@
 			files = (
 				E34EDB852685F64900C852B0 /* NewToDoDelegate.swift in Sources */,
 				E3DB44202672B7F7003A2736 /* ToDoViewController.swift in Sources */,
+				E32DD9C7269EDA0E00E2BFF1 /* NewItemGraph.swift in Sources */,
 				E3DB44302674B6DE003A2736 /* NewToDoViewController.swift in Sources */,
 				E30540F6266A96B4008C2083 /* AboutViewController.swift in Sources */,
 				E30DC117268D9C2F00ABB6C9 /* String.swift in Sources */,
 				E37C9FB1268779CE0045336D /* NewToDoObjcMethods.swift in Sources */,
 				E30540BB266A960F008C2083 /* AppDelegate.swift in Sources */,
 				E37C9FAC268779B60045336D /* NewToDoAddSubviews.swift in Sources */,
+				E32DD9D1269EDADD00E2BFF1 /* NewItemViewDelegate.swift in Sources */,
+				E32DD9CF269EDA7E00E2BFF1 /* NewItemView.swift in Sources */,
 				E3F237D4269DF1DE00DF66D4 /* ItemsListPresenter.swift in Sources */,
 				E3804D9C268F080500957844 /* FileCache.swift in Sources */,
 				E3169E23267E6439001C4FEE /* ToDoCell.swift in Sources */,
@@ -705,9 +731,11 @@
 				E33611112686187D00BE31CB /* NewToDoCell.swift in Sources */,
 				E3DB44252672B816003A2736 /* ToDoItemsWork.swift in Sources */,
 				E30E6DFF2676701B008A55BF /* ColorView.swift in Sources */,
+				E32DD9CB269EDA6E00E2BFF1 /* NewItemsModel.swift in Sources */,
 				E3DB442A2672B932003A2736 /* FontExtension.swift in Sources */,
 				E398447A266A9B29000D1B31 /* ColorExtension.swift in Sources */,
 				E3F237DA269DF35800DF66D4 /* ItemsListViewDelegate.swift in Sources */,
+				E32DD9CD269EDA7800E2BFF1 /* NewItemPresenter.swift in Sources */,
 				E3804D9D268F080500957844 /* FileCacheService.swift in Sources */,
 				E3F237D6269DF1EB00DF66D4 /* ItemsListModel.swift in Sources */,
 				E3194CC7268FA45C00CB91FA /* ToDoService.swift in Sources */,

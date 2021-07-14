@@ -8,7 +8,7 @@
 import Foundation
 import Models
 
-class FileCacheService: FileCacheServiceProtocol {
+final class FileCacheService: FileCacheServiceProtocol {
     let queue = DispatchQueue(label: "FileCacheQueue")
     private(set) var fileCache: FileCache!
 

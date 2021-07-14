@@ -8,7 +8,7 @@
 import Foundation
 import Models
 
-class DefaultNetworkingService: NetworkingService {
+final class DefaultNetworkingService: NetworkingService {
     let queue = DispatchQueue(label: "NetworkQueue", attributes: [.concurrent])
     let path: String = "https://d5dps3h13rv6902lp5c8.apigw.yandexcloud.net/tasks/"
     var session: URLSession = {

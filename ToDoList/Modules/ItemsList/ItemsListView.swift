@@ -8,7 +8,7 @@
 import UIKit
 import Models
 
-class ItemsListView: UIViewController {
+final class ItemsListView: UIViewController {
     let presenter: ItemsListPresenter!
 
     let tableView: UITableView = {

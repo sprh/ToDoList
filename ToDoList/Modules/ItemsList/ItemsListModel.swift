@@ -8,7 +8,7 @@
 import Foundation
 import Models
 
-public class ItemsListModel {
+final public class ItemsListModel {
     let toDoService: ToDoService!
     var allItems: [ToDoItem] = []
     var doneShown: Bool = false
