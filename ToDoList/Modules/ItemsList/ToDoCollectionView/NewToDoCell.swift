@@ -12,19 +12,8 @@ import Models
 /// NewToDoCell is the last cell in the tableview on the ToDoView screen.
 /// This cell is used to add a new to do item without opening another screen.
 final class NewToDoCell: UITableViewCell {
-    weak var delegate: ItemsListViewCellDelegate?
-    var textView: UITextView = {
-        let textView = UITextView()
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.backgroundColor = .subviewsBackground
-        textView.layer.cornerRadius = 16
-        textView.placeholder = "New".localized
-        textView.font = .body
-        textView.textColor = .text
-        textView.placeholderColor = .textGray
-        textView.isScrollEnabled = false
-        return textView
-    }()
+    weak var delegate: ItemsListPresenterDelegate?
+    var textView = UITextView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -38,6 +27,14 @@ final class NewToDoCell: UITableViewCell {
     }
     
     func addSubviews() {
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.backgroundColor = .subviewsBackground
+        textView.layer.cornerRadius = 16
+        textView.placeholder = "New".localized
+        textView.font = .body
+        textView.textColor = .text
+        textView.placeholderColor = .textGray
+        textView.isScrollEnabled = false
         contentView.addSubview(textView)
         NSLayoutConstraint.activate([
             textView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 52),

@@ -22,14 +22,6 @@ final class ItemsListInterface: UIView {
     }
     
     func addSubviews() {
-        addButton.setImage(.addButton, for: .normal)
-        addButton.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(addButton)
-        NSLayoutConstraint.activate([
-            addButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
-            addButton.centerXAnchor.constraint(equalTo: centerXAnchor)
-        ])
-        
         tableView.layer.cornerRadius = 20
         tableView.layer.masksToBounds = true
         tableView.isScrollEnabled = true
@@ -37,7 +29,6 @@ final class ItemsListInterface: UIView {
         tableView.canCancelContentTouches = true
         tableView.register(ToDoCell.self, forCellReuseIdentifier: "\(ToDoCell.self)")
         tableView.register(NewToDoCell.self, forCellReuseIdentifier: "\(NewToDoCell.self)")
-        tableView.backgroundColor = .clear
         tableView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(tableView)
         NSLayoutConstraint.activate(
@@ -45,5 +36,13 @@ final class ItemsListInterface: UIView {
              tableView.trailingAnchor.constraint(equalTo: trailingAnchor),
              tableView.topAnchor.constraint(equalTo: topAnchor),
              tableView.bottomAnchor.constraint(equalTo: bottomAnchor)])
+        
+        addButton.setImage(.addButton, for: .normal)
+        addButton.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(addButton)
+        NSLayoutConstraint.activate([
+            addButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            addButton.centerXAnchor.constraint(equalTo: centerXAnchor)
+        ])
     }
 }

@@ -197,7 +197,7 @@ final class NewItemInterface: UIView {
         deadlinePicker.translatesAutoresizingMaskIntoConstraints = false
         deadlinePicker.datePickerMode = .date
         deadlinePicker.preferredDatePickerStyle = .inline
-//        deadlinePicker.backgroundColor = .subviewsBackgtound
+        deadlinePicker.backgroundColor = .subviewsBackground
         deadlinePicker.tintColor = .azure
         deadlinePicker.minimumDate = Date()
         deadlinePicker.date = Calendar.current.date(byAdding: .day, value: 1, to: Date()) ?? Date()

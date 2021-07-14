@@ -37,38 +37,6 @@ final class ItemsListPresenter {
         model.doneShown.toggle()
     }
     
-    func updateItem(_ item: ToDoItem, at indexPath: IndexPath) {
-        model.updateItem(item)
-        if !model.doneShown, item.done {
-            viewDelegate?.tableViewDeleteCell(at: indexPath)
-        } else {
-            viewDelegate?.tableViewReloadCell(at: indexPath)
-        }
-        if model.needToSynchronize {
-            synchronize()
-        }
-    }
-    
-    func updateItemDone(_ item: ToDoItem, at indexPath: IndexPath) {
-        updateItem(item.changeDone(), at: indexPath)
-    }
-    
-    func deleteItem(_ id: String, at indexPath: IndexPath) {
-        model.deleteItem(id)
-        viewDelegate?.tableViewDeleteCell(at: indexPath)
-        if model.needToSynchronize {
-            synchronize()
-        }
-    }
-    
-    func addItem(_ item: ToDoItem) {
-        model.addItem(item)
-        viewDelegate?.tableViewAddCell()
-        if model.needToSynchronize {
-            synchronize()
-        }
-    }
-    
     func loadDataFromDataBase() {
         model.loadFromDataBase { [weak self] result in
             switch result {
@@ -101,6 +69,46 @@ final class ItemsListPresenter {
     func synchronize() {
         model.synchronize(model.allItems) { [weak self] _ in
             self?.viewDelegate?.reloadItems()
+        }
+    }
+    
+    func prepareNewItemView(_ item: ToDoItem, indexPath: IndexPath?) -> NewItemView {
+        let viewController = model.prepareNewItemView(item, indexPath: indexPath)
+        viewController.delegate = self
+        return viewController
+    }
+}
+
+extension ItemsListPresenter: ItemsListPresenterDelegate {
+    func updateItem(_ item: ToDoItem, at indexPath: IndexPath) {
+        model.updateItem(item)
+        if !model.doneShown, item.done {
+            viewDelegate?.tableViewDeleteCell(at: indexPath)
+        } else {
+            viewDelegate?.tableViewReloadCell(at: indexPath)
+        }
+        if model.needToSynchronize {
+            synchronize()
+        }
+    }
+    
+    func updateItemDone(_ item: ToDoItem, at indexPath: IndexPath) {
+        updateItem(item.changeDone(), at: indexPath)
+    }
+    
+    func deleteItem(_ id: String, at indexPath: IndexPath) {
+        model.deleteItem(id)
+        viewDelegate?.tableViewDeleteCell(at: indexPath)
+        if model.needToSynchronize {
+            synchronize()
+        }
+    }
+    
+    func addItem(_ item: ToDoItem) {
+        model.addItem(item)
+        viewDelegate?.tableViewAddCell()
+        if model.needToSynchronize {
+            synchronize()
         }
     }
 }

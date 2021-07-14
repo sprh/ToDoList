@@ -75,4 +75,9 @@ final public class ItemsListModel {
                queue: DispatchQueue, completion: @escaping ([ToDoItem]) -> Void) {
         toDoService.merge(addedItems: addedItems, oldItems: oldItems, queue: queue, completion: completion)
     }
+    
+    func prepareNewItemView(_ item: ToDoItem, indexPath: IndexPath?) -> NewItemView {
+        let graph = NewItemGraph(item, indexPath: indexPath)
+        return graph.view
+    }
 }

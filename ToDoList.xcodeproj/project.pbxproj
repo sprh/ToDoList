@@ -33,7 +33,6 @@
 		E32DD9D1269EDADD00E2BFF1 /* NewItemViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32DD9D0269EDADD00E2BFF1 /* NewItemViewDelegate.swift */; };
 		E32DD9D3269EE6E200E2BFF1 /* ItemsListInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32DD9D2269EE6E200E2BFF1 /* ItemsListInterface.swift */; };
 		E32DD9D5269EE91400E2BFF1 /* NewItemInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32DD9D4269EE91400E2BFF1 /* NewItemInterface.swift */; };
-		E32DD9D7269EEE5600E2BFF1 /* ItemsListTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32DD9D6269EEE5600E2BFF1 /* ItemsListTableViewHeader.swift */; };
 		E33611112686187D00BE31CB /* NewToDoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33611102686187D00BE31CB /* NewToDoCell.swift */; };
 		E348778E2698D5C300F60C81 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E348778D2698D5C300F60C81 /* FileManager.swift */; };
 		E34A3908267BE04100546DAF /* FileCacheError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34A3907267BE04100546DAF /* FileCacheError.swift */; };
@@ -121,7 +120,6 @@
 		E32DD9D0269EDADD00E2BFF1 /* NewItemViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewItemViewDelegate.swift; sourceTree = "<group>"; };
 		E32DD9D2269EE6E200E2BFF1 /* ItemsListInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsListInterface.swift; sourceTree = "<group>"; };
 		E32DD9D4269EE91400E2BFF1 /* NewItemInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewItemInterface.swift; sourceTree = "<group>"; };
-		E32DD9D6269EEE5600E2BFF1 /* ItemsListTableViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsListTableViewHeader.swift; sourceTree = "<group>"; };
 		E33611102686187D00BE31CB /* NewToDoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewToDoCell.swift; sourceTree = "<group>"; };
 		E348778D2698D5C300F60C81 /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
 		E34A3907267BE04100546DAF /* FileCacheError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCacheError.swift; sourceTree = "<group>"; };
@@ -291,7 +289,6 @@
 				E32DD9C3269ECC8600E2BFF1 /* ItemsListViewCellDelegate.swift */,
 				E3169E22267E6439001C4FEE /* ToDoCell.swift */,
 				E33611102686187D00BE31CB /* NewToDoCell.swift */,
-				E32DD9D6269EEE5600E2BFF1 /* ItemsListTableViewHeader.swift */,
 			);
 			path = ToDoCollectionView;
 			sourceTree = "<group>";
@@ -707,7 +704,6 @@
 				E34EDB852685F64900C852B0 /* NewToDoDelegate.swift in Sources */,
 				E3DB44202672B7F7003A2736 /* ToDoViewController.swift in Sources */,
 				E32DD9C7269EDA0E00E2BFF1 /* NewItemGraph.swift in Sources */,
-				E32DD9D7269EEE5600E2BFF1 /* ItemsListTableViewHeader.swift in Sources */,
 				E3DB44302674B6DE003A2736 /* NewToDoViewController.swift in Sources */,
 				E30540F6266A96B4008C2083 /* AboutViewController.swift in Sources */,
 				E30DC117268D9C2F00ABB6C9 /* String.swift in Sources */,

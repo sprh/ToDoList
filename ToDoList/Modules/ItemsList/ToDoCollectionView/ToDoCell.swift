@@ -11,50 +11,16 @@ import Models
 /// ToDoCell is a cell that contains information about a ToDoItem that already exists.
 final class ToDoCell: UITableViewCell {
     lazy var toDoItem: ToDoItem = ToDoItem()
-    let labelText: UILabel = {
-        let label = UILabel()
-        label.font = .headkune
-        label.textColor = .text
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 3
-        return label
-    }()
-    
-    let dateText: UILabel = {
-        let label = UILabel()
-        label.font = .subhead
-        label.textColor = .textGray
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    let doneButton: UIButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
-        button.backgroundColor = .clear
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.clipsToBounds = true
-        return button
-    }()
-    
-    let dateImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = .calendar
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
-    
-    let arrow: UIImageView = {
-        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 7, height: 12))
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = .arrow
-        return imageView
-    }()
+    let labelText = UILabel()
+    let dateText = UILabel()
+    let doneButton = UIButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
+    let dateImageView = UIImageView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        contentView.backgroundColor = .subviewsBackground
         selectionStyle = .none
-        layer.cornerRadius = 16
+        accessoryType = .disclosureIndicator
+        backgroundColor = .subviewsBackground
     }
     
     required init?(coder: NSCoder) {
@@ -64,6 +30,10 @@ final class ToDoCell: UITableViewCell {
     public func setupSubviews() {
         contentView.subviews.forEach({$0.removeFromSuperview()})
         let hasDeadline = toDoItem.deadline != nil
+        labelText.font = .headkune
+        labelText.textColor = .text
+        labelText.translatesAutoresizingMaskIntoConstraints = false
+        labelText.numberOfLines = 3
         contentView.addSubview(labelText)
         NSLayoutConstraint.activate([
             labelText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 52),
@@ -71,15 +41,14 @@ final class ToDoCell: UITableViewCell {
             labelText.topAnchor.constraint(equalTo: contentView.topAnchor, constant: hasDeadline ? 12 : 16),
             labelText.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: hasDeadline ? -32: -16)
         ])
+        
+        doneButton.backgroundColor = .clear
+        doneButton.translatesAutoresizingMaskIntoConstraints = false
+        doneButton.clipsToBounds = true
         contentView.addSubview(doneButton)
         NSLayoutConstraint.activate([
             doneButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             doneButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16)
-        ])
-        contentView.addSubview(arrow)
-        NSLayoutConstraint.activate([
-            arrow.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -22),
-            arrow.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
         guard let deadline = toDoItem.deadline else { return }
         addDateLabels(deadline: deadline)
@@ -90,6 +59,11 @@ final class ToDoCell: UITableViewCell {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd MMMM"
         dateText.text = dateFormatter.string(from: date)
+        dateText.font = .subhead
+        dateText.textColor = .textGray
+        dateText.translatesAutoresizingMaskIntoConstraints = false
+        dateImageView.image = .calendar
+        dateImageView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(dateImageView)
         contentView.addSubview(dateText)
         NSLayoutConstraint.activate([

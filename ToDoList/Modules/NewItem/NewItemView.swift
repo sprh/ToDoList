@@ -10,6 +10,7 @@ import UIKit
 
 final class NewItemView: UIViewController {
     let presenter: NewItemPresenter!
+    weak var delegate: ItemsListPresenterDelegate?
     func view() -> NewItemInterface? {
         self.view as? NewItemInterface
     }
