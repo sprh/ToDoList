@@ -10,43 +10,13 @@ import Models
 
 final class ItemsListView: UIViewController {
     let presenter: ItemsListPresenter!
-
-    let tableView: UITableView = {
-        let tableView = UITableView()
-        tableView.layer.cornerRadius = 20
-        tableView.layer.masksToBounds = true
-        tableView.isScrollEnabled = true
-        tableView.delaysContentTouches = true
-        tableView.canCancelContentTouches = true
-        tableView.register(ToDoCell.self, forCellReuseIdentifier: "\(ToDoCell.self)")
-        tableView.register(NewToDoCell.self, forCellReuseIdentifier: "\(NewToDoCell.self)")
-        tableView.backgroundColor = .clear
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        return tableView
-    }()
-
-    let addButton: UIButton = {
-        let addButton = UIButton()
-        addButton.setImage(.addButton, for: .normal)
-        addButton.translatesAutoresizingMaskIntoConstraints = false
-        return addButton
-    }()
-
-    var showButton: UIButton = {
-        let showButton = UIButton()
-        showButton.translatesAutoresizingMaskIntoConstraints = false
-        showButton.setTitleColor(.azure, for: .normal)
-        showButton.titleLabel?.font = .headkune
-        return showButton
-    }()
-
-    var showLabel: UILabel = {
-        let showLabel = UILabel()
-        showLabel.translatesAutoresizingMaskIntoConstraints = false
-        showLabel.textColor = .textGray
-        showLabel.font = .headkune
-        return showLabel
-    }()
+    func view() -> ItemsListInterface? {
+        view as? ItemsListInterface
+    }
+    var tableView: UITableView {
+        view()?.tableView ?? UITableView()
+    }
+    let tableViewHeaderView = ItemsListTableViewHeader()
 
     public init(presenter: ItemsListPresenter) {
         self.presenter = presenter
@@ -66,8 +36,7 @@ final class ItemsListView: UIViewController {
     }
 
     func setupView() {
-        view = UIView()
-        view.backgroundColor = .background
+        view = ItemsListInterface()
         navigationItem.title = "My to-dos".localized
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .automatic
@@ -75,25 +44,10 @@ final class ItemsListView: UIViewController {
         hideKeyboardWhenTappedAround()
         keyboardWillShow(tableView)
         keyboardWillHide(tableView)
-        addSubviews()
-    }
-
-    func addSubviews() {
-        view.addSubview(addButton)
-        view.addSubview(tableView)
-        NSLayoutConstraint.activate([
-            addButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            addButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-        ])
-        NSLayoutConstraint.activate(
-            [tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-             tableView.topAnchor.constraint(equalTo: view.topAnchor),
-             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)])
     }
 
     func setShowLabelText() {
-        showLabel.text = "\("Done".localized) — \(presenter.doneItemsCount)"
+        tableViewHeaderView.showLabel.text = "\("Done".localized) — \(presenter.doneItemsCount)"
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -174,21 +128,8 @@ extension ItemsListView: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section != 0 { return UIView() }
-        let view = UIView()
         setShowLabelText()
-        view.addSubview(showLabel)
-        NSLayoutConstraint.activate([
-            showLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            showLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 18),
-            showLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -18)
-        ])
-        showButton.setTitle(presenter.doneShown ? "Hide".localized : "Show".localized, for: .normal)
-        view.addSubview(showButton)
-        NSLayoutConstraint.activate([
-            showButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            showButton.centerYAnchor.constraint(equalTo: showLabel.centerYAnchor)
-        ])
-        showButton.addTarget(self, action: #selector(showButtonClick), for: .touchUpInside)
+        tableViewHeaderView.showButton.addTarget(self, action: #selector(showButtonClick), for: .touchUpInside)
         return view
     }
 
@@ -227,8 +168,9 @@ extension ItemsListView: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension ItemsListView {
-    @objc func showButtonClick() {
+    @objc func showButtonClick(sender: UIButton) {
         presenter.doneShownSettingWasChanged()
+        sender.setTitle(presenter.doneShown ? "Hide".localized : "Show".localized, for: .normal)
         tableView.reloadData()
     }
 }

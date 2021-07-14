@@ -11,44 +11,44 @@ import Models
 /// ToDoCell is a cell that contains information about a ToDoItem that already exists.
 final class ToDoCell: UITableViewCell {
     lazy var toDoItem: ToDoItem = ToDoItem()
-    var labelText: UILabel {
+    let labelText: UILabel = {
         let label = UILabel()
         label.font = .headkune
         label.textColor = .text
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 3
         return label
-    }
+    }()
     
-    var dateText: UILabel {
+    let dateText: UILabel = {
         let label = UILabel()
         label.font = .subhead
         label.textColor = .textGray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
-    }
+    }()
     
-    var doneButton: UIButton {
+    let doneButton: UIButton = {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
         button.backgroundColor = .clear
         button.translatesAutoresizingMaskIntoConstraints = false
         button.clipsToBounds = true
         return button
-    }
+    }()
     
-    var dateImageView: UIImageView {
+    let dateImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = .calendar
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
-    }
+    }()
     
-    var arrow: UIImageView {
+    let arrow: UIImageView = {
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 7, height: 12))
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = .arrow
         return imageView
-    }
+    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
