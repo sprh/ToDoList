@@ -10,14 +10,17 @@ import Models
 
 class FileCacheService: FileCacheServiceProtocol {
     let queue = DispatchQueue(label: "FileCacheQueue")
-    let fileCache = FileCache()
-    public init() {
+    private(set) var fileCache: FileCache!
+
+    public init(fileCache: FileCache) {
+        self.fileCache = fileCache
     }
+    
     func save(items: [ToDoItem],
               completion: @escaping (Result<[ToDoItem], Error>) -> Void) {
         queue.async { [weak self] in
             do {
-                try self?.fileCache.save(items: items) { items in
+                try self?.fileCache.save(items) { items in
                     completion(.success(items))
                 }
                 try self?.fileCache.clearTombstones()
@@ -26,6 +29,7 @@ class FileCacheService: FileCacheServiceProtocol {
             }
         }
     }
+    
     func load(completion: @escaping (Result<[ToDoItem], Error>) -> Void) {
         queue.async { [weak self] in
             guard let self = self else { return }
@@ -37,6 +41,7 @@ class FileCacheService: FileCacheServiceProtocol {
             }
         }
     }
+    
     func addTombstone(tombstone: Tombstone, completion: @escaping (Result<Tombstone, Error>) -> Void) {
         queue.async { [weak self] in
             guard let self = self else { return }
@@ -49,6 +54,7 @@ class FileCacheService: FileCacheServiceProtocol {
             }
         }
     }
+    
     func clearTombstones(completion: @escaping (Result<Void, Error>) -> Void) {
         queue.async { [weak self] in
             guard let self = self else {return}
@@ -60,20 +66,24 @@ class FileCacheService: FileCacheServiceProtocol {
             }
         }
     }
+    
     var dirties: [ToDoItem] {
         return fileCache.toDoItems.filter({$0.isDirty})
     }
+    
     var tombstones: [Tombstone] {
         return fileCache.tombstones
     }
+    
     func reloadItems(items: [ToDoItem]) {
-        fileCache.reloadItems(toDoItems: items)
+        fileCache.reloadItems(items)
     }
+    
     func getToDoItems(completion: @escaping (Result<[ToDoItem], Error>) -> Void) {
         queue.async { [weak self] in
             guard let self = self else { return }
             do {
-                try self.fileCache.getToDoItems { items in
+                try self.fileCache.getItems { items in
                     completion(.success(items))
                 }
             } catch let error {
@@ -81,6 +91,7 @@ class FileCacheService: FileCacheServiceProtocol {
             }
         }
     }
+    
     func getTombstones(completion: @escaping (Result<[Tombstone], Error>) -> Void) {
         queue.async { [weak self] in
             guard let self = self else { return }
@@ -93,6 +104,7 @@ class FileCacheService: FileCacheServiceProtocol {
             }
         }
     }
+    
     func create(_ item: ToDoItem, completion: @escaping (Result<ToDoItem, Error>) -> Void) {
         queue.async { [weak self] in
             guard let self = self else { return }
@@ -104,6 +116,7 @@ class FileCacheService: FileCacheServiceProtocol {
             }
         }
     }
+    
     func create(_ item: Tombstone, completion: @escaping (Result<Tombstone, Error>) -> Void) {
         queue.async { [weak self] in
             guard let self = self else { return }
@@ -115,6 +128,7 @@ class FileCacheService: FileCacheServiceProtocol {
             }
         }
     }
+    
     func update(_ item: ToDoItem, completion: @escaping (Result<ToDoItem, Error>) -> Void) {
         queue.async { [weak self] in
             guard let self = self else { return }
@@ -126,6 +140,7 @@ class FileCacheService: FileCacheServiceProtocol {
             }
         }
     }
+    
     func deleteToDoItem(_ id: String, completion: @escaping (Result<String, Error>) -> Void) {
         queue.async { [weak self] in
             guard let self = self else { return }
@@ -137,6 +152,7 @@ class FileCacheService: FileCacheServiceProtocol {
             }
         }
     }
+    
     func deleteTombstone(_ id: String, completion: @escaping (Result<String, Error>) -> Void) {
         queue.async { [weak self] in
             guard let self = self else { return }

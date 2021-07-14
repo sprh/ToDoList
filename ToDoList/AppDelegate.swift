@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow()
         let navigationController = UINavigationController()
-        let fileCache = FileCacheService()
+        let fileCache = FileCacheService(fileCache: FileCache())
         let networkingService = DefaultNetworkingService()
         let toDoService = ToDoService(fileCacheService: fileCache, networkingService: networkingService)
         let graph = ItemsListGraph(toDoService: toDoService)

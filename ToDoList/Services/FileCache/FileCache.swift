@@ -34,6 +34,7 @@ final class FileCache {
         let path = documentDirectory.appendingPathComponent("ToDoList.sqlite3")
         return path
     }
+    
     public init() {
         do {
             try createTables()
@@ -41,10 +42,11 @@ final class FileCache {
             print(":( \(error)")
         }
     }
-    func save(items: [ToDoItem], completion: ([ToDoItem]) -> Void) throws {
+    
+    func save(_ items: [ToDoItem], completion: ([ToDoItem]) -> Void) throws {
         guard let dbUrl = dbUrl else { return }
         var dbItems: [ToDoItem] = []
-        try getToDoItems { items in
+        try getItems { items in
             dbItems = items
         }
         let connection = try Connection(dbUrl.path)
@@ -58,23 +60,27 @@ final class FileCache {
         }
         completion(items)
     }
+    
     func load() throws {
-        try getToDoItems { [weak self] items in
+        try getItems { [weak self] items in
             self?.toDoItems = items
         }
         try getTombstones { [weak self] items in
             self?.tombstones = items
         }
     }
-    func reloadItems(toDoItems: [ToDoItem]) {
-        self.toDoItems = toDoItems
+    
+    func reloadItems(_ items: [ToDoItem]) {
+        self.toDoItems = items
     }
+    
     func clearTombstones() throws {
         guard let dbUrl = dbUrl else { return }
         let connection = try Connection(dbUrl.path)
         try connection.run(tombstonesTable.delete())
         tombstones.removeAll()
     }
+    
     func createTables() throws {
         guard let dbUrl = dbUrl else { return }
         FileManager.createFileIfNotExists(with: dbUrl)
@@ -95,7 +101,8 @@ final class FileCache {
             table.column(deletedAt)
         })
     }
-    func getToDoItems(completion: ([ToDoItem]) -> Void) throws {
+    
+    func getItems(completion: ([ToDoItem]) -> Void) throws {
         guard let dbUrl = dbUrl else { return }
         toDoItems.removeAll()
         let connection = try Connection(dbUrl.path)
@@ -114,6 +121,7 @@ final class FileCache {
         }
         completion(items)
     }
+    
     func getTombstones(completion: ([Tombstone]) -> Void) throws {
         guard let dbUrl = dbUrl else { return }
         let connection = try Connection(dbUrl.path)
@@ -125,6 +133,7 @@ final class FileCache {
         }
         completion(tombstones)
     }
+    
     func create(_ item: ToDoItem) throws {
         guard let dbUrl = dbUrl else { return }
         let connection = try Connection(dbUrl.path)
@@ -138,12 +147,14 @@ final class FileCache {
                                                  updatedAt <- item.updatedAt,
                                                  isDirty <- item.isDirty))
     }
+    
     func create(_ item: Tombstone) throws {
         guard let dbUrl = dbUrl else { return }
         let connection = try Connection(dbUrl.path)
         try connection.run(tombstonesTable.insert(id <- item.id,
                                                   deletedAt <- item.deletedAt))
     }
+    
     func update(_ item: ToDoItem) throws {
         guard let dbUrl = dbUrl else { return }
         let connection = try Connection(dbUrl.path)
@@ -162,6 +173,7 @@ final class FileCache {
         let toDoItem = toDoItemsTable.filter(self.id == id)
         try connection.run(toDoItem.delete())
     }
+    
     func deleteTombstone(_ id: String) throws {
         guard let dbUrl = dbUrl else { return }
         let connection = try Connection(dbUrl.path)

@@ -271,6 +271,7 @@
 		E3169E21267E6420001C4FEE /* ToDoCollectionView */ = {
 			isa = PBXGroup;
 			children = (
+				E32DD9C3269ECC8600E2BFF1 /* ItemsListViewCellDelegate.swift */,
 				E3169E22267E6439001C4FEE /* ToDoCell.swift */,
 				E33611102686187D00BE31CB /* NewToDoCell.swift */,
 			);
@@ -391,7 +392,6 @@
 				E3F237D7269DF1FC00DF66D4 /* ItemsListView.swift */,
 				E3F237D9269DF35800DF66D4 /* ItemsListViewDelegate.swift */,
 				E3F237DF269DF8E700DF66D4 /* ItemsListGraph.swift */,
-				E32DD9C3269ECC8600E2BFF1 /* ItemsListViewCellDelegate.swift */,
 			);
 			path = ItemsList;
 			sourceTree = "<group>";

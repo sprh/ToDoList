@@ -14,9 +14,11 @@ public class ColorView: UIView {
         self.clipsToBounds = true
         self.layer.cornerRadius = 10
     }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     public override func draw(_ rect: CGRect) {
         self.clipsToBounds = true
         guard let context = UIGraphicsGetCurrentContext() else { return }
@@ -29,9 +31,11 @@ public class ColorView: UIView {
             context.fill(CGRect(x: abscissa, y: 0, width: elementSize, height: height))
         }
     }
+    
     public func getColor(value: Float) -> UIColor {
         return UIColor(hue: CGFloat(value), saturation: 1.0, brightness: 1.0, alpha: 1.0)
     }
+    
     public func getValue(color: UIColor) -> Float {
         var hue: CGFloat = 0
         var saturation: CGFloat = 1.0

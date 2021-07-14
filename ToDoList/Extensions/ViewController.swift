@@ -21,9 +21,11 @@ extension UIViewController {
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }
+    
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
+    
     /// Chnage a scroll view content inset and scroll indicator inset when keyboard is shown.
     /// This method is suitable not only for a scroll view but also for a table view.
     func keyboardWillShow(_ scrollView: UIScrollView) {
@@ -40,6 +42,7 @@ extension UIViewController {
             scrollView.scrollIndicatorInsets = contentInsets
         })
     }
+    
     /// Chnage a scroll view content inset and scroll indicator inset when keyboard is hidden.
     /// This method is suitable not only for a scroll view but also for a table view.
     func keyboardWillHide(_ scrollView: UIScrollView) {

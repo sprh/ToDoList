@@ -16,6 +16,7 @@ extension UIColor {
     static var segmentedSelected: UIColor = UIColor(named: "segmentedSelectedColor") ?? .gray
     static var azure: UIColor = UIColor(named: "azure") ?? .blue
     static var green: UIColor = #colorLiteral(red: 0.2052684426, green: 0.7807833552, blue: 0.3487253785, alpha: 1)
+    
     static func hexStringFromColor(color: UIColor) -> String {
         let components = color.cgColor.components
         let redColor: CGFloat = components?[0] ?? 0.0

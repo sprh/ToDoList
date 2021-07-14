@@ -9,30 +9,34 @@ import Foundation
 import Models
 
 final class ToDoService {
-    let fileCacheService: FileCacheService
-    let networkingService: DefaultNetworkingService
+    private(set) var fileCacheService: FileCacheService
+    private(set) var networkingService: DefaultNetworkingService
     var items: [ToDoItem] = []
-    private let itemsQueue = DispatchQueue(label: "ToDoService", attributes: [.concurrent])
+    let itemsQueue = DispatchQueue(label: "ToDoService", attributes: [.concurrent])
+    
     init(fileCacheService: FileCacheService, networkingService: DefaultNetworkingService) {
         self.fileCacheService = fileCacheService
         self.networkingService = networkingService
         loadFromDataBase(queue: itemsQueue) { result in
             switch result {
-            case .failure(_):
+            case .failure:
                 break
             case let .success(items):
                 self.items = items
             }
         }
     }
+    
     func getToDoItem(id: String) -> ToDoItem? {
         return items.first(where: {$0.id == id})
     }
+    
     func getToDoItems(withDone: Bool) -> [ToDoItem] {
         return itemsQueue.sync {
             (!withDone ? items.filter({!$0.done}) : items).sorted(by: {$0.createdAt < $1.createdAt})
         }
     }
+    
     func update(_ item: ToDoItem, queue: DispatchQueue, completion: @escaping (Result<ToDoItem, Error>) -> Void) {
         networkingService.update(item) { [weak self] result in
             if !(self?.items.contains(where: {$0.id == item.id}) ?? false) {
@@ -48,7 +52,7 @@ final class ToDoService {
                         completion(result)
                     }
                 }
-            case .failure(_):
+            case .failure:
                 let dirtyItem = item.markAsDirty()
                 self.items[index] = dirtyItem
                 self.fileCacheService.update(dirtyItem) { result in
@@ -59,6 +63,7 @@ final class ToDoService {
             }
         }
     }
+    
     func delete(_ id: String, queue: DispatchQueue, completion: @escaping (Result<String, Error>) -> Void) {
         guard let index = items.firstIndex(where: {$0.id == id}) else {
             return
@@ -67,7 +72,7 @@ final class ToDoService {
         networkingService.delete(id) { [weak self] result in
             guard let self = self else {return}
             switch result {
-            case .success(_):
+            case .success:
                 self.fileCacheService.deleteToDoItem(id) { result in
                     queue.async {
                         completion(result)
@@ -82,24 +87,26 @@ final class ToDoService {
             }
         }
     }
+    
     func create(_ item: ToDoItem, queue: DispatchQueue, completion: @escaping (Result<ToDoItem, Error>) -> Void) {
         networkingService.create(item) { [weak self] result in
             guard let self = self else { return }
             switch result {
-            case .success(_):
+            case .success:
                 self.items.append(item)
                 self.fileCacheService.create(item) {result in
                     queue.async {
                         completion(result)
                     }
                 }
-            case .failure(_):
+            case .failure:
                 let dirtyItem = item.markAsDirty()
                 self.items.append(dirtyItem)
                 self.fileCacheService.create(dirtyItem, completion: completion)
             }
         }
     }
+    
     func merge(addedItems: [ToDoItem],
                oldItems: [ToDoItem],
                queue: DispatchQueue,
@@ -132,7 +139,7 @@ final class ToDoService {
         }
         networkingService.putAll(addOrUpdateItems: addedOrUpdatedItems, deleteIds: deletedItems) { [weak self] result in
             switch result {
-            case .failure(_):
+            case .failure:
                 queue.async {
                     completion(resultItems)
                 }
@@ -144,24 +151,26 @@ final class ToDoService {
             }
         }
     }
+    
     func loadData(queue: DispatchQueue, completion: @escaping (Result<[ToDoItem], Error>) -> Void) {
         networkingService.getAll { result in
             switch result {
-            case .success(_):
+            case .success:
                 queue.async {
                     completion(result)
                 }
-            case .failure(_):
+            case .failure:
                 queue.async {
                     completion(result)
                 }
             }
         }
     }
+    
     func loadFromDataBase(queue: DispatchQueue, completion: @escaping (Result<[ToDoItem], Error>) -> Void) {
         fileCacheService.load { [weak self] result in
             switch result {
-            case .failure(_):
+            case .failure:
                 self?.items = []
             case let .success(items):
                 self?.items = items
@@ -171,12 +180,13 @@ final class ToDoService {
             }
         }
     }
+    
     func synchronize(_ items: [ToDoItem], queue: DispatchQueue,
                      completion: @escaping (Result<[ToDoItem], Error>) -> Void) {
         networkingService.getAll { [weak self] result in
             guard let self = self else {return}
             switch result {
-            case .failure(_):
+            case .failure:
                 queue.async {
                     completion(result)
                 }
@@ -189,7 +199,8 @@ final class ToDoService {
             }
         }
     }
+    
     func needToSynchronize() -> Bool {
-        return fileCacheService.dirties.count != 0 || fileCacheService.tombstones.count != 0
+        return !fileCacheService.dirties.isEmpty || !fileCacheService.tombstones.isEmpty
     }
 }
