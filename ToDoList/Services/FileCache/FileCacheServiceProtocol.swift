@@ -9,8 +9,8 @@ import UIKit
 import Models
 
 protocol FileCacheServiceProtocol {
-    func save(items: [ToDoItem], fileName: String, completion: @escaping (Result<[ToDoItem], Error>) -> Void)
-    func load(fileName: String, completion: @escaping (Result<[ToDoItem], Error>) -> Void)
+    func save(items: [ToDoItem], completion: @escaping (Result<[ToDoItem], Error>) -> Void)
+    func load(completion: @escaping (Result<[ToDoItem], Error>) -> Void)
     func getToDoItems(completion: @escaping (Result<[ToDoItem], Error>) -> Void)
     func getTombstones(completion: @escaping (Result<[Tombstone], Error>) -> Void)
     func create(_ item: ToDoItem, completion: @escaping (Result<ToDoItem, Error>) -> Void)

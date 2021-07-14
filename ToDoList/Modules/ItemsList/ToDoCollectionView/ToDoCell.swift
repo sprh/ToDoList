@@ -10,7 +10,6 @@ import Models
 
 /// ToDoCell is a cell that contains information about a ToDoItem that already exists.
 class ToDoCell: UITableViewCell {
-    weak var delegate: ItemsListView?
     lazy var toDoItem: ToDoItem = ToDoItem()
     let labelText = UILabel()
     var dateText = UILabel()

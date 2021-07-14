@@ -25,6 +25,7 @@
 		E3194CC7268FA45C00CB91FA /* ToDoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3194CC6268FA45C00CB91FA /* ToDoService.swift */; };
 		E3194CC9268FA46A00CB91FA /* ToDoProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3194CC8268FA46A00CB91FA /* ToDoProtocol.swift */; };
 		E31F4611268F2F3700CF2652 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31F4610268F2F3700CF2652 /* NetworkError.swift */; };
+		E32DD9C4269ECC8600E2BFF1 /* ItemsListViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32DD9C3269ECC8600E2BFF1 /* ItemsListViewCellDelegate.swift */; };
 		E33611112686187D00BE31CB /* NewToDoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33611102686187D00BE31CB /* NewToDoCell.swift */; };
 		E348778E2698D5C300F60C81 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E348778D2698D5C300F60C81 /* FileManager.swift */; };
 		E34A3908267BE04100546DAF /* FileCacheError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34A3907267BE04100546DAF /* FileCacheError.swift */; };
@@ -104,6 +105,7 @@
 		E3194CC6268FA45C00CB91FA /* ToDoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoService.swift; sourceTree = "<group>"; };
 		E3194CC8268FA46A00CB91FA /* ToDoProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoProtocol.swift; sourceTree = "<group>"; };
 		E31F4610268F2F3700CF2652 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		E32DD9C3269ECC8600E2BFF1 /* ItemsListViewCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsListViewCellDelegate.swift; sourceTree = "<group>"; };
 		E33611102686187D00BE31CB /* NewToDoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewToDoCell.swift; sourceTree = "<group>"; };
 		E348778D2698D5C300F60C81 /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
 		E34A3907267BE04100546DAF /* FileCacheError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCacheError.swift; sourceTree = "<group>"; };
@@ -389,6 +391,7 @@
 				E3F237D7269DF1FC00DF66D4 /* ItemsListView.swift */,
 				E3F237D9269DF35800DF66D4 /* ItemsListViewDelegate.swift */,
 				E3F237DF269DF8E700DF66D4 /* ItemsListGraph.swift */,
+				E32DD9C3269ECC8600E2BFF1 /* ItemsListViewCellDelegate.swift */,
 			);
 			path = ItemsList;
 			sourceTree = "<group>";
@@ -680,6 +683,7 @@
 				E3F237D4269DF1DE00DF66D4 /* ItemsListPresenter.swift in Sources */,
 				E3804D9C268F080500957844 /* FileCache.swift in Sources */,
 				E3169E23267E6439001C4FEE /* ToDoCell.swift in Sources */,
+				E32DD9C4269ECC8600E2BFF1 /* ItemsListViewCellDelegate.swift in Sources */,
 				E3CD751E2688F22B00FF2093 /* NetworkingService.swift in Sources */,
 				E30E6DF526766891008A55BF /* ViewController.swift in Sources */,
 				E3804D9B268F080500957844 /* FileCacheServiceProtocol.swift in Sources */,

@@ -37,20 +37,36 @@ class ItemsListPresenter {
         model.doneShown.toggle()
     }
     
-    func updateItem(_ item: ToDoItem) {
+    func updateItem(_ item: ToDoItem, at indexPath: IndexPath) {
         model.updateItem(item)
+        if !model.doneShown, item.done {
+            viewDelegate?.tableViewDeleteCell(at: indexPath)
+        } else {
+            viewDelegate?.tableViewReloadCell(at: indexPath)
+        }
+        if model.needToSynchronize {
+            synchronize()
+        }
     }
     
-    func updateItemDone(_ item: ToDoItem) {
-        updateItem(item.changeDone())
+    func updateItemDone(_ item: ToDoItem, at indexPath: IndexPath) {
+        updateItem(item.changeDone(), at: indexPath)
     }
     
-    func deleteItem(_ id: String) {
+    func deleteItem(_ id: String, at indexPath: IndexPath) {
         model.deleteItem(id)
+        viewDelegate?.tableViewDeleteCell(at: indexPath)
+        if model.needToSynchronize {
+            synchronize()
+        }
     }
     
     func addItem(_ item: ToDoItem) {
-        model.updateItem(item)
+        model.addItem(item)
+        viewDelegate?.tableViewAddCell()
+        if model.needToSynchronize {
+            synchronize()
+        }
     }
     
     func loadDataFromDataBase() {
@@ -80,5 +96,11 @@ class ItemsListPresenter {
             }
         }
         
+    }
+    
+    func synchronize() {
+        model.synchronize(model.allItems) { [weak self] _ in
+            self?.viewDelegate?.reloadItems()
+        }
     }
 }

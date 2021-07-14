@@ -12,7 +12,7 @@ import Models
 /// NewToDoCell is the last cell in the tableview on the ToDoView screen.
 /// This cell is used to add a new to do item without opening another screen.
 final class NewToDoCell: UITableViewCell {
-    weak var delegate: ItemsListViewDelegate?
+    weak var delegate: ItemsListViewCellDelegate?
     var textView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false

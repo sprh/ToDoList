@@ -107,6 +107,20 @@ class ItemsListView: UIViewController {
     }
 }
 
+extension ItemsListView: ItemsListViewCellDelegate {
+    func addItem(_ item: ToDoItem) {
+        presenter.addItem(item)
+    }
+    
+    func updateItem(_ item: ToDoItem, indexPath: IndexPath) {
+        presenter.updateItemDone(item, at: indexPath)
+    }
+    
+    func deleteItem(_ id: String, indexPath: IndexPath) {
+        presenter.deleteItem(id, at: indexPath)
+    }
+}
+
 extension ItemsListView: ItemsListViewDelegate {
     func reloadItems() {
         if isViewLoaded {
@@ -114,26 +128,26 @@ extension ItemsListView: ItemsListViewDelegate {
         }
     }
     
-    func addItem(_ item: ToDoItem) {
-        presenter.addItem(item)
-//        tableViewAddNew()
+    func tableViewAddCell() {
+        self.tableView.performBatchUpdates({
+            let itemsCount = tableView.numberOfRows(inSection: 0)
+            let index = IndexPath(row: itemsCount - 1, section: 0)
+            self.tableView.insertRows(at: [index], with: .fade)
+        }, completion: nil)
     }
-    
-    func updateItem(_ item: ToDoItem, indexPath: IndexPath) {
-//        cell.doneChanged()
-        presenter.updateItemDone(item)
-//        if !presenter.doneShown, item.done {
-//            tableViewDeleteCell(at: indexPath)
-//        } else {
-//            tableViewReloadCell(at: indexPath)
-//        }
-//        setShowLabelText()
+
+    func tableViewReloadCell(at indexPath: IndexPath) {
+        tableView.performBatchUpdates({
+            tableView.reloadRows(at: [indexPath], with: .fade)
+            setShowLabelText()
+        }, completion: nil)
     }
-    
-    func deleteItem(_ id: String, indexPath: IndexPath) {
-        presenter.deleteItem(id)
-        tableViewDeleteCell(at: indexPath)
-        setShowLabelText()
+
+    func tableViewDeleteCell(at indexPath: IndexPath) {
+        tableView.performBatchUpdates({
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            setShowLabelText()
+        }, completion: nil)
     }
     
 }
@@ -204,34 +218,11 @@ extension ItemsListView: UITableViewDelegate, UITableViewDataSource {
             handler: {[weak self] (_: UIContextualAction, _: UIView, success: (Bool) -> Void) in
             guard let cell = tableView.cellForRow(at: indexPath) as? ToDoCell else { success(false); return }
             self?.updateItem(cell.toDoItem.changeDone(), indexPath: indexPath)
-//            cell.doneChanged()
-//            self?.presenter.updateItemDone(cell.toDoItem)
-//            self?.setShowLabelText()
             success(true)
         })
         doneAction.image = .done
         doneAction.backgroundColor = .green
         return UISwipeActionsConfiguration(actions: [doneAction])
-    }
-
-    func tableViewAddNew() {
-        self.tableView.performBatchUpdates({
-            let itemsCount = tableView.numberOfRows(inSection: 0)
-            let index = IndexPath(row: itemsCount - 1, section: 0)
-            self.tableView.insertRows(at: [index], with: .fade)
-        }, completion: nil)
-    }
-
-    func tableViewReloadCell(at indexPath: IndexPath) {
-        tableView.performBatchUpdates({
-              tableView.reloadRows(at: [indexPath], with: .fade)
-        }, completion: nil)
-    }
-
-    func tableViewDeleteCell(at indexPath: IndexPath) {
-        tableView.performBatchUpdates({
-              tableView.deleteRows(at: [indexPath], with: .fade)
-        }, completion: nil)
     }
 }
 
