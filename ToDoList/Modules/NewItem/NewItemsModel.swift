@@ -9,14 +9,36 @@ import Foundation
 import Models
 
 final class NewItemModel {
-    let toDoItem: ToDoItem!
+    let toDoItem: ToDoItem?
     let indexPath: IndexPath?
     var standartColor: Bool = false
     var datePickerShown = false
     let importanceAsArray = ["low", "basic", "important"]
-    
-    init(_ toDoItem: ToDoItem, indexPath: IndexPath?) {
+    var itemIsNew: Bool {
+        toDoItem == nil
+    }
+    init(_ toDoItem: ToDoItem?, indexPath: IndexPath?) {
         self.toDoItem = toDoItem
         self.indexPath = indexPath
+    }
+    
+    func updateItem(text: String, importance: Int, deadline: Int?, color: String?) -> ToDoItem {
+        guard let toDoItem = toDoItem else {
+            return ToDoItem(text: text,
+                            importance: Importance.init(rawValue: importanceAsArray[importance]),
+                            deadline: deadline,
+                            color: color,
+                            updatedAt: nil,
+                            createdAt: (Int)(Date().timeIntervalSince1970))
+        }
+        return ToDoItem(id: toDoItem.id,
+                        text: text,
+                        importance: Importance.init(rawValue: importanceAsArray[importance]),
+                        deadline: deadline,
+                        color: color,
+                        done: toDoItem.done,
+                        updatedAt: (Int)(Date().timeIntervalSince1970),
+                        createdAt: toDoItem.createdAt,
+                        isDirty: toDoItem.isDirty)
     }
 }

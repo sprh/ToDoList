@@ -152,10 +152,9 @@ extension ItemsListView: UITableViewDelegate, UITableViewDataSource {
         if !(tableView.cellForRow(at: indexPath) is ToDoCell) { return nil}
         let trashAction =
             UIContextualAction(style: .normal, title: "",
-                               handler: {[weak self] (_: UIContextualAction, _: UIView, success: (Bool) -> Void) in
-                                guard let cell = tableView.cellForRow(at: indexPath) as? ToDoCell else { success(false); return }
-                                self?.presenter.deleteItem(cell.toDoItem.id, at: indexPath)
-                               })
+            handler: {[weak self] (_: UIContextualAction, _: UIView, success: (Bool) -> Void) in
+                guard let cell = tableView.cellForRow(at: indexPath) as? ToDoCell else { success(false); return }
+                self?.presenter.deleteItem(cell.toDoItem.id, at: indexPath) })
         trashAction.image = .trash
         trashAction.backgroundColor = .red
         return UISwipeActionsConfiguration(actions: [trashAction])
@@ -165,11 +164,10 @@ extension ItemsListView: UITableViewDelegate, UITableViewDataSource {
                    leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         if !(tableView.cellForRow(at: indexPath) is ToDoCell) { return nil}
         let doneAction = UIContextualAction(style: .normal, title: "",
-                                            handler: {[weak self] (_: UIContextualAction, _: UIView, success: (Bool) -> Void) in
-                                                guard let cell = tableView.cellForRow(at: indexPath) as? ToDoCell else { success(false); return }
-                                                self?.presenter.updateItem(cell.toDoItem.changeDone(), at: indexPath)
-                                                success(true)
-                                            })
+        handler: {[weak self] (_: UIContextualAction, _: UIView, success: (Bool) -> Void) in
+            guard let cell = tableView.cellForRow(at: indexPath) as? ToDoCell else { success(false); return }
+            self?.presenter.updateItem(cell.toDoItem.changeDone(), at: indexPath)
+            success(true) })
         doneAction.image = .done
         doneAction.backgroundColor = .green
         return UISwipeActionsConfiguration(actions: [doneAction])

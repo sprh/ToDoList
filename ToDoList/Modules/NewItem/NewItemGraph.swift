@@ -13,10 +13,11 @@ final class NewItemGraph {
     let view: NewItemView
     let model: NewItemModel
     
-    init(_ toDoItem: ToDoItem, indexPath: IndexPath?) {
+    init(_ toDoItem: ToDoItem, indexPath: IndexPath?, itemsListDelegate: ItemsListPresenterDelegate?) {
         model = NewItemModel(toDoItem, indexPath: indexPath)
         presenter = NewItemPresenter(model: model)
         view = NewItemView(presenter: presenter)
         presenter.viewDelegate = view
+        presenter.itemsListDelegate = itemsListDelegate
     }
 }

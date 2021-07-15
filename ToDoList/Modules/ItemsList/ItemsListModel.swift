@@ -76,8 +76,9 @@ final public class ItemsListModel {
         toDoService.merge(addedItems: addedItems, oldItems: oldItems, queue: queue, completion: completion)
     }
     
-    func prepareNewItemView(_ item: ToDoItem, indexPath: IndexPath?) -> NewItemView {
-        let graph = NewItemGraph(item, indexPath: indexPath)
+    func prepareNewItemView(_ item: ToDoItem, indexPath: IndexPath?,
+                            itemsListDelegate: ItemsListPresenterDelegate?) -> NewItemView {
+        let graph = NewItemGraph(item, indexPath: indexPath, itemsListDelegate: itemsListDelegate)
         return graph.view
     }
 }
