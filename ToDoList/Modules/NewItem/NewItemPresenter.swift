@@ -19,6 +19,10 @@ final class NewItemPresenter {
         get { return model.datePickerShown }
         set { model.datePickerShown = newValue }
     }
+    var itemIsNew: Bool {
+        model.itemIsNew
+    }
+    
     init(model: NewItemModel) {
         self.model = model
     }
@@ -37,5 +41,12 @@ final class NewItemPresenter {
         guard let id = model.toDoItem?.id,
               let indexPath = model.indexPath else { return }
         itemsListDelegate?.deleteItem(id, at: indexPath)
+    }
+    
+    func getData() -> (text: String, importance: Int, deadline: Int?,
+                       color: String?)? {
+        guard let item = model.toDoItem else { return nil }
+        let importance = model.importanceAsArray.firstIndex(of: item.importance.rawValue) ?? 1
+        return (text: item.text, importance, deadline: item.deadline, color: item.color)
     }
 }
