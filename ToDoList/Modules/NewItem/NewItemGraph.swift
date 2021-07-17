@@ -5,13 +5,17 @@
 //  Created by Софья Тимохина on 14.07.2021.
 //
 
-import Foundation
+import UIKit
 import Models
 
 final class NewItemGraph {
-    let presenter: NewItemPresenter
-    let view: NewItemView
-    let model: NewItemModel
+    private let presenter: NewItemPresenter
+    private let view: NewItemView
+    private let model: NewItemModel
+    
+    var viewController: NewItemView {
+        return view
+    }
     
     init(_ toDoItem: ToDoItem, indexPath: IndexPath?, itemsListDelegate: ItemsListPresenterDelegate?) {
         model = NewItemModel(toDoItem, indexPath: indexPath)

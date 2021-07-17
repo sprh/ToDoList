@@ -43,10 +43,9 @@ final class NewItemPresenter {
         itemsListDelegate?.deleteItem(id, at: indexPath)
     }
     
-    func getData() -> (text: String, importance: Int, deadline: Int?,
-                       color: String?)? {
-        guard let item = model.toDoItem else { return nil }
+    func getData() {
+        guard let item = model.toDoItem else { return }
         let importance = model.importanceAsArray.firstIndex(of: item.importance.rawValue) ?? 1
-        return (text: item.text, importance, deadline: item.deadline, color: item.color)
+        viewDelegate?.loadData((text: item.text, importance, deadline: item.deadline, color: item.color))
     }
 }

@@ -8,4 +8,5 @@
 import Foundation
 
 protocol NewItemViewDelegate: AnyObject {
+    func loadData(_ data: (text: String, importance: Int, deadline: Int?, color: String?))
 }

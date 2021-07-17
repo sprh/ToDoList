@@ -63,6 +63,11 @@ final class ItemsListView: UIViewController {
 }
 
 extension ItemsListView: ItemsListViewDelegate {
+    func presentViewController(_ viewController: UIViewController) {
+        let navigationController = UINavigationController(rootViewController: viewController)
+        present(navigationController, animated: true)
+    }
+    
     func reloadItems() {
         if isViewLoaded {
             tableView.reloadData()
@@ -142,9 +147,7 @@ extension ItemsListView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? ToDoCell else { return }
-        let viewController = presenter.prepareNewItemView(cell.toDoItem, indexPath: indexPath)
-        let navigationController = UINavigationController(rootViewController: viewController)
-        present(navigationController, animated: true)
+        presenter.prepareNewItemView(cell.toDoItem, indexPath: indexPath)
     }
     
     func tableView(_ tableView: UITableView,
@@ -182,8 +185,6 @@ extension ItemsListView {
     }
     
     @objc func addNewItem() {
-        let viewController = presenter.prepareNewItemView(ToDoItem(), indexPath: nil)
-        let navigationController = UINavigationController(rootViewController: viewController)
-        present(navigationController, animated: true)
+        presenter.prepareNewItemView(ToDoItem(), indexPath: nil)
     }
 }

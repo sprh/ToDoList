@@ -72,9 +72,9 @@ final class ItemsListPresenter {
         }
     }
     
-    func prepareNewItemView(_ item: ToDoItem, indexPath: IndexPath?) -> NewItemView {
-        let graph = model.prepareNewItemView(item, indexPath: indexPath, itemsListDelegate: self)
-        return graph
+    func prepareNewItemView(_ item: ToDoItem, indexPath: IndexPath?) {
+        let view = model.prepareNewItemView(item, indexPath: indexPath, itemsListDelegate: self)
+        viewDelegate?.presentViewController(view)
     }
 }
 

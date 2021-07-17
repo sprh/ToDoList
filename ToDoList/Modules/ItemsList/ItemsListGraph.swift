@@ -5,12 +5,16 @@
 //  Created by Софья Тимохина on 13.07.2021.
 //
 
-import Foundation
+import UIKit
 
 final class ItemsListGraph {
-    let view: ItemsListView
-    let presenter: ItemsListPresenter
-    let model: ItemsListModel
+    private let view: ItemsListView
+    private let presenter: ItemsListPresenter
+    private let model: ItemsListModel
+    
+    var viewController: ItemsListView {
+        return view
+    }
 
     public init(toDoService: ToDoService) {
         model = ItemsListModel(toDoService: toDoService)

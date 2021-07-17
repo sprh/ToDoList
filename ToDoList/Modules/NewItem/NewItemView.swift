@@ -81,7 +81,12 @@ final class NewItemView: UIViewController {
     }
     
     func loadData() {
-        guard let data = presenter.getData() else { return }
+        presenter.getData()
+    }
+}
+
+extension NewItemView: NewItemViewDelegate {
+    func loadData(_ data: (text: String, importance: Int, deadline: Int?, color: String?)) {
         view().textView.text = data.text
         view().segmentedControl.selectedSegmentIndex = data.importance
         if let deadline = data.deadline {
@@ -102,9 +107,7 @@ final class NewItemView: UIViewController {
             resetColor()
         }
     }
-}
-
-extension NewItemView: NewItemViewDelegate {
+    
 }
 
 extension NewItemView {

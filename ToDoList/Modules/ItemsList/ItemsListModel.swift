@@ -79,6 +79,6 @@ final public class ItemsListModel {
     func prepareNewItemView(_ item: ToDoItem, indexPath: IndexPath?,
                             itemsListDelegate: ItemsListPresenterDelegate?) -> NewItemView {
         let graph = NewItemGraph(item, indexPath: indexPath, itemsListDelegate: itemsListDelegate)
-        return graph.view
+        return graph.viewController
     }
 }
