@@ -37,6 +37,7 @@ final class ItemsListView: UIViewController {
     
     func setupView() {
         view = ItemsListInterface()
+        view()?.addSubviews()
         view()?.addButton.addTarget(self, action: #selector(addNewItem), for: .touchUpInside)
         navigationItem.title = "My to-dos".localized
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -112,6 +113,10 @@ extension ItemsListView: UITableViewDelegate, UITableViewDataSource {
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(ToDoCell.self)") as? ToDoCell else {
                 return UITableViewCell() }
+            if indexPath.row == 0 {
+                cell.layer.cornerRadius = 15
+                cell.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+            }
             let toDoItem = presenter.getItem(at: indexPath.row)
             cell.loadData(toDoItem: toDoItem)
             return cell
@@ -174,6 +179,10 @@ extension ItemsListView: UITableViewDelegate, UITableViewDataSource {
         doneAction.image = .done
         doneAction.backgroundColor = .green
         return UISwipeActionsConfiguration(actions: [doneAction])
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return UIView()
     }
 }
 

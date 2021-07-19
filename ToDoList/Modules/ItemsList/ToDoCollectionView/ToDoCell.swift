@@ -99,7 +99,6 @@ final class ToDoCell: UITableViewCell {
             case .important:
                 let attributeString: NSMutableAttributedString =
                     NSMutableAttributedString(string: "!!\(toDoItem.text)")
-                // TODO why it doesn't work(
                 attributeString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.red,
                                              range: NSRange(location: 0, length: 2))
                 labelText.attributedText = attributeString

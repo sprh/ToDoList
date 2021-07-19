@@ -19,6 +19,8 @@ final class NewToDoCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         backgroundColor = .subviewsBackground
         selectionStyle = .none
+        layer.cornerRadius = 15
+        layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
         addSubviews()
     }
     

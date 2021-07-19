@@ -13,8 +13,7 @@ final class ItemsListInterface: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .background
-        addSubviews()
+//        backgroundColor = .background
     }
     
     required init?(coder: NSCoder) {
@@ -22,7 +21,6 @@ final class ItemsListInterface: UIView {
     }
     
     func addSubviews() {
-        tableView.layer.cornerRadius = 20
         tableView.layer.masksToBounds = true
         tableView.isScrollEnabled = true
         tableView.delaysContentTouches = true
