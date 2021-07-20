@@ -14,4 +14,6 @@ protocol ItemsListViewDelegate: AnyObject {
     func tableViewReloadCell(at indexPath: IndexPath)
     func tableViewDeleteCell(at indexPath: IndexPath)
     func presentViewController(_ viewController: UIViewController)
+    func startAnimatingSpinner()
+    func stopAnimatingSpinner()
 }

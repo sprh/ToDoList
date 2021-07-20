@@ -41,6 +41,7 @@ public struct ToDoItem {
         self.color = color
         self.done = done
         self.createdAt = createdAt
+        self.updatedAt = updatedAt
         self.isDirty = isDirty
     }
     public init() {

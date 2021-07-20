@@ -38,6 +38,7 @@ final class ItemsListPresenter {
     }
     
     func loadDataFromDataBase() {
+        viewDelegate?.startAnimatingSpinner()
         model.loadFromDataBase { [weak self] result in
             switch result {
             case let .success(items):
@@ -57,9 +58,11 @@ final class ItemsListPresenter {
             case let .success(items):
                 self.model.merge(addedItems: self.model.allItems, oldItems: items, queue: .main) { result in
                     self.model.allItems = result
+                    self.viewDelegate?.stopAnimatingSpinner()
                     self.viewDelegate?.reloadItems()
                 }
             case .failure:
+                self.viewDelegate?.stopAnimatingSpinner()
                 return
             }
         }
@@ -67,7 +70,9 @@ final class ItemsListPresenter {
     }
     
     func synchronize() {
+        viewDelegate?.startAnimatingSpinner()
         model.synchronize(model.allItems) { [weak self] _ in
+            self?.viewDelegate?.stopAnimatingSpinner()
             self?.viewDelegate?.reloadItems()
         }
     }

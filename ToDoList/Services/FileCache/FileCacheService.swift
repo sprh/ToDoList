@@ -20,10 +20,10 @@ final class FileCacheService: FileCacheServiceProtocol {
               completion: @escaping (Result<[ToDoItem], Error>) -> Void) {
         queue.async { [weak self] in
             do {
+                try self?.fileCache.clearTombstones()
                 try self?.fileCache.save(items) { items in
                     completion(.success(items))
                 }
-                try self?.fileCache.clearTombstones()
             } catch let error {
                 completion(.failure(error))
             }

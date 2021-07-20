@@ -64,6 +64,14 @@ final class ItemsListView: UIViewController {
 }
 
 extension ItemsListView: ItemsListViewDelegate {
+    func stopAnimatingSpinner() {
+        view()?.spinner.stopAnimating()
+    }
+    
+    func startAnimatingSpinner() {
+        view()?.spinner.startAnimating()
+    }
+    
     func presentViewController(_ viewController: UIViewController) {
         let navigationController = UINavigationController(rootViewController: viewController)
         present(navigationController, animated: true)

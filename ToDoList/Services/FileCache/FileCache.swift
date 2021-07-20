@@ -54,9 +54,13 @@ final class FileCache {
         let dbItemsIds = dbItems.map({$0.id})
         let itemsToDelete = toDoItemsTable.filter(!itemsIds.contains(id))
         let itemsToAdd = items.filter({!dbItemsIds.contains($0.id)})
+        let itemsToUpdate = items.filter({dbItemsIds.contains($0.id)})
         try connection.run(itemsToDelete.delete())
         for item in itemsToAdd {
             try create(item)
+        }
+        for item in itemsToUpdate {
+            try update(item)
         }
         completion(items)
     }

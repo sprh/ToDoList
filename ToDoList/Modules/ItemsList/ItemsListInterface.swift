@@ -10,6 +10,7 @@ import UIKit
 final class ItemsListInterface: UIView {
     let tableView = UITableView()
     let addButton = UIButton()
+    var spinner = UIActivityIndicatorView(style: .large)
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -41,6 +42,13 @@ final class ItemsListInterface: UIView {
         NSLayoutConstraint.activate([
             addButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
             addButton.centerXAnchor.constraint(equalTo: centerXAnchor)
+        ])
+        
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(spinner)
+        NSLayoutConstraint.activate([
+            spinner.centerXAnchor.constraint(equalTo: centerXAnchor),
+            spinner.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
 }
