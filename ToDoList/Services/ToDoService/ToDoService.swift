@@ -14,7 +14,7 @@ final class ToDoService: ToDoServiceProtocol {
     var items: [ToDoItem] = []
     let itemsQueue = DispatchQueue(label: "ToDoService", attributes: [.concurrent])
     
-    init(fileCacheService: FileCacheService, networkingService: DefaultNetworkingService) {
+    init(fileCacheService: FileCacheServiceProtocol, networkingService: NetworkingService) {
         self.fileCacheService = fileCacheService
         self.networkingService = networkingService
         loadFromDataBase(queue: itemsQueue) { result in

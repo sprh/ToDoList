@@ -38,7 +38,6 @@ final class ItemsListView: UIViewController {
     
     func setupView() {
         view = ItemsListInterface()
-        view()?.addSubviews()
         view()?.addButton.addTarget(self, action: #selector(addNewItem), for: .touchUpInside)
         navigationItem.title = "My to-dos".localized
         navigationController?.navigationBar.prefersLargeTitles = true

@@ -52,6 +52,7 @@ final class NewItemView: UIViewController {
         navigationController?.navigationBar.topItem?.leftBarButtonItem = cancelButton
         saveButton = UIBarButtonItem(title: "Save".localized, style: .plain, target: self, action: #selector(save))
         navigationController?.navigationBar.topItem?.rightBarButtonItem = saveButton
+        saveButton?.accessibilityIdentifier = AccessibilityIdentifiers.NewItem.saveButton
         saveButton?.setTitleTextAttributes([NSAttributedString.Key.foregroundColor:
                                                 UIColor.textGray], for: .normal)
         saveButton?.isEnabled = false

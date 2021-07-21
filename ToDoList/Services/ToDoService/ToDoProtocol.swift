@@ -8,7 +8,7 @@
 import Foundation
 import Models
 
-protocol ToDoServiceProtocol {
+public protocol ToDoServiceProtocol {
     func update(_ item: ToDoItem, queue: DispatchQueue, completion: @escaping (Result<ToDoItem, Error>) -> Void)
     func delete(_ id: String, queue: DispatchQueue, completion: @escaping (Result<String, Error>) -> Void)
     func create(_ item: ToDoItem, queue: DispatchQueue, completion: @escaping (Result<ToDoItem, Error>) -> Void)

@@ -14,6 +14,7 @@ final class ItemsListInterface: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .background
+        addSubviews()
     }
     
     required init?(coder: NSCoder) {
@@ -43,5 +44,6 @@ final class ItemsListInterface: UIView {
             addButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
             addButton.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])
+        addButton.accessibilityIdentifier = AccessibilityIdentifiers.ItemsList.addButton
     }
 }

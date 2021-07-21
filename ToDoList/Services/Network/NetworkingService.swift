@@ -8,7 +8,7 @@
 import Foundation
 import Models
 
-protocol NetworkingService {
+public protocol NetworkingService {
     /// Get all to do items.
     func getAll(completion: @escaping (Result<[ToDoItem], Error>) -> Void)
     /// Add a new to do item.

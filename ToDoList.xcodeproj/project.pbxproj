@@ -37,6 +37,10 @@
 		E34A3908267BE04100546DAF /* FileCacheError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34A3907267BE04100546DAF /* FileCacheError.swift */; };
 		E353CF0226A86103007D1A6A /* ItemsListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E353CF0126A86103007D1A6A /* ItemsListTests.swift */; };
 		E353CF0526A861B4007D1A6A /* FakeToDoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E353CF0426A861B4007D1A6A /* FakeToDoService.swift */; };
+		E353CF0926A8AF66007D1A6A /* FakeNetworkingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E353CF0826A8AF66007D1A6A /* FakeNetworkingService.swift */; };
+		E353CF0B26A8AF71007D1A6A /* FakeFileCacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E353CF0A26A8AF71007D1A6A /* FakeFileCacheService.swift */; };
+		E353CF0D26A8B08F007D1A6A /* NewItemUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E353CF0C26A8B08F007D1A6A /* NewItemUITests.swift */; };
+		E353CF0F26A8B3A5007D1A6A /* AccessibilityIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E353CF0E26A8B3A5007D1A6A /* AccessibilityIdentifiers.swift */; };
 		E3804D9B268F080500957844 /* FileCacheServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3804D98268F080500957844 /* FileCacheServiceProtocol.swift */; };
 		E3804D9C268F080500957844 /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3804D99268F080500957844 /* FileCache.swift */; };
 		E3804D9D268F080500957844 /* FileCacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3804D9A268F080500957844 /* FileCacheService.swift */; };
@@ -113,6 +117,10 @@
 		E34A3907267BE04100546DAF /* FileCacheError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCacheError.swift; sourceTree = "<group>"; };
 		E353CF0126A86103007D1A6A /* ItemsListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsListTests.swift; sourceTree = "<group>"; };
 		E353CF0426A861B4007D1A6A /* FakeToDoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeToDoService.swift; sourceTree = "<group>"; };
+		E353CF0826A8AF66007D1A6A /* FakeNetworkingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeNetworkingService.swift; sourceTree = "<group>"; };
+		E353CF0A26A8AF71007D1A6A /* FakeFileCacheService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeFileCacheService.swift; sourceTree = "<group>"; };
+		E353CF0C26A8B08F007D1A6A /* NewItemUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewItemUITests.swift; sourceTree = "<group>"; };
+		E353CF0E26A8B3A5007D1A6A /* AccessibilityIdentifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityIdentifiers.swift; sourceTree = "<group>"; };
 		E3804D98268F080500957844 /* FileCacheServiceProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileCacheServiceProtocol.swift; sourceTree = "<group>"; };
 		E3804D99268F080500957844 /* FileCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileCache.swift; sourceTree = "<group>"; };
 		E3804D9A268F080500957844 /* FileCacheService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileCacheService.swift; sourceTree = "<group>"; };
@@ -218,6 +226,7 @@
 				E30540C5266A9611008C2083 /* LaunchScreen.storyboard */,
 				E30540C8266A9611008C2083 /* Info.plist */,
 				E3DB43A9266FF0A5003A2736 /* Localizable.strings */,
+				E353CF0E26A8B3A5007D1A6A /* AccessibilityIdentifiers.swift */,
 			);
 			path = ToDoList;
 			sourceTree = "<group>";
@@ -237,6 +246,7 @@
 			children = (
 				E30540DC266A9612008C2083 /* ToDoListUITests.swift */,
 				E30540DE266A9612008C2083 /* Info.plist */,
+				E353CF0C26A8B08F007D1A6A /* NewItemUITests.swift */,
 			);
 			path = ToDoListUITests;
 			sourceTree = "<group>";
@@ -306,6 +316,8 @@
 			isa = PBXGroup;
 			children = (
 				E353CF0426A861B4007D1A6A /* FakeToDoService.swift */,
+				E353CF0826A8AF66007D1A6A /* FakeNetworkingService.swift */,
+				E353CF0A26A8AF71007D1A6A /* FakeFileCacheService.swift */,
 			);
 			path = FakeServices;
 			sourceTree = "<group>";
@@ -678,6 +690,7 @@
 				E3804D9D268F080500957844 /* FileCacheService.swift in Sources */,
 				E3F237D6269DF1EB00DF66D4 /* ItemsListModel.swift in Sources */,
 				E3194CC7268FA45C00CB91FA /* ToDoService.swift in Sources */,
+				E353CF0F26A8B3A5007D1A6A /* AccessibilityIdentifiers.swift in Sources */,
 				E3169E3F267F6355001C4FEE /* NavigationBar.swift in Sources */,
 				E31F4611268F2F3700CF2652 /* NetworkError.swift in Sources */,
 			);
@@ -688,6 +701,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				E353CF0526A861B4007D1A6A /* FakeToDoService.swift in Sources */,
+				E353CF0B26A8AF71007D1A6A /* FakeFileCacheService.swift in Sources */,
+				E353CF0926A8AF66007D1A6A /* FakeNetworkingService.swift in Sources */,
 				E353CF0226A86103007D1A6A /* ItemsListTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -697,6 +712,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E30540DD266A9612008C2083 /* ToDoListUITests.swift in Sources */,
+				E353CF0D26A8B08F007D1A6A /* NewItemUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -789,7 +805,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -845,7 +861,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

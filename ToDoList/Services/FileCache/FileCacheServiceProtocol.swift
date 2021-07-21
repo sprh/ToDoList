@@ -8,7 +8,7 @@
 import UIKit
 import Models
 
-protocol FileCacheServiceProtocol {
+public protocol FileCacheServiceProtocol {
     var dirties: [ToDoItem] { get }
     var tombstones: [Tombstone] { get }
     func save(items: [ToDoItem], completion: @escaping (Result<[ToDoItem], Error>) -> Void)

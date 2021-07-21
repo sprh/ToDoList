@@ -121,6 +121,7 @@ final class NewItemInterface: UIView {
             textBottomAnchorConstraint
         ])
         textView.tintColor = .text
+        textView.accessibilityIdentifier = AccessibilityIdentifiers.NewItem.textView
     }
     
     private func setupStack() {
