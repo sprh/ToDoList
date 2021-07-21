@@ -10,11 +10,10 @@ import UIKit
 final class ItemsListInterface: UIView {
     let tableView = UITableView()
     let addButton = UIButton()
-    var spinner = UIActivityIndicatorView(style: .large)
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-//        backgroundColor = .background
+        backgroundColor = .background
     }
     
     required init?(coder: NSCoder) {
@@ -29,10 +28,11 @@ final class ItemsListInterface: UIView {
         tableView.register(ToDoCell.self, forCellReuseIdentifier: "\(ToDoCell.self)")
         tableView.register(NewToDoCell.self, forCellReuseIdentifier: "\(NewToDoCell.self)")
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.backgroundColor = .clear
         addSubview(tableView)
         NSLayoutConstraint.activate(
-            [tableView.leadingAnchor.constraint(equalTo: leadingAnchor),
-             tableView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            [tableView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+             tableView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
              tableView.topAnchor.constraint(equalTo: topAnchor),
              tableView.bottomAnchor.constraint(equalTo: bottomAnchor)])
         
@@ -42,13 +42,6 @@ final class ItemsListInterface: UIView {
         NSLayoutConstraint.activate([
             addButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
             addButton.centerXAnchor.constraint(equalTo: centerXAnchor)
-        ])
-        
-        spinner.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(spinner)
-        NSLayoutConstraint.activate([
-            spinner.centerXAnchor.constraint(equalTo: centerXAnchor),
-            spinner.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
 }

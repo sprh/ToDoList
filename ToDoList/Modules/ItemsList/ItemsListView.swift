@@ -10,6 +10,7 @@ import Models
 
 final class ItemsListView: UIViewController {
     let presenter: ItemsListPresenter!
+    var activityIndicator = UIActivityIndicatorView(style: .medium)
     func view() -> ItemsListInterface? {
         view as? ItemsListInterface
     }
@@ -43,6 +44,11 @@ final class ItemsListView: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .automatic
         navigationController?.navigationBar.sizeToFit()
+        let activityIndicatorButtonItem = UIBarButtonItem(customView: activityIndicator)
+        navigationItem.setRightBarButton(activityIndicatorButtonItem, animated: false)
+        activityIndicator.startAnimating()
+        activityIndicator.isHidden = true
+        activityIndicator.color = .blue
         hideKeyboardWhenTappedAround()
         keyboardWillShow(tableView)
         keyboardWillHide(tableView)
@@ -64,12 +70,14 @@ final class ItemsListView: UIViewController {
 }
 
 extension ItemsListView: ItemsListViewDelegate {
-    func stopAnimatingSpinner() {
-        view()?.spinner.stopAnimating()
+    func stopAnimatingActivityIndicator() {
+        activityIndicator.stopAnimating()
+        activityIndicator.isHidden = true
     }
     
-    func startAnimatingSpinner() {
-        view()?.spinner.startAnimating()
+    func startAnimatingActivityIndicator() {
+        activityIndicator.startAnimating()
+        activityIndicator.isHidden = false
     }
     
     func presentViewController(_ viewController: UIViewController) {

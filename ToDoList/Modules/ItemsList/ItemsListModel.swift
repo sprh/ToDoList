@@ -30,23 +30,26 @@ final public class ItemsListModel {
         return items.count <= index ? ToDoItem() : items[index]
     }
     
-    public func updateItem(_ item: ToDoItem) {
+    public func updateItem(_ item: ToDoItem, completion: @escaping () -> Void) {
         guard let index = allItems.firstIndex(where: {$0.id == item.id}) else { return }
         allItems[index] = item
         toDoService.update(item, queue: .main) { _ in
+            completion()
         }
     }
     
-    public func deleteItem(_ id: String) {
+    public func deleteItem(_ id: String, completion: @escaping () -> Void) {
         guard let index = allItems.firstIndex(where: {$0.id == id}) else { return }
         allItems.remove(at: index)
         toDoService.delete(id, queue: .main) { _ in
+            completion()
         }
     }
 
-    public func addItem(_ item: ToDoItem) {
+    public func addItem(_ item: ToDoItem, completion: @escaping () -> Void) {
         allItems.append(item)
         toDoService.create(item, queue: .main) { _ in
+            completion()
         }
     }
     

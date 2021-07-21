@@ -38,7 +38,7 @@ final class ItemsListPresenter {
     }
     
     func loadDataFromDataBase() {
-        viewDelegate?.startAnimatingSpinner()
+        viewDelegate?.startAnimatingActivityIndicator()
         model.loadFromDataBase { [weak self] result in
             switch result {
             case let .success(items):
@@ -58,11 +58,11 @@ final class ItemsListPresenter {
             case let .success(items):
                 self.model.merge(addedItems: self.model.allItems, oldItems: items, queue: .main) { result in
                     self.model.allItems = result
-                    self.viewDelegate?.stopAnimatingSpinner()
+                    self.viewDelegate?.stopAnimatingActivityIndicator()
                     self.viewDelegate?.reloadItems()
                 }
             case .failure:
-                self.viewDelegate?.stopAnimatingSpinner()
+                self.viewDelegate?.stopAnimatingActivityIndicator()
                 return
             }
         }
@@ -70,9 +70,9 @@ final class ItemsListPresenter {
     }
     
     func synchronize() {
-        viewDelegate?.startAnimatingSpinner()
+        viewDelegate?.startAnimatingActivityIndicator()
         model.synchronize(model.allItems) { [weak self] _ in
-            self?.viewDelegate?.stopAnimatingSpinner()
+            self?.viewDelegate?.stopAnimatingActivityIndicator()
             self?.viewDelegate?.reloadItems()
         }
     }
@@ -85,7 +85,10 @@ final class ItemsListPresenter {
 
 extension ItemsListPresenter: ItemsListPresenterDelegate {
     func updateItem(_ item: ToDoItem, at indexPath: IndexPath) {
-        model.updateItem(item)
+        viewDelegate?.startAnimatingActivityIndicator()
+        model.updateItem(item) { [weak self] in
+            self?.viewDelegate?.stopAnimatingActivityIndicator()
+        }
         if !model.doneShown, item.done {
             viewDelegate?.tableViewDeleteCell(at: indexPath)
         } else {
@@ -101,7 +104,10 @@ extension ItemsListPresenter: ItemsListPresenterDelegate {
     }
     
     func deleteItem(_ id: String, at indexPath: IndexPath) {
-        model.deleteItem(id)
+        viewDelegate?.startAnimatingActivityIndicator()
+        model.deleteItem(id) { [weak self] in
+            self?.viewDelegate?.stopAnimatingActivityIndicator()
+        }
         viewDelegate?.tableViewDeleteCell(at: indexPath)
         if model.needToSynchronize {
             synchronize()
@@ -109,7 +115,10 @@ extension ItemsListPresenter: ItemsListPresenterDelegate {
     }
     
     func addItem(_ item: ToDoItem) {
-        model.addItem(item)
+        viewDelegate?.startAnimatingActivityIndicator()
+        model.addItem(item) { [weak self] in
+            self?.viewDelegate?.stopAnimatingActivityIndicator()
+        }
         viewDelegate?.tableViewAddCell()
         if model.needToSynchronize {
             synchronize()
