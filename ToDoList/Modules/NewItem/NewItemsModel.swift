@@ -22,10 +22,17 @@ final class NewItemModel {
         self.indexPath = indexPath
     }
     
-    func updateItem(text: String, importance: Int, deadline: Int?, color: String?) -> ToDoItem {
+    func areThereAnyDifferences(text: String, color: String?, deadline: Int?, importanceIndex: Int) -> Bool {
+        guard let toDoItem = toDoItem else { return true }
+        return toDoItem.text != text ||
+            toDoItem.color != color ||
+            toDoItem.deadline != deadline ||
+            toDoItem.importance != Importance.init(rawValue: importanceAsArray[importanceIndex])
+    }
+    func updateItem(text: String, importanceIndex: Int, deadline: Int?, color: String?) -> ToDoItem {
         guard let toDoItem = toDoItem else {
             return ToDoItem(text: text,
-                            importance: Importance.init(rawValue: importanceAsArray[importance]),
+                            importance: Importance.init(rawValue: importanceAsArray[importanceIndex]),
                             deadline: deadline,
                             color: color,
                             updatedAt: nil,
@@ -33,7 +40,7 @@ final class NewItemModel {
         }
         return ToDoItem(id: toDoItem.id,
                         text: text,
-                        importance: Importance.init(rawValue: importanceAsArray[importance]),
+                        importance: Importance.init(rawValue: importanceAsArray[importanceIndex]),
                         deadline: deadline,
                         color: color,
                         done: toDoItem.done,

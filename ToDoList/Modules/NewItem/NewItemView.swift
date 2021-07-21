@@ -83,9 +83,33 @@ final class NewItemView: UIViewController {
     func loadData() {
         presenter.getData()
     }
+    
+    func dataWasChanged() {
+        let color = presenter.standartColor ? nil : UIColor.hexStringFromColor(color: view().textView.textColor!)
+        let deadline = view().deadlineSwitch.isOn ? (Int)(view().deadlinePicker.date.timeIntervalSince1970) : nil
+        presenter.dataWasChanged(text: view().textView.text,
+                                 color: color,
+                                 deadline: deadline,
+                                 importance: view().segmentedControl.selectedSegmentIndex)
+    }
 }
 
 extension NewItemView: NewItemViewDelegate {
+    func updateVisibility(_ saveButtonIsEnabled: Bool) {
+        if saveButtonIsEnabled {
+            saveButton?.isEnabled = true
+            saveButton?.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.blue], for: .normal)
+            view().deleteButton.setTitleColor(#colorLiteral(red: 0.8694987297, green: 0, blue: 0.2487540245, alpha: 1), for: .normal)
+            view().deleteButton.isEnabled = true
+            saveButton?.isEnabled = true
+        } else {
+            view().deleteButton.isEnabled = false
+            saveButton?.isEnabled = false
+            saveButton?.tintColor = .black
+            view().deleteButton.setTitleColor(.textGray, for: .normal)
+        }
+    }
+    
     func loadData(_ data: (text: String, importance: Int, deadline: Int?, color: String?)) {
         view().textView.text = data.text
         view().segmentedControl.selectedSegmentIndex = data.importance
@@ -96,7 +120,6 @@ extension NewItemView: NewItemViewDelegate {
             view().deadlinePicker.date = Date.init(timeIntervalSince1970: Double(deadline))
             view().dateButton.setTitle(view().deadlinePicker.formattedDate(), for: .normal)
         }
-        setupVisibility()
         textViewDidChange(view().textView)
         colorWasChanged()
         if let hexString = data.color {
@@ -132,7 +155,7 @@ extension NewItemView {
     @objc func save() {
         let color = presenter.standartColor ? nil :
             UIColor.hexStringFromColor(color: view().colorSlider.thumbTintColor!)
-        let deadline = presenter.datePickerShown ? (Int)(view().deadlinePicker.date.timeIntervalSince1970) : nil
+        let deadline = view().deadlineSwitch.isOn ? (Int)(view().deadlinePicker.date.timeIntervalSince1970) : nil
         presenter.save(text: view().textView.text,
                        importance: view().segmentedControl.selectedSegmentIndex,
                        deadline: deadline,
@@ -154,6 +177,7 @@ extension NewItemView {
     
     @objc func dateWasChanged() {
         view().dateButton.setTitle(view().deadlinePicker.formattedDate(), for: .normal)
+        dataWasChanged()
     }
     
     @objc func deadlineSwitched() {
@@ -164,6 +188,7 @@ extension NewItemView {
             view().deadlineTopAnchorConstraint.constant = 73.5
         }
         hideShowDatePicker()
+        dateWasChanged()
     }
     
     @objc func resetColor() {
@@ -173,6 +198,7 @@ extension NewItemView {
         view().textView.tintColor = color
         view().standartColorButton.layer.borderColor = UIColor.textGray.cgColor
         view().colorView.layer.borderColor = UIColor.clear.cgColor
+        dataWasChanged()
     }
     
     @objc func colorWasChanged() {
@@ -183,6 +209,7 @@ extension NewItemView {
         view().textView.tintColor = color
         view().colorView.layer.borderColor = UIColor.text.cgColor
         view().standartColorButton.layer.borderColor = UIColor.clear.cgColor
+        dataWasChanged()
     }
 }
 
@@ -192,21 +219,6 @@ extension NewItemView: UITextViewDelegate {
         let textHeight = view().textView.sizeThatFits(view().textView.bounds.size).height + 20
         view().textBottomAnchorConstraint.constant = max(136, textHeight)
         view().scrollView.contentSize.height += view().textBottomAnchorConstraint.constant - oldConstraint
-        setupVisibility()
-    }
-    
-    func setupVisibility() {
-        if view().textView.text.isEmpty || view().textView.text == "" {
-            view().deleteButton.isEnabled = false
-            saveButton?.isEnabled = false
-            saveButton?.setTitleTextAttributes([NSAttributedString.Key.foregroundColor:
-                                                    UIColor.textGray], for: .normal)
-            view().deleteButton.setTitleColor(.textGray, for: .normal)
-        } else {
-            saveButton?.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.blue], for: .normal)
-            view().deleteButton.setTitleColor(#colorLiteral(red: 0.8694987297, green: 0, blue: 0.2487540245, alpha: 1), for: .normal)
-            view().deleteButton.isEnabled = true
-            saveButton?.isEnabled = true
-        }
+        dataWasChanged()
     }
 }

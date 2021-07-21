@@ -27,9 +27,8 @@ final class NewItemPresenter {
         self.model = model
     }
     
-    func save(text: String, importance: Int, deadline: Int?,
-              color: String?) {
-        let newItem = model.updateItem(text: text, importance: importance, deadline: deadline, color: color)
+    func save(text: String, importance: Int, deadline: Int?, color: String?) {
+        let newItem = model.updateItem(text: text, importanceIndex: importance, deadline: deadline, color: color)
         guard let indexPath = model.indexPath else {
             itemsListDelegate?.addItem(newItem)
             return
@@ -47,5 +46,14 @@ final class NewItemPresenter {
         guard let item = model.toDoItem else { return }
         let importance = model.importanceAsArray.firstIndex(of: item.importance.rawValue) ?? 1
         viewDelegate?.loadData((text: item.text, importance, deadline: item.deadline, color: item.color))
+    }
+    
+    func dataWasChanged(text: String?, color: String?, deadline: Int?, importance: Int) {
+        guard let text = text,
+              !text.isEmpty else { viewDelegate?.updateVisibility(false); return }
+        viewDelegate?.updateVisibility(model.areThereAnyDifferences(text: text,
+                                                                    color: color,
+                                                                    deadline: deadline,
+                                                                    importanceIndex: importance))
     }
 }
