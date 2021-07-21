@@ -13,7 +13,6 @@
 		E30540BB266A960F008C2083 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30540BA266A960F008C2083 /* AppDelegate.swift */; };
 		E30540C4266A9611008C2083 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E30540C3266A9611008C2083 /* Assets.xcassets */; };
 		E30540C7266A9611008C2083 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E30540C5266A9611008C2083 /* LaunchScreen.storyboard */; };
-		E30540D2266A9612008C2083 /* ToDoListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30540D1266A9612008C2083 /* ToDoListTests.swift */; };
 		E30540DD266A9612008C2083 /* ToDoListUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30540DC266A9612008C2083 /* ToDoListUITests.swift */; };
 		E30540F6266A96B4008C2083 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30540F5266A96B4008C2083 /* AboutViewController.swift */; };
 		E30540FB266A96BD008C2083 /* AboutModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30540FA266A96BD008C2083 /* AboutModel.swift */; };
@@ -36,6 +35,8 @@
 		E33611112686187D00BE31CB /* NewToDoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33611102686187D00BE31CB /* NewToDoCell.swift */; };
 		E348778E2698D5C300F60C81 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E348778D2698D5C300F60C81 /* FileManager.swift */; };
 		E34A3908267BE04100546DAF /* FileCacheError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34A3907267BE04100546DAF /* FileCacheError.swift */; };
+		E353CF0226A86103007D1A6A /* ItemsListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E353CF0126A86103007D1A6A /* ItemsListTests.swift */; };
+		E353CF0526A861B4007D1A6A /* FakeToDoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E353CF0426A861B4007D1A6A /* FakeToDoService.swift */; };
 		E3804D9B268F080500957844 /* FileCacheServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3804D98268F080500957844 /* FileCacheServiceProtocol.swift */; };
 		E3804D9C268F080500957844 /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3804D99268F080500957844 /* FileCache.swift */; };
 		E3804D9D268F080500957844 /* FileCacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3804D9A268F080500957844 /* FileCacheService.swift */; };
@@ -85,7 +86,6 @@
 		E30540C6266A9611008C2083 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E30540C8266A9611008C2083 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E30540CD266A9612008C2083 /* ToDoListTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ToDoListTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		E30540D1266A9612008C2083 /* ToDoListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListTests.swift; sourceTree = "<group>"; };
 		E30540D3266A9612008C2083 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E30540D8266A9612008C2083 /* ToDoListUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ToDoListUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E30540DC266A9612008C2083 /* ToDoListUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListUITests.swift; sourceTree = "<group>"; };
@@ -111,6 +111,8 @@
 		E33611102686187D00BE31CB /* NewToDoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewToDoCell.swift; sourceTree = "<group>"; };
 		E348778D2698D5C300F60C81 /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
 		E34A3907267BE04100546DAF /* FileCacheError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCacheError.swift; sourceTree = "<group>"; };
+		E353CF0126A86103007D1A6A /* ItemsListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsListTests.swift; sourceTree = "<group>"; };
+		E353CF0426A861B4007D1A6A /* FakeToDoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeToDoService.swift; sourceTree = "<group>"; };
 		E3804D98268F080500957844 /* FileCacheServiceProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileCacheServiceProtocol.swift; sourceTree = "<group>"; };
 		E3804D99268F080500957844 /* FileCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileCache.swift; sourceTree = "<group>"; };
 		E3804D9A268F080500957844 /* FileCacheService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileCacheService.swift; sourceTree = "<group>"; };
@@ -223,8 +225,9 @@
 		E30540D0266A9612008C2083 /* ToDoListTests */ = {
 			isa = PBXGroup;
 			children = (
-				E30540D1266A9612008C2083 /* ToDoListTests.swift */,
+				E353CF0326A86197007D1A6A /* FakeServices */,
 				E30540D3266A9612008C2083 /* Info.plist */,
+				E353CF0126A86103007D1A6A /* ItemsListTests.swift */,
 			);
 			path = ToDoListTests;
 			sourceTree = "<group>";
@@ -297,6 +300,14 @@
 				E32DD9D4269EE91400E2BFF1 /* NewItemInterface.swift */,
 			);
 			path = NewItem;
+			sourceTree = "<group>";
+		};
+		E353CF0326A86197007D1A6A /* FakeServices */ = {
+			isa = PBXGroup;
+			children = (
+				E353CF0426A861B4007D1A6A /* FakeToDoService.swift */,
+			);
+			path = FakeServices;
 			sourceTree = "<group>";
 		};
 		E3804D97268F07FD00957844 /* FileCache */ = {
@@ -676,7 +687,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E30540D2266A9612008C2083 /* ToDoListTests.swift in Sources */,
+				E353CF0526A861B4007D1A6A /* FakeToDoService.swift in Sources */,
+				E353CF0226A86103007D1A6A /* ItemsListTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,7 +9,7 @@ import Foundation
 import Models
 
 final public class ItemsListModel {
-    let toDoService: ToDoService!
+    let toDoService: ToDoServiceProtocol!
     var allItems: [ToDoItem] = []
     var doneShown: Bool = false
     var items: [ToDoItem] {
