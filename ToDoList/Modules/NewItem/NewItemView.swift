@@ -116,8 +116,9 @@ extension NewItemView: NewItemViewDelegate {
         if let deadline = data.deadline {
             view().deadlineSwitch.isOn = true
             deadlineSwitched()
-            view().deadlinePicker.minimumDate = Date.init(timeIntervalSince1970: Double(deadline))
-            view().deadlinePicker.date = Date.init(timeIntervalSince1970: Double(deadline))
+            let deadlineDate = Date.init(timeIntervalSince1970: Double(deadline))
+            view().deadlinePicker.minimumDate = min(Date(), deadlineDate)
+            view().deadlinePicker.date = deadlineDate
             view().dateButton.setTitle(view().deadlinePicker.formattedDate(), for: .normal)
         }
         textViewDidChange(view().textView)
@@ -130,7 +131,6 @@ extension NewItemView: NewItemViewDelegate {
             resetColor()
         }
     }
-    
 }
 
 extension NewItemView {
@@ -173,6 +173,7 @@ extension NewItemView {
     
     @objc func dateButtonClick() {
         presenter.datePickerShown.toggle()
+        hideShowDatePicker()
     }
     
     @objc func dateWasChanged() {
