@@ -22,7 +22,7 @@ final public class ItemsListModel {
         return toDoService.needToSynchronize()
     }
 
-    init(toDoService: ToDoService) {
+    init(toDoService: ToDoServiceProtocol) {
         self.toDoService = toDoService
     }
 

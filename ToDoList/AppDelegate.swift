@@ -17,14 +17,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow()
         let navigationController = UINavigationController()
-        let fileCache = FileCacheService(fileCache: FileCache())
-        let networkingService = DefaultNetworkingService()
-        let toDoService = ToDoService(fileCacheService: fileCache, networkingService: networkingService)
+        let toDoService = createServices()
         let graph = ItemsListGraph(toDoService: toDoService)
         let viewController = graph.viewController
         navigationController.pushViewController(viewController, animated: true)
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
         return true
+    }
+    
+    func createServices() -> ToDoServiceProtocol {
+        if ProcessInfo.processInfo.arguments.contains("testing") {
+            let fileCacheService = FakeFileCacheService()
+            let networkingService = FakeNetworkingService()
+            let toDoService = ToDoService(fileCacheService: fileCacheService, networkingService: networkingService)
+            return toDoService
+        } else {
+            let fileCacheService = FileCacheService(fileCache: FileCache())
+            let networkingService = DefaultNetworkingService()
+            let toDoService = ToDoService(fileCacheService: fileCacheService, networkingService: networkingService)
+            return toDoService
+        }
     }
 }

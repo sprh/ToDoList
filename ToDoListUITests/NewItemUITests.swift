@@ -8,7 +8,6 @@
 import XCTest
 @testable import ToDoList
 
-
 enum AccessibilityIdentifiers {
     enum ItemsList {
         static let addButton = "add_button"
@@ -19,23 +18,23 @@ enum AccessibilityIdentifiers {
     }
 }
 
-
 class NewItemUITests: XCTestCase {
-    let app = XCUIApplication()
-    
     func testAvailableSeveButtonIfWeTryToCreateNewItemAndChangeText() {
-        app.activate()
+        let app = XCUIApplication()
+        app.launchArguments.append("testing")
+        app.launch()
         app.buttons[AccessibilityIdentifiers.ItemsList.addButton].tap()
         let saveButton = app.buttons[AccessibilityIdentifiers.NewItem.saveButton]
         let textView = app.textViews[AccessibilityIdentifiers.NewItem.textView]
         textView.tap()
         textView.typeText("The save button should now be enabled")
         XCTAssertTrue(saveButton.isEnabled)
-        app.terminate()
     }
     
     func testSaveButtonShouldBecameUnenabledAfterTextWasDeleted() {
-        app.activate()
+        let app = XCUIApplication()
+        app.launchArguments.append("testing")
+        app.launch()
         app.buttons[AccessibilityIdentifiers.ItemsList.addButton].tap()
         let saveButton = app.buttons[AccessibilityIdentifiers.NewItem.saveButton]
         let textView = app.textViews[AccessibilityIdentifiers.NewItem.textView]
@@ -44,6 +43,5 @@ class NewItemUITests: XCTestCase {
         textView.typeText(inputText)
         textView.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: inputText.count))
         XCTAssertFalse(saveButton.isEnabled)
-        app.terminate()
     }
 }

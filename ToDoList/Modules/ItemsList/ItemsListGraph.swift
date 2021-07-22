@@ -16,7 +16,7 @@ final class ItemsListGraph {
         return view
     }
 
-    public init(toDoService: ToDoService) {
+    public init(toDoService: ToDoServiceProtocol) {
         model = ItemsListModel(toDoService: toDoService)
         presenter = ItemsListPresenter(model: model)
         view = ItemsListView(presenter: presenter)

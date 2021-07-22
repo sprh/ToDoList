@@ -9,6 +9,8 @@ import Foundation
 import Models
 
 public protocol ToDoServiceProtocol {
+    var fileCacheService: FileCacheServiceProtocol { get }
+    var networkingService: NetworkingService { get }
     func update(_ item: ToDoItem, queue: DispatchQueue, completion: @escaping (Result<ToDoItem, Error>) -> Void)
     func delete(_ id: String, queue: DispatchQueue, completion: @escaping (Result<String, Error>) -> Void)
     func create(_ item: ToDoItem, queue: DispatchQueue, completion: @escaping (Result<ToDoItem, Error>) -> Void)
