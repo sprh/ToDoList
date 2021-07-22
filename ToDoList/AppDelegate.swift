@@ -28,15 +28,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func createServices() -> ToDoServiceProtocol {
         if ProcessInfo.processInfo.arguments.contains("testing") {
-            let fileCacheService = FakeFileCacheService()
-            let networkingService = FakeNetworkingService()
-            let toDoService = ToDoService(fileCacheService: fileCacheService, networkingService: networkingService)
-            return toDoService
+            let service = FakeToDoService()
+            return service
         } else {
-            let fileCacheService = FileCacheService(fileCache: FileCache())
-            let networkingService = DefaultNetworkingService()
-            let toDoService = ToDoService(fileCacheService: fileCacheService, networkingService: networkingService)
-            return toDoService
+            let graph = ToDoServiceGraph()
+            return graph.toDoService
         }
     }
 }

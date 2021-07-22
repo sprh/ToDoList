@@ -30,6 +30,8 @@ final class ItemsListInterface: UIView {
         tableView.register(NewToDoCell.self, forCellReuseIdentifier: "\(NewToDoCell.self)")
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.backgroundColor = .clear
+        tableView.accessibilityIdentifier = AccessibilityIdentifiers.ItemsList.tableView
+        
         addSubview(tableView)
         NSLayoutConstraint.activate(
             [tableView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),

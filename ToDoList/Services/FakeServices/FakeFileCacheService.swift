@@ -19,6 +19,7 @@ final class FakeFileCacheService: FileCacheServiceProtocol {
     }
     
     func load(completion: @escaping (Result<[ToDoItem], Error>) -> Void) {
+        completion(.success([ToDoItem(text: "Fake item", updatedAt: nil)]))
     }
     
     func getToDoItems(completion: @escaping (Result<[ToDoItem], Error>) -> Void) {

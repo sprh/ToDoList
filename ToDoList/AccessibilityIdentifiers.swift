@@ -10,9 +10,15 @@ import Foundation
 enum AccessibilityIdentifiers {
     enum ItemsList {
         static let addButton = "add_button"
+        static let tableView = "table_view"
     }
     enum NewItem {
         static let textView = "text_view"
         static let saveButton = "save_button"
+        static let deadlineSwitch = "deadline_switch"
+        static let segmentedControl = "segmented_control"
+        static let deleteButton = "delete_button"
+        static let deadlinePicker = "deadline_picker"
+        static let dateButton = "date_button"
     }
 }

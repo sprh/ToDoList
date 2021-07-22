@@ -31,7 +31,7 @@ public struct ToDoItem {
                 deadline: Int? = nil,
                 color: String? = nil,
                 done: Bool = false,
-                updatedAt: Int?,
+                updatedAt: Int? = nil,
                 createdAt: Int = Int(Date().timeIntervalSince1970),
                 isDirty: Bool = false) {
         self.id = id ?? UUID().uuidString
@@ -92,3 +92,5 @@ public extension ToDoItem {
         isDirty = false
     }
 }
+
+extension ToDoItem: Equatable {}

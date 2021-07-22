@@ -9,7 +9,7 @@ import Models
 
 class FakeNetworkingService: NetworkingService {
     func getAll(completion: @escaping (Result<[ToDoItem], Error>) -> Void) {
-        completion(.success([ToDoItem(text: "FakeItem", updatedAt: nil)]))
+        completion(.success([ToDoItem(text: "Fake item", updatedAt: nil)]))
     }
     
     func create(_ toDoItem: ToDoItem, completion: @escaping (Result<ToDoItem, Error>) -> Void) {
