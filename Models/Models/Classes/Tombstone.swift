@@ -14,6 +14,7 @@ public struct Tombstone {
         self.id = id
         deletedAt = Int(Date().timeIntervalSince1970)
     }
+    
     public init(id: String, deletedAt: Int) {
         self.id = id
         self.deletedAt = deletedAt

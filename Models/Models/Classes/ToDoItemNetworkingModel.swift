@@ -24,6 +24,7 @@ public struct ToDoItemNetworkingModel: Codable {
         createdAt = toDoItem.createdAt
         updatedAt = toDoItem.updatedAt
     }
+    
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(String.self, forKey: .id)
@@ -34,6 +35,7 @@ public struct ToDoItemNetworkingModel: Codable {
         self.createdAt = try container.decode(Int.self, forKey: .createdAt)
         self.updatedAt = try container.decode(Int?.self, forKey: .updatedAt)
     }
+    
     enum CodingKeys: String, CodingKey {
         case id
         case text
@@ -43,6 +45,7 @@ public struct ToDoItemNetworkingModel: Codable {
         case createdAt = "created_at"
         case updatedAt = "updated_at"
     }
+    
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
@@ -53,6 +56,7 @@ public struct ToDoItemNetworkingModel: Codable {
         try container.encode(createdAt, forKey: .createdAt)
         try container.encode(updatedAt, forKey: .updatedAt)
     }
+    
     public var json: [String: Any?] {
         return ["id": id,
                 "text": text,

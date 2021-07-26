@@ -49,7 +49,7 @@ public struct ToDoItem {
         self.text = ""
         self.importance = .basic
         self.deadline = nil
-        self.color = "#000000"
+        self.color = nil
         self.done = false
         self.createdAt = Int(Date().timeIntervalSince1970)
         self.updatedAt = Int(Date().timeIntervalSince1970)
@@ -80,12 +80,12 @@ public struct ToDoItem {
 }
 
 public extension ToDoItem {
-    public init(_ networkingModel: ToDoItemNetworkingModel) {
+    init(_ networkingModel: ToDoItemNetworkingModel) {
         id = networkingModel.id
         text = networkingModel.text
         importance = Importance.init(rawValue: networkingModel.importance) ?? .basic
         deadline = networkingModel.deadline
-        color = "#000000"
+        color = nil
         done = networkingModel.done
         createdAt = networkingModel.createdAt
         updatedAt = networkingModel.updatedAt
