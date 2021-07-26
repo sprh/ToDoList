@@ -8,27 +8,24 @@
 import XCTest
 @testable import ToDoList
 
-enum AccessibilityIdentifiers {
-    enum ItemsList {
-        static let addButton = "add_button"
-        static let tableView = "table_view"
-    }
-    enum NewItem {
-        static let textView = "text_view"
-        static let saveButton = "save_button"
-        static let deadlineSwitch = "deadline_switch"
-        static let segmentedControl = "segmented_control"
-        static let deleteButton = "delete_button"
-        static let deadlinePicker = "deadline_picker"
-        static let dateButton = "date_button"
-    }
-}
-
 class NewItemUITests: XCTestCase {
-    func testSaveButtonIsEnabledAfterTextWasChanged_WithNewItem() {
-        let app = XCUIApplication()
+    let app = XCUIApplication()
+    func selectFirstCellIfExists() -> Bool {
+        let tableView = app.tables[AccessibilityIdentifiers.ItemsList.tableView]
+        if tableView.cells.element(boundBy: 0).exists {
+            tableView.cells.element(boundBy: 0).tap()
+            return true
+        }
+        return false
+    }
+    
+    func launch() {
         app.launchArguments.append("testing")
         app.launch()
+    }
+    
+    func testSaveButtonIsEnabledAfterTextWasChanged_WithNewItem() {
+        launch()
         app.buttons[AccessibilityIdentifiers.ItemsList.addButton].tap()
         let saveButton = app.buttons[AccessibilityIdentifiers.NewItem.saveButton]
         let textView = app.textViews[AccessibilityIdentifiers.NewItem.textView]
@@ -38,9 +35,7 @@ class NewItemUITests: XCTestCase {
     }
     
     func testSaveButtonIsNotEnabledAfterTextWasDeleted_WithNewItem() {
-        let app = XCUIApplication()
-        app.launchArguments.append("testing")
-        app.launch()
+        launch()
         app.buttons[AccessibilityIdentifiers.ItemsList.addButton].tap()
         let saveButton = app.buttons[AccessibilityIdentifiers.NewItem.saveButton]
         let textView = app.textViews[AccessibilityIdentifiers.NewItem.textView]
@@ -52,24 +47,17 @@ class NewItemUITests: XCTestCase {
     }
     
     func testSaveButtonIsNotEnabledAfterOpeningItem_WithOldItem() {
-        let app = XCUIApplication()
-        app.launchArguments.append("testing")
-        app.launch()
+        launch()
         let tableView = app.tables[AccessibilityIdentifiers.ItemsList.tableView]
-        if tableView.cells.element(boundBy: 0).exists {
-            tableView.cells.element(boundBy: 0).tap()
+        if selectFirstCellIfExists() {
             let saveButton = app.buttons[AccessibilityIdentifiers.NewItem.saveButton]
             XCTAssertFalse(saveButton.isEnabled)
         }
     }
     
     func testSaveButtonIsEnabledAfterItemTextWasChanged_WithOldItem() {
-        let app = XCUIApplication()
-        app.launchArguments.append("testing")
-        app.launch()
-        let tableView = app.tables[AccessibilityIdentifiers.ItemsList.tableView]
-        if tableView.cells.element(boundBy: 0).exists {
-            tableView.cells.element(boundBy: 0).tap()
+        launch()
+        if selectFirstCellIfExists() {
             let saveButton = app.buttons[AccessibilityIdentifiers.NewItem.saveButton]
             let textView = app.textViews[AccessibilityIdentifiers.NewItem.textView]
             textView.tap()
@@ -79,15 +67,31 @@ class NewItemUITests: XCTestCase {
     }
     
     func testButtonIsEnabledAfterImportanceWasChanged_WithOldItem() {
-        let app = XCUIApplication()
-        app.launchArguments.append("testing")
-        app.launch()
-        let tableView = app.tables[AccessibilityIdentifiers.ItemsList.tableView]
-        if tableView.cells.element(boundBy: 0).exists {
-            tableView.cells.element(boundBy: 0).tap()
+        launch()
+        if selectFirstCellIfExists() {
             let saveButton = app.buttons[AccessibilityIdentifiers.NewItem.saveButton]
             let importanceSegmentedControl = app.segmentedControls[AccessibilityIdentifiers.NewItem.segmentedControl]
-            
+            if importanceSegmentedControl.buttons.element(boundBy: 2).isSelected {
+                importanceSegmentedControl.swipeLeft()
+            } else {
+                importanceSegmentedControl.swipeRight()
+            }
+            XCTAssertTrue(saveButton.isEnabled)
+        }
+    }
+    
+    func testButtonIsEnabledAfterDeadlineWasChanged_WithOldItem() {
+        launch()
+        if selectFirstCellIfExists() {
+            let saveButton = app.buttons[AccessibilityIdentifiers.NewItem.saveButton]
+            let deadlineSwitch = app.switches[AccessibilityIdentifiers.NewItem.deadlineSwitch]
+            let value = deadlineSwitch.value as? String
+            if value == "0" {
+                deadlineSwitch.swipeRight()
+            } else {
+                deadlineSwitch.swipeLeft()
+            }
+            XCTAssertTrue(saveButton.isEnabled)
         }
     }
 }

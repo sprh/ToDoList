@@ -67,6 +67,7 @@ final class NewItemView: UIViewController {
         view().deadlineSwitch.addTarget(self, action: #selector(deadlineSwitched), for: .valueChanged)
         view().standartColorButton.addTarget(self, action: #selector(resetColor), for: .touchUpInside)
         view().colorSlider.addTarget(self, action: #selector(colorWasChanged), for: .valueChanged)
+        view().segmentedControl.addTarget(self, action: #selector(importanceWasChanged), for: .valueChanged)
     }
     
     func hideShowDatePicker() {
@@ -176,6 +177,10 @@ extension NewItemView {
     @objc func dateButtonClick() {
         presenter.datePickerShown.toggle()
         hideShowDatePicker()
+    }
+    
+    @objc func importanceWasChanged() {
+        dataWasChanged()
     }
     
     @objc func dateWasChanged() {

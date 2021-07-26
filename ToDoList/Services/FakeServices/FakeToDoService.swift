@@ -8,7 +8,7 @@
 import Models
 
 class FakeToDoService: ToDoServiceProtocol {
-    var toDoItems: [ToDoItem] = [ToDoItem(text: "1", done: false, createdAt: Int(Date().timeIntervalSince1970)),
+    var toDoItems: [ToDoItem] = [ToDoItem(text: "1", importance: .important, done: false, createdAt: Int(Date().timeIntervalSince1970)),
                                  ToDoItem(text: "2", done: false, createdAt: Int(Date().timeIntervalSince1970)),
                                  ToDoItem(text: "3", done: false, createdAt: Int(Date().timeIntervalSince1970)),
                                  ToDoItem(text: "4", done: false, createdAt: Int(Date().timeIntervalSince1970)),

@@ -37,6 +37,8 @@
 		E353CF0226A86103007D1A6A /* ItemsListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E353CF0126A86103007D1A6A /* ItemsListTests.swift */; };
 		E353CF0D26A8B08F007D1A6A /* NewItemUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E353CF0C26A8B08F007D1A6A /* NewItemUITests.swift */; };
 		E353CF0F26A8B3A5007D1A6A /* AccessibilityIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E353CF0E26A8B3A5007D1A6A /* AccessibilityIdentifiers.swift */; };
+		E37745A626AEAF8A00028DE8 /* AccessibilityIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E353CF0E26A8B3A5007D1A6A /* AccessibilityIdentifiers.swift */; };
+		E37745A726AEAF8B00028DE8 /* AccessibilityIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E353CF0E26A8B3A5007D1A6A /* AccessibilityIdentifiers.swift */; };
 		E3804D9B268F080500957844 /* FileCacheServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3804D98268F080500957844 /* FileCacheServiceProtocol.swift */; };
 		E3804D9C268F080500957844 /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3804D99268F080500957844 /* FileCache.swift */; };
 		E3804D9D268F080500957844 /* FileCacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3804D9A268F080500957844 /* FileCacheService.swift */; };
@@ -705,6 +707,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E353CF0226A86103007D1A6A /* ItemsListTests.swift in Sources */,
+				E37745A626AEAF8A00028DE8 /* AccessibilityIdentifiers.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -713,6 +716,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E353CF0D26A8B08F007D1A6A /* NewItemUITests.swift in Sources */,
+				E37745A726AEAF8B00028DE8 /* AccessibilityIdentifiers.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
