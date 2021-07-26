@@ -8,25 +8,25 @@
 import Models
 
 class FakeToDoService: ToDoServiceProtocol {
-    var toDoItems: [ToDoItem] = [ToDoItem(text: "1", importance: .important, done: false, createdAt: Int(Date().timeIntervalSince1970)),
+    var toDoItems: [ToDoItem] = [ToDoItem(text: "1", done: false, createdAt: Int(Date().timeIntervalSince1970)),
                                  ToDoItem(text: "2", done: false, createdAt: Int(Date().timeIntervalSince1970)),
                                  ToDoItem(text: "3", done: false, createdAt: Int(Date().timeIntervalSince1970)),
                                  ToDoItem(text: "4", done: false, createdAt: Int(Date().timeIntervalSince1970)),
                                  ToDoItem(text: "5", done: false, createdAt: Int(Date().timeIntervalSince1970))]
-//    var fileCacheService: FileCacheServiceProtocol
-//    var networkingService: NetworkingService
-//
-//    init(fileCacheService: FileCacheServiceProtocol, networkingService: NetworkingService) {
-//        self.fileCacheService = fileCacheService
-//        self.networkingService = networkingService
-//    }
-//
+    var fileCacheService: FileCacheServiceProtocol
+    var networkingService: NetworkingService
+
+    init(fileCacheService: FileCacheServiceProtocol, networkingService: NetworkingService) {
+        self.fileCacheService = fileCacheService
+        self.networkingService = networkingService
+    }
+
     func update(_ item: ToDoItem, queue: DispatchQueue, completion: @escaping (Result<ToDoItem, Error>) -> Void) {
         guard let index = toDoItems.firstIndex(where: {$0.id == item.id}) else {
             completion(.failure(NetworkError.notFound)); return
         }
         toDoItems[index] = item
-        completion(.success(item))
+        networkingService.update(item, completion: completion)
     }
     
     func delete(_ id: String, queue: DispatchQueue, completion: @escaping (Result<String, Error>) -> Void) {
@@ -34,10 +34,19 @@ class FakeToDoService: ToDoServiceProtocol {
             completion(.failure(NetworkError.notFound)); return
         }
         toDoItems.remove(at: index)
+        networkingService.delete(id) { result in
+            switch result {
+            case let .failure(error):
+                completion(.failure(error))
+            case let .success(item):
+                completion(.success(item.id))
+            }
+        }
     }
     
     func create(_ item: ToDoItem, queue: DispatchQueue, completion: @escaping (Result<ToDoItem, Error>) -> Void) {
         toDoItems.append(item)
+        networkingService.create(item, completion: completion)
     }
     
     func getToDoItem(id: String) -> ToDoItem? {

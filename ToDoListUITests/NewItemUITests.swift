@@ -48,7 +48,6 @@ class NewItemUITests: XCTestCase {
     
     func testSaveButtonIsNotEnabledAfterOpeningItem_WithOldItem() {
         launch()
-        let tableView = app.tables[AccessibilityIdentifiers.ItemsList.tableView]
         if selectFirstCellIfExists() {
             let saveButton = app.buttons[AccessibilityIdentifiers.NewItem.saveButton]
             XCTAssertFalse(saveButton.isEnabled)
@@ -93,5 +92,9 @@ class NewItemUITests: XCTestCase {
             }
             XCTAssertTrue(saveButton.isEnabled)
         }
+    }
+    
+    func testNetworkingMethodsCall() {
+//        let networkingService = NetworkingService
     }
 }

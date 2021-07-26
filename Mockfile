@@ -1,0 +1,15 @@
+sourceryCommand: null
+sourceryTemplate: null
+ToDoListTests:
+  sources:
+    include:
+    - ./ToDoList
+  output: ./ToDoListTests/Mock.generated.swift
+  targets:
+  - ToDoListTests
+  testable:
+  - ToDoList
+  import:
+  - Foundation
+  - Models
+  - SwiftyMocky

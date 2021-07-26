@@ -28,7 +28,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func createServices() -> ToDoServiceProtocol {
         if ProcessInfo.processInfo.arguments.contains("testing") {
-            let service = FakeToDoService()
+            let fileCache = FakeFileCacheService()
+            let networkingService = FakeNetworkingService()
+            let service = FakeToDoService(fileCacheService: fileCache, networkingService: networkingService)
             return service
         } else {
             let graph = ToDoServiceGraph()

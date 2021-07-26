@@ -9,6 +9,7 @@ target 'ToDoList' do
   pod 'UITextView+Placeholder'
   pod 'Models', :path => 'Models'
   pod 'SQLite.swift'
+  pod 'SwiftyMocky'
 
   target 'ToDoListTests' do
     inherit! :search_paths

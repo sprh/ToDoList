@@ -8,6 +8,7 @@
 import Foundation
 import Models
 
+//  sourcery: AutoMockable
 public protocol NetworkingService {
     /// Get all to do items.
     func getAll(completion: @escaping (Result<[ToDoItem], Error>) -> Void)
