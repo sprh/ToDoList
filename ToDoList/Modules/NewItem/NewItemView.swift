@@ -123,8 +123,9 @@ extension NewItemView: NewItemViewDelegate {
             view().dateButton.setTitle(view().deadlinePicker.formattedDate(), for: .normal)
         }
         textViewDidChange(view().textView)
-        colorWasChanged()
-        if let hexString = data.color {
+        if presenter.standartColor {
+            resetColor()
+        } else if let hexString = data.color {
             let color = UIColor.colorWithHexString(hexString: hexString)
             view().colorSlider.value = view().colorView.getValue(color: color)
             colorWasChanged()

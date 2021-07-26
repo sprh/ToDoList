@@ -87,7 +87,7 @@ class NewItemUITests: XCTestCase {
             tableView.cells.element(boundBy: 0).tap()
             let saveButton = app.buttons[AccessibilityIdentifiers.NewItem.saveButton]
             let importanceSegmentedControl = app.segmentedControls[AccessibilityIdentifiers.NewItem.segmentedControl]
-//            importanceSegmentedControl.se
+            
         }
     }
 }

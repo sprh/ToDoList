@@ -3,7 +3,7 @@ PODS:
   - SQLite.swift (0.12.2):
     - SQLite.swift/standard (= 0.12.2)
   - SQLite.swift/standard (0.12.2)
-  - SwiftLint (0.42.0)
+  - SwiftLint (0.43.1)
   - "UITextView+Placeholder (1.4.0)"
 
 DEPENDENCIES:
@@ -25,7 +25,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Models: 29bf53d19217706ba4e859dca975191c72260a98
   SQLite.swift: d2b4642190917051ce6bd1d49aab565fe794eea3
-  SwiftLint: 4fa9579c63416865179bc416f0a92d55f009600d
+  SwiftLint: 99f82d07b837b942dd563c668de129a03fc3fb52
   "UITextView+Placeholder": d7b0c400921f66523f3a85d74f774512e14f6502
 
 PODFILE CHECKSUM: 6d21a2b1ba8a13d964e2c9a7eded62bab3ddb7ab
