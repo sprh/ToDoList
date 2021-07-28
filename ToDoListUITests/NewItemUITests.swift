@@ -132,4 +132,21 @@ class NewItemUITests: XCTestCase {
         let cellText = addedCell.staticTexts[AccessibilityIdentifiers.ToDoCell.labelText].label as String
         XCTAssertTrue(cellText == updatedText)
     }
+    
+    func testShowButtonChangeStateUpdateTableView() {
+        launch()
+        let tableView = app.tables[AccessibilityIdentifiers.ItemsList.tableView]
+        let showButton = tableView.buttons[AccessibilityIdentifiers.ItemsList.showButton].firstMatch
+        var cellsStartCount = tableView.cells.count
+        addItem(with: "first")
+        addItem(with: "second")
+        assert(cellsStartCount + 2 == tableView.cells.count)
+        cellsStartCount += 2
+        let addedCell = tableView.cells.element(boundBy: cellsStartCount - 2)
+        addedCell.swipeRight()
+        let doneButton = addedCell.buttons[AccessibilityIdentifiers.ToDoCell.doneButton]
+        doneButton.tap()
+        XCTAssertTrue(cellsStartCount - 1 == tableView.cells.count)
+        showButton.tap()
+    }
 }

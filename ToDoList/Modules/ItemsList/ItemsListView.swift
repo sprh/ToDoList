@@ -153,6 +153,7 @@ extension ItemsListView: UITableViewDelegate, UITableViewDataSource {
             showLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -18)
         ])
         showButton.setTitle(presenter.doneShown ? "Hide".localized : "Show".localized, for: .normal)
+        showButton.accessibilityIdentifier = AccessibilityIdentifiers.ItemsList.showButton
         showButton.translatesAutoresizingMaskIntoConstraints = false
         showButton.setTitleColor(.azure, for: .normal)
         showButton.titleLabel?.font = .headkune
@@ -192,6 +193,8 @@ extension ItemsListView: UITableViewDelegate, UITableViewDataSource {
             self?.presenter.updateItem(cell.toDoItem.changeDone(), at: indexPath)
             success(true) })
         doneAction.image = .done
+        doneAction.accessibilityLabel = AccessibilityIdentifiers.ToDoCell.doneButton
+//        doneAction.image?.accessibilityIdentifier = AccessibilityIdentifiers.ToDoCell.doneButton
         doneAction.backgroundColor = .green
         return UISwipeActionsConfiguration(actions: [doneAction])
     }

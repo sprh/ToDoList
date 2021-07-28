@@ -11,6 +11,7 @@ enum AccessibilityIdentifiers {
     enum ItemsList {
         static let addButton = "add_button"
         static let tableView = "table_view"
+        static let showButton = "show_button"
     }
     enum NewItem {
         static let textView = "text_view"
@@ -23,5 +24,6 @@ enum AccessibilityIdentifiers {
     }
     enum ToDoCell {
         static let labelText = "label_text"
+        static let doneButton = "done_button"
     }
 }
