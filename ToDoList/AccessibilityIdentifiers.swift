@@ -21,4 +21,7 @@ enum AccessibilityIdentifiers {
         static let deadlinePicker = "deadline_picker"
         static let dateButton = "date_button"
     }
+    enum ToDoCell {
+        static let labelText = "label_text"
+    }
 }

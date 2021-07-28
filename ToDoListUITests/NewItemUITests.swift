@@ -94,7 +94,42 @@ class NewItemUITests: XCTestCase {
         }
     }
     
-    func testNetworkingMethodsCall() {
-//        let networkingService = NetworkingService
+    func addItem(with text: String) {
+        let textView = app.textViews[AccessibilityIdentifiers.NewItem.textView]
+        let saveButton = app.buttons[AccessibilityIdentifiers.NewItem.saveButton]
+        app.buttons[AccessibilityIdentifiers.ItemsList.addButton].tap()
+        textView.tap()
+        textView.typeText(text)
+        saveButton.tap()
+
+    }
+    
+    func updateItem(with text: String, oldText: String, cell: XCUIElement) {
+        cell.tap()
+        let textView = app.textViews[AccessibilityIdentifiers.NewItem.textView]
+        let saveButton = app.buttons[AccessibilityIdentifiers.NewItem.saveButton]
+        let lowerRightCorner = textView.coordinate(withNormalizedOffset: CGVector(dx: 0.9, dy: 0.9))
+        
+        lowerRightCorner.tap()
+        textView.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: oldText.count))
+        textView.typeText(text)
+        saveButton.tap()
+    }
+    
+    func testItemsTextChanges() {
+        launch()
+        let tableView = app.tables[AccessibilityIdentifiers.ItemsList.tableView]
+        let text = "New item"
+        let updatedText = "Updated item"
+        var cellsCount = tableView.cells.count
+        addItem(with: text)
+        assert(cellsCount + 1 == tableView.cells.count)
+        cellsCount += 1
+        
+        let addedCell = tableView.cells.element(boundBy: tableView.cells.count - 2)
+        updateItem(with: updatedText, oldText: text, cell: addedCell)
+        assert(cellsCount == tableView.cells.count)
+        let cellText = addedCell.staticTexts[AccessibilityIdentifiers.ToDoCell.labelText].label as String
+        XCTAssertTrue(cellText == updatedText)
     }
 }

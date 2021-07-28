@@ -30,6 +30,7 @@ final class ToDoCell: UITableViewCell {
     public func setupSubviews() {
         contentView.subviews.forEach({$0.removeFromSuperview()})
         let hasDeadline = toDoItem.deadline != nil
+        labelText.accessibilityIdentifier = AccessibilityIdentifiers.ToDoCell.labelText
         labelText.font = .headkune
         labelText.textColor = .text
         labelText.translatesAutoresizingMaskIntoConstraints = false
