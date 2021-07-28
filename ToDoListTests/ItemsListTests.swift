@@ -11,7 +11,7 @@ import XCTest
 
 class ItemsListTests: XCTestCase {
     func prepareModel() -> ItemsListModel {
-        let service = FakeToDoService()
+        let service = FakeToDoService(fileCacheService: FakeFileCacheService(), networkingService: FakeNetworkingService())
         let model = ItemsListModel(toDoService: service)
         model.allItems = service.toDoItems
         return model
