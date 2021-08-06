@@ -19,6 +19,9 @@ final class NewItemModel {
     }
     init(_ toDoItem: ToDoItem?, indexPath: IndexPath?) {
         self.toDoItem = toDoItem
+        if toDoItem != nil, toDoItem?.color == nil {
+            standartColor = true
+        }
         self.indexPath = indexPath
     }
     

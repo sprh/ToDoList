@@ -14,8 +14,6 @@ final class NewItemInterface: UIView {
     var deadlineSwitch = UISwitch()
     var segmentedControl = UISegmentedControl(items: ["low", "basic", "important"])
     var deleteButton = UIButton()
-    var cancelButton: UIBarButtonItem?
-    var saveButton: UIBarButtonItem?
     var deadlinePicker = UIDatePicker()
     var stackBottomConstraint = NSLayoutConstraint()
     var dateButton = UIButton()
@@ -121,6 +119,7 @@ final class NewItemInterface: UIView {
             textBottomAnchorConstraint
         ])
         textView.tintColor = .text
+        textView.accessibilityIdentifier = AccessibilityIdentifiers.NewItem.textView
     }
     
     private func setupStack() {
@@ -162,6 +161,7 @@ final class NewItemInterface: UIView {
             separator.topAnchor.constraint(equalTo: importanceAndDateStack.topAnchor, constant: 55.5),
             separator.bottomAnchor.constraint(equalTo: importanceAndDateStack.topAnchor, constant: 56)
         ])
+        segmentedControl.accessibilityIdentifier = AccessibilityIdentifiers.NewItem.segmentedControl
         segmentedControl.setImage(.lowImportance, forSegmentAt: 0)
         segmentedControl.setTitle("non".localized, forSegmentAt: 1)
         segmentedControl.setImage(.highImportance, forSegmentAt: 2)
@@ -188,12 +188,14 @@ final class NewItemInterface: UIView {
             deadlineTopAnchorConstraint
         ])
         deadlineSwitch.translatesAutoresizingMaskIntoConstraints = false
+        deadlineSwitch.accessibilityIdentifier = AccessibilityIdentifiers.NewItem.deadlineSwitch
         importanceAndDateStack.addSubview(deadlineSwitch)
         NSLayoutConstraint.activate([
             deadlineSwitch.trailingAnchor.constraint(equalTo: importanceAndDateStack.trailingAnchor, constant: -12),
             deadlineSwitch.topAnchor.constraint(equalTo: importanceAndDateStack.topAnchor, constant: 69),
             deadlineSwitch.bottomAnchor.constraint(equalTo: importanceAndDateStack.bottomAnchor, constant: -12.5)
         ])
+        deadlinePicker.accessibilityIdentifier = AccessibilityIdentifiers.NewItem.deadlinePicker
         deadlinePicker.translatesAutoresizingMaskIntoConstraints = false
         deadlinePicker.datePickerMode = .date
         deadlinePicker.preferredDatePickerStyle = .inline
@@ -208,6 +210,7 @@ final class NewItemInterface: UIView {
             deadlinePicker.topAnchor.constraint(equalTo: importanceAndDateStack.topAnchor, constant: 117)
         ])
         deadlinePicker.isHidden = true
+        dateButton.accessibilityIdentifier = AccessibilityIdentifiers.NewItem.dateButton
         dateButton.setTitle(deadlinePicker.formattedDate(), for: .normal)
         dateButton.setTitleColor(.azure, for: .normal)
         dateButton.titleLabel?.font = .footnote
@@ -221,6 +224,7 @@ final class NewItemInterface: UIView {
     }
     
     func setupDeleteButton() {
+        deleteButton.accessibilityIdentifier = AccessibilityIdentifiers.NewItem.deleteButton
         deleteButton.setTitle("Delete".localized, for: .normal)
         deleteButton.backgroundColor = .subviewsBackground
         deleteButton.setTitleColor(.textGray, for: .normal)

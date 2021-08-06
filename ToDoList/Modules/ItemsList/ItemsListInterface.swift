@@ -14,6 +14,7 @@ final class ItemsListInterface: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .background
+        addSubviews()
     }
     
     required init?(coder: NSCoder) {
@@ -29,6 +30,8 @@ final class ItemsListInterface: UIView {
         tableView.register(NewToDoCell.self, forCellReuseIdentifier: "\(NewToDoCell.self)")
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.backgroundColor = .clear
+        tableView.accessibilityIdentifier = AccessibilityIdentifiers.ItemsList.tableView
+        
         addSubview(tableView)
         NSLayoutConstraint.activate(
             [tableView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
@@ -43,5 +46,6 @@ final class ItemsListInterface: UIView {
             addButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
             addButton.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])
+        addButton.accessibilityIdentifier = AccessibilityIdentifiers.ItemsList.addButton
     }
 }

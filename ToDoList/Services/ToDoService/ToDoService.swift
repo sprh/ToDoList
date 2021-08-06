@@ -8,13 +8,13 @@
 import Foundation
 import Models
 
-final class ToDoService {
-    private(set) var fileCacheService: FileCacheService
-    private(set) var networkingService: DefaultNetworkingService
+final class ToDoService: ToDoServiceProtocol {
+    private(set) var fileCacheService: FileCacheServiceProtocol
+    private(set) var networkingService: NetworkingService
     var items: [ToDoItem] = []
     let itemsQueue = DispatchQueue(label: "ToDoService", attributes: [.concurrent])
     
-    init(fileCacheService: FileCacheService, networkingService: DefaultNetworkingService) {
+    init(fileCacheService: FileCacheServiceProtocol, networkingService: NetworkingService) {
         self.fileCacheService = fileCacheService
         self.networkingService = networkingService
         loadFromDataBase(queue: itemsQueue) { result in

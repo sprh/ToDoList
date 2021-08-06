@@ -9,7 +9,7 @@ import Foundation
 import Models
 
 final public class ItemsListModel {
-    let toDoService: ToDoService!
+    let toDoService: ToDoServiceProtocol!
     var allItems: [ToDoItem] = []
     var doneShown: Bool = false
     var items: [ToDoItem] {
@@ -22,7 +22,7 @@ final public class ItemsListModel {
         return toDoService.needToSynchronize()
     }
 
-    init(toDoService: ToDoService) {
+    init(toDoService: ToDoServiceProtocol) {
         self.toDoService = toDoService
     }
 
