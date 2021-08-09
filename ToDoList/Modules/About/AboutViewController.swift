@@ -10,9 +10,29 @@ import UIKit
 
 public class AboutViewController: UIViewController {
     var model: AboutModel!
-    let logoImage = UIImageView()
-    let versionNumber = UILabel()
-    let scrollView = UIScrollView()
+    var logoImage: UIImageView {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleToFill
+        imageView.image = .logo
+        return imageView
+    }
+    
+    var versionNumber: UILabel {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .black
+        label.font = .systemFont(ofSize: 20)
+        label.text = "The current version is ".localized +
+            "\(model.getTheCurrentVersionNumber())"
+        return label
+    }
+    
+    var scrollView: UIScrollView {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }
     init(model: AboutModel) {
         self.model = model
         super.init(nibName: nil, bundle: nil)
@@ -30,8 +50,6 @@ public class AboutViewController: UIViewController {
         view.backgroundColor = .background
     }
     fileprivate func addSubviews() {
-        // MARK: - Adding a scroll view to the view.
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(scrollView)
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -39,9 +57,6 @@ public class AboutViewController: UIViewController {
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
         ])
-        // MARK: - Setuping a logo image and adding it to the scroll view.
-        logoImage.translatesAutoresizingMaskIntoConstraints = false
-        logoImage.contentMode = .scaleToFill
         let logoImageHeight = UIImage.logo.size.height
         scrollView.addSubview(logoImage)
         NSLayoutConstraint.activate([
@@ -50,17 +65,10 @@ public class AboutViewController: UIViewController {
             logoImage.bottomAnchor.constraint(equalTo:
                                   scrollView.safeAreaLayoutGuide.topAnchor, constant: 10 + logoImageHeight)
         ])
-        logoImage.image = .logo
-        // MARK: - Setuping a label with the current version number and adding it to the scroll view.
-        versionNumber.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(versionNumber)
         NSLayoutConstraint.activate([
             versionNumber.topAnchor.constraint(equalTo: logoImage.bottomAnchor, constant: 20),
             versionNumber.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
         ])
-        versionNumber.textColor = .black
-        versionNumber.font = .systemFont(ofSize: 20)
-        versionNumber.text = "The current version is ".localized +
-            "\(model.getTheCurrentVersionNumber())"
     }
 }

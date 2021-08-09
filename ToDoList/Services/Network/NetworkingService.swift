@@ -8,7 +8,8 @@
 import Foundation
 import Models
 
-protocol NetworkingService {
+//  sourcery: AutoMockable
+public protocol NetworkingService {
     /// Get all to do items.
     func getAll(completion: @escaping (Result<[ToDoItem], Error>) -> Void)
     /// Add a new to do item.

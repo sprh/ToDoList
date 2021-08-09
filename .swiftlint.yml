@@ -3,3 +3,8 @@ identifier_name:
     - id
 excluded:
     - Pods
+    - ToDoListTests
+disabled_rules:
+- trailing_whitespace
+type_body_length: 300
+large_tuple: 10
